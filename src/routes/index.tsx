@@ -1,12 +1,14 @@
 import { component$ } from "@builder.io/qwik";
 import type { RequestHandler } from "@builder.io/qwik-city";
+import InstagramIcon from "~/components/icons/instagram-icon";
 import LucideChevronsRight from "~/components/icons/lucide-chevrons-right";
 import LucideStar from "~/components/icons/lucide-star";
 import LucideStarHalf from "~/components/icons/lucide-star-half";
+import TikTokIcon from "~/components/icons/tiktok-icon";
+import YoutubeIcon from "~/components/icons/youtube-icon";
 import { AnchorButton } from "~/components/ui/buttons";
 import { Card } from "~/components/ui/card";
 import { Gradient, H0, H1, H2, H3, H5 } from "~/components/ui/typography";
-import { Icons } from "~/lib/icons";
 import ImgQwikLogo from "~/media/qwik-logo.svg?jsx";
 
 export default component$(() => {
@@ -392,9 +394,9 @@ export default component$(() => {
       <div class="mx-auto flex flex-col gap-5 py-12">
         <H5 class=" text-center text-sm">AS SEEN ON</H5>
         <div class="flex flex-col items-center justify-center gap-4 bg-slate-950 align-middle md:flex-row md:gap-8">
-          <Icons.instagram class="h-20 w-36 md:h-24" />
-          <Icons.tiktok class="h-20 w-36 md:h-24" />
-          <Icons.youtube class="h-20 w-36 md:h-24" />
+          <InstagramIcon class="h-20 w-36 md:h-24" />
+          <TikTokIcon class="h-20 w-36 md:h-24" />
+          <YoutubeIcon class="h-20 w-36 md:h-24" />
         </div>
       </div>
     </section>

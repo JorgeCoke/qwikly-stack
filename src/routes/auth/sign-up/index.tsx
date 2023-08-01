@@ -3,6 +3,7 @@ import { routeLoader$, z } from "@builder.io/qwik-city";
 import type { InitialValues } from "@modular-forms/qwik";
 import { FormError, formAction$, useForm, zodForm$ } from "@modular-forms/qwik";
 import type { LuciaError } from "lucia";
+import LucideKeySquare from "~/components/icons/lucide-key-square";
 import { Button } from "~/components/ui/buttons";
 import { Input } from "~/components/ui/form";
 import { H1 } from "~/components/ui/typography";
@@ -130,6 +131,16 @@ export default component$(() => {
           Sign Up
         </Button>
       </Form>
+      <p class="mt-8 flex w-full flex-row items-center justify-center border-t border-slate-700 pt-6 text-center text-slate-400">
+        Do you have an account?
+        <a
+          class="px-2 font-medium underline underline-offset-4 hover:text-white"
+          href={`/auth/log-in`}
+        >
+          Log In here
+        </a>
+        <LucideKeySquare class="h-4 w-4" />
+      </p>
     </section>
   );
 });

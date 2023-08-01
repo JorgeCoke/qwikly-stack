@@ -8,7 +8,7 @@ import { StripeEventType } from "~/lib/db/schema";
 import { auth } from "~/lib/lucia-auth";
 import { stripe } from "~/lib/stripe";
 import { ToastType, withToast } from "~/lib/toast";
-import { useSession } from "~/routes/layout";
+import { useSendSetPasswordEmail, useSession } from "~/routes/layout";
 
 export const useCancelSubscription = routeAction$(async (input, event) => {
   const authRequest = auth.handleRequest(event);
@@ -86,6 +86,7 @@ export default component$(() => {
   const session = useSession();
   const currentSubscription = useCurrentSubscription();
   const cancelSubscription = useCancelSubscription();
+  const sendSetPasswordEmail = useSendSetPasswordEmail();
 
   return (
     <section class="container mx-auto flex max-w-4xl flex-col py-6">
@@ -112,7 +113,12 @@ export default component$(() => {
         </Button>
       </p>
       <div class="flex gap-4 pt-6">
-        <Button aria-label="Reset password button">Reset Password</Button>
+        <Button
+          aria-label="Reset password button"
+          onClick$={() => sendSetPasswordEmail.submit({ email: null })}
+        >
+          Reset Password
+        </Button>
         <AnchorButton
           href="/auth/log-out"
           color="danger"

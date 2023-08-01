@@ -13,7 +13,7 @@ Delightful, overpowered, beautifully handcrafted web framework template, built o
 - Full typesafe development using [zod](https://zod.dev/)
 - Automagically [MDX](https://mdxjs.com/) support including plugins
 - [Stripe](https://stripe.com/) Payments and Subscriptions
-- [ ] TODO: Mailer with [Resend](https://resend.com/)
+- Mailer with [Resend](https://resend.com/)
 - [Husky](https://github.com/typicode/husky) hooks
 - Commit nomenclature rules with [commitizen](https://github.com/commitizen/cz-cli)
 - Release management policy with [standard-version](https://github.com/conventional-changelog/standard-version)

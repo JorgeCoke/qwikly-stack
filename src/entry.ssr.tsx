@@ -10,7 +10,6 @@
  * - npm run build
  *
  */
-import { isDev } from "@builder.io/qwik/build";
 import {
   renderToStream,
   type RenderToStreamOptions,
@@ -21,21 +20,21 @@ import Root from "./root";
 export default function (opts: RenderToStreamOptions) {
   // NOTE: Path to hide "QWIK WARN Duplicate implementations of "JSXNode" found" anoying log messages
   // See: https://github.com/BuilderIO/qwik/issues/3883#issuecomment-1575046705
-  if (isDev) {
-    const consoleWarn = console.warn;
-    const SUPPRESSED_WARNINGS = [
-      'Duplicate implementations of "JSXNode" found',
-    ];
-    console.warn = function filterWarnings(msg, ...args) {
-      if (
-        !SUPPRESSED_WARNINGS.some(
-          (entry) =>
-            msg.includes(entry) || args.some((arg) => arg.includes(entry))
-        )
-      )
-        consoleWarn(msg, ...args);
-    };
-  }
+  // if (isDev) {
+  //   const consoleWarn = console.warn;
+  //   const SUPPRESSED_WARNINGS = [
+  //     'Duplicate implementations of "JSXNode" found',
+  //   ];
+  //   console.warn = function filterWarnings(msg, ...args) {
+  //     if (
+  //       !SUPPRESSED_WARNINGS.some(
+  //         (entry) =>
+  //           msg.includes(entry) || args.some((arg) => arg.includes(entry))
+  //       )
+  //     )
+  //       consoleWarn(msg, ...args);
+  //   };
+  // }
   // END NOTE
 
   return renderToStream(<Root />, {
