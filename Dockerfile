@@ -28,6 +28,9 @@ RUN npm ci --include=dev
 # Copy application code
 COPY --link . .
 
+# Patch packages
+RUN npm run postinstall
+
 # Build application
 ENV PUBLIC_STRIPE_PUB="pk_test_51LWir8HDCxSH8iMnNbGEPETVjmOJ39tswojrC3FwwgJtm0Kd2Tm8rjcm5wQzDGO7tQG2O3yhk6oNBnhhfOF8gTYM00F2xWl7hL"
 RUN npm run build

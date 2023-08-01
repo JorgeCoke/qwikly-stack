@@ -1,5 +1,5 @@
 import { component$, Slot } from "@builder.io/qwik";
-import { routeAction$, routeLoader$, z, zod$ } from "@builder.io/qwik-city";
+import { globalAction$, routeLoader$, z, zod$ } from "@builder.io/qwik-city";
 import { Footer } from "~/components/layout/footer";
 import { NavBar } from "~/components/layout/nav-bar";
 import { Toaster } from "~/components/layout/toaster";
@@ -9,7 +9,7 @@ import { sendSetPasswordEmail } from "~/lib/mail/mailer";
 import { ToastType, withToast } from "~/lib/toast";
 
 // Global Actions here. See: https://qwik.builder.io/docs/action/#globalaction
-export const useSendSetPasswordEmail = routeAction$(async (input, event) => {
+export const useSendSetPasswordEmail = globalAction$(async (input, event) => {
   const authRequest = auth.handleRequest(event);
   const session = await authRequest.validate();
   const email = session?.user.email ? session.user.email : input.email;

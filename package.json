@@ -28,7 +28,8 @@
     "release": "branch=$(git branch --show-current); if [[ $branch == 'master' || $branch == 'main' ]]; then standard-version; else echo 'Release allowed in main branch only'; exit 1; fi;",
     "cz": "cz",
     "audit": "better-npm-audit audit",
-    "husky:install": "husky install"
+    "husky:install": "husky install",
+    "postinstall": "patch-package"
   },
   "devDependencies": {
     "@builder.io/qwik": "1.2.5",
@@ -73,6 +74,7 @@
     "kysely": "^0.26.1",
     "lucia": "^2.0.0",
     "nanoid": "^4.0.2",
+    "patch-package": "^8.0.0",
     "resend": "^0.17.2",
     "stripe": "^12.16.0",
     "tailwind-merge": "^1.14.0",

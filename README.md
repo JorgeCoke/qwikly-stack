@@ -32,12 +32,12 @@ Delightful, overpowered, beautifully handcrafted web framework template, built o
 ## Set up
 
 ```
-npm ci                  // Install dependencies
-npm run husky:install   // Install Husky hooks
-cp .env.example .env    // And fill .env with DEV environment variables if needed
-npm db:reset            // Creates a SQLite db file if not exists, and executes the migrations required to make your database reflect the state of your schemas, and it will seed your database with an admin user (You can ignore the output message about "import.meta.env")
-npm run dev             // Launch project locally
-npm run dev:stripe      // (Optional) Enables Stripe local webhooks
+npm ci                        // Install dependencies
+npm run husky:install         // Install Husky hooks
+cp .env.example .env          // And fill .env with DEV environment variables if needed
+npm db:reset                  // Creates a SQLite db file if not exists, and executes the migrations required to make your database reflect the state of your schemas, and it will seed your database with an admin user (You can ignore the output message about "import.meta.env")
+npm run dev                   // Launch project locally
+npm run dev:stripe            // (Optional) Enables Stripe local webhooks
 ```
 
 ## How to run migrations
@@ -53,7 +53,7 @@ npm run db:seed     // Seed database
 - Install fly.io CLI: https://fly.io/docs/hands-on/install-flyctl/
 - Create an app: `fly launch` (Rename your app)
 - Create a volume for SQLite (1 GB): `fly volumes create qwikly_stack_volume --size 1` (Now you can use "/qwikly_stack_volume/main.db" as DATABASE_URL)
-- Create a ".env.prod" file a import your secrets running: `cat .env.prod | fly secrets import` (Do not forget to update ORIGIN variable)
+- Create a ".env.prod" file a import your secrets running: `cat .env.prod | fly secrets import` (Do not forget to update ORIGIN variable) or, you can add them manually one by one with: `fly secrets set DATABASE_URL=postgres://example.com/mydb`
 - Optional: Add public "build env variables" to Dockerfile files before build command (E.g: ENV PUBLIC_STRIPE_PUB="your_key")
 - Deploy your app: `fly deploy`
 - Visit your newly deployed app running: `fly open`
