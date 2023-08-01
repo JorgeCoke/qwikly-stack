@@ -24,7 +24,7 @@ export const useDeleteUser = routeAction$(
     const authRequest = auth.handleRequest(event);
     const session = await authRequest.validate();
     if (session?.user.userId === input.id) {
-      withToast(event, ToastType.error, "You can not delete yoursefl!");
+      withToast(event, ToastType.error, "You can not delete yourself!");
       return event.fail(419, {});
     }
     await auth.deleteUser(input.id);

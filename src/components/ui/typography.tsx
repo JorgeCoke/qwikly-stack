@@ -57,6 +57,14 @@ export const H3 = component$<TypographyProps>((props: any) => {
   );
 });
 
+export const H5 = component$<TypographyProps>((props: any) => {
+  return (
+    <h1 class={twMerge("text-lg text-slate-400", props.class)}>
+      <Slot />
+    </h1>
+  );
+});
+
 export const Gradient = component$<TypographyProps>((props: any) => {
   return (
     <span

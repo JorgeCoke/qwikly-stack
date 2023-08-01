@@ -94,7 +94,7 @@ export default component$(() => {
         <Gradient class="font-light">{session.value?.user.email}</Gradient>
       </H2>
       <BillingTable />
-      <p class="text-white">
+      <p class="flex items-center gap-4 text-white">
         Current Subscription:{" "}
         {currentSubscription.value?.type === StripeEventType.SubscriptionUpdated
           ? currentSubscription.value.name
@@ -105,7 +105,6 @@ export default component$(() => {
             StripeEventType.SubscriptionUpdated
           }
           variant="outline"
-          class="ml-4"
           onClick$={() => cancelSubscription.submit()}
         >
           Cancel

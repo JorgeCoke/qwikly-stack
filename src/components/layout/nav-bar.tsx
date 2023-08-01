@@ -1,15 +1,17 @@
-import { component$ } from "@builder.io/qwik";
+import { component$, useSignal } from "@builder.io/qwik";
 import { LuMenu, LuUser } from "@qwikest/icons/lucide";
+import { twMerge } from "tailwind-merge";
 import { siteConfig } from "~/lib/site.config";
 import { useSession } from "~/routes/layout";
 import { AnchorButton, Button } from "../ui/buttons";
 
 export const NavBar = component$(() => {
   const session = useSession();
+  const showMobileNavBar = useSignal(false);
 
   return (
-    <header class="flex w-full border-b border-white/[.1] bg-slate-950 sm:justify-start">
-      <nav class="container relative mx-auto w-full px-4 sm:flex sm:items-center sm:justify-between">
+    <header class="flex w-full flex-col border-b border-white/[.1] bg-slate-950 sm:justify-start md:flex-row">
+      <nav class="container relative mx-auto  w-full px-4 sm:flex sm:items-center sm:justify-between">
         <div class="flex items-center justify-between">
           <a
             class="w-max text-xl font-semibold text-white"
@@ -19,7 +21,14 @@ export const NavBar = component$(() => {
             {siteConfig.title}
           </a>
           <div class="py-4 sm:hidden">
-            <Button type="button" variant="outline" class="w-auto">
+            <Button
+              type="button"
+              variant="outline"
+              class="w-auto"
+              onClick$={() =>
+                (showMobileNavBar.value = !showMobileNavBar.value)
+              }
+            >
               <LuMenu />
             </Button>
           </div>
@@ -54,6 +63,35 @@ export const NavBar = component$(() => {
           </div>
         </div>
       </nav>
+      <div
+        class={twMerge(
+          "flex flex-col gap-6 p-6",
+          showMobileNavBar.value ? "" : "hidden"
+        )}
+      >
+        {siteConfig.navBar.map((e) => (
+          <a
+            key={e.href}
+            class=" text-slate-300 hover:text-white"
+            href={e.href}
+          >
+            {e.title}
+          </a>
+        ))}
+        {!session.value && (
+          <>
+            <AnchorButton variant="outline" href="/auth/log-in">
+              Log In
+            </AnchorButton>
+            <AnchorButton href="/auth/sign-up">Sign Up</AnchorButton>
+          </>
+        )}
+        {session.value && (
+          <AnchorButton href="/auth/profile" class="flex items-center gap-2">
+            <LuUser class="h-4 w-4" /> Profile
+          </AnchorButton>
+        )}
+      </div>
     </header>
   );
 });
