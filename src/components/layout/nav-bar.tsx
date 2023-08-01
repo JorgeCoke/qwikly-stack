@@ -1,8 +1,10 @@
 import { component$, useSignal } from "@builder.io/qwik";
-import { LuMenu, LuUser, LuZap } from "@qwikest/icons/lucide";
 import { twMerge } from "tailwind-merge";
 import { siteConfig } from "~/lib/site.config";
 import { useSession } from "~/routes/layout";
+import LucideMenu from "../icons/lucide-menu";
+import LucideUser from "../icons/lucide-user";
+import LucideZap from "../icons/lucide-zap";
 import { AnchorButton, Button } from "../ui/buttons";
 
 export const NavBar = component$(() => {
@@ -18,7 +20,7 @@ export const NavBar = component$(() => {
             href="/"
             aria-label={siteConfig.title}
           >
-            <LuZap />
+            <LucideZap />
             {siteConfig.title}
           </a>
           <div class="py-4 sm:hidden">
@@ -31,7 +33,7 @@ export const NavBar = component$(() => {
                 (showMobileNavBar.value = !showMobileNavBar.value)
               }
             >
-              <LuMenu />
+              <LucideMenu />
             </Button>
           </div>
         </div>
@@ -67,7 +69,7 @@ export const NavBar = component$(() => {
                 class="flex items-center gap-2"
                 aria-label="Profile button"
               >
-                <LuUser class="h-4 w-4" /> Profile
+                <LucideUser class="h-4 w-4" /> Profile
               </AnchorButton>
             )}
           </div>
@@ -109,7 +111,7 @@ export const NavBar = component$(() => {
             class="flex items-center gap-2"
             aria-label="Profile button"
           >
-            <LuUser class="h-4 w-4" /> Profile
+            <LucideUser class="h-4 w-4" /> Profile
           </AnchorButton>
         )}
       </div>

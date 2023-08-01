@@ -1,6 +1,8 @@
 import { component$ } from "@builder.io/qwik";
 import type { RequestHandler } from "@builder.io/qwik-city";
-import { LuChevronsRight, LuStar, LuStarHalf } from "@qwikest/icons/lucide";
+import LucideChevronsRight from "~/components/icons/lucide-chevrons-right";
+import LucideStar from "~/components/icons/lucide-star";
+import LucideStarHalf from "~/components/icons/lucide-star-half";
 import { AnchorButton } from "~/components/ui/buttons";
 import { Card } from "~/components/ui/card";
 import { Gradient, H0, H1, H2, H3, H5 } from "~/components/ui/typography";
@@ -206,11 +208,11 @@ export default component$(() => {
       testimonial: "Great template! I'm in love with it",
       rating: (
         <>
-          <LuStar class="h-4 w-4 fill-amber-200 text-amber-400" />
-          <LuStar class="h-4 w-4 fill-amber-200 text-amber-400" />
-          <LuStar class="h-4 w-4 fill-amber-200 text-amber-400" />
-          <LuStar class="h-4 w-4 fill-amber-200 text-amber-400" />
-          <LuStar class="h-4 w-4 fill-amber-200 text-amber-400" />
+          <LucideStar class="h-4 w-4 fill-amber-200 text-amber-400" />
+          <LucideStar class="h-4 w-4 fill-amber-200 text-amber-400" />
+          <LucideStar class="h-4 w-4 fill-amber-200 text-amber-400" />
+          <LucideStar class="h-4 w-4 fill-amber-200 text-amber-400" />
+          <LucideStar class="h-4 w-4 fill-amber-200 text-amber-400" />
         </>
       ),
     },
@@ -220,10 +222,10 @@ export default component$(() => {
       testimonial: "I can not use anything else",
       rating: (
         <>
-          <LuStar class="h-4 w-4 fill-amber-200 text-amber-400" />
-          <LuStar class="h-4 w-4 fill-amber-200 text-amber-400" />
-          <LuStar class="h-4 w-4 fill-amber-200 text-amber-400" />
-          <LuStar class="h-4 w-4 fill-amber-200 text-amber-400" />
+          <LucideStar class="h-4 w-4 fill-amber-200 text-amber-400" />
+          <LucideStar class="h-4 w-4 fill-amber-200 text-amber-400" />
+          <LucideStar class="h-4 w-4 fill-amber-200 text-amber-400" />
+          <LucideStar class="h-4 w-4 fill-amber-200 text-amber-400" />
         </>
       ),
     },
@@ -233,11 +235,11 @@ export default component$(() => {
       testimonial: "May the stack be with you",
       rating: (
         <>
-          <LuStar class="h-4 w-4 fill-amber-200 text-amber-400" />
-          <LuStar class="h-4 w-4 fill-amber-200 text-amber-400" />
-          <LuStar class="h-4 w-4 fill-amber-200 text-amber-400" />
-          <LuStar class="h-4 w-4 fill-amber-200 text-amber-400" />
-          <LuStarHalf class="h-4 w-4  fill-amber-200 text-amber-400" />
+          <LucideStar class="h-4 w-4 fill-amber-200 text-amber-400" />
+          <LucideStar class="h-4 w-4 fill-amber-200 text-amber-400" />
+          <LucideStar class="h-4 w-4 fill-amber-200 text-amber-400" />
+          <LucideStar class="h-4 w-4 fill-amber-200 text-amber-400" />
+          <LucideStarHalf class="h-4 w-4  fill-amber-200 text-amber-400" />
         </>
       ),
     },
@@ -272,7 +274,7 @@ export default component$(() => {
         <div class="flex justify-center">
           <div class="group flex cursor-pointer items-center justify-between gap-4 rounded-full border border-white/[.05] bg-white/[.05] p-1 px-4 pl-4 text-sm text-slate-300 shadow-md hover:bg-white/[.1]">
             <span>Open Source, and Edge Runtime ready!</span>
-            <LuChevronsRight />
+            <LucideChevronsRight />
           </div>
         </div>
       </div>

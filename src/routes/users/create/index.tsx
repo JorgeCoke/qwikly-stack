@@ -2,8 +2,8 @@ import { component$ } from "@builder.io/qwik";
 import { routeLoader$, z } from "@builder.io/qwik-city";
 import type { InitialValues } from "@modular-forms/qwik";
 import { FormError, formAction$, useForm, zodForm$ } from "@modular-forms/qwik";
-import { LuChevronsLeft } from "@qwikest/icons/lucide";
 import type { LuciaError } from "lucia";
+import LucideChevronsLeft from "~/components/icons/lucide-chevrons-left";
 import { AnchorButton, Button } from "~/components/ui/buttons";
 import { Input, Select } from "~/components/ui/form";
 import { H1 } from "~/components/ui/typography";
@@ -79,7 +79,7 @@ export default component$(() => {
     <section class="container flex w-96 flex-col items-center py-4">
       <H1 class="flex w-full grow items-center gap-4">
         <AnchorButton href="/users" aria-label="Go back button">
-          <LuChevronsLeft />
+          <LucideChevronsLeft />
         </AnchorButton>
         Create user:
       </H1>

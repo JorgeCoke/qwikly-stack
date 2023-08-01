@@ -6,7 +6,8 @@ import {
   z,
   zod$,
 } from "@builder.io/qwik-city";
-import { LuPlus, LuTrash } from "@qwikest/icons/lucide";
+import LucidePlus from "~/components/icons/lucide-plus";
+import LucideTrash from "~/components/icons/lucide-trash";
 import { AnchorButton, Button } from "~/components/ui/buttons";
 import { Table, TableCell, TableHead, TableRow } from "~/components/ui/table";
 import { H1 } from "~/components/ui/typography";
@@ -50,7 +51,7 @@ export default component$(() => {
           class="flex items-center gap-2"
           aria-label="Create user button"
         >
-          <LuPlus class="h-4 w-4" /> Create user
+          <LucidePlus class="h-4 w-4" /> Create user
         </AnchorButton>
       </H1>
       <Table>
@@ -85,7 +86,7 @@ export default component$(() => {
                       deleteUser.submit({ id: e.id! });
                     }}
                   >
-                    <LuTrash />
+                    <LucideTrash />
                   </Button>
                 )}
               </TableCell>
