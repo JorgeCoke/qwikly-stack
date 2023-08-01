@@ -1,4 +1,3 @@
-import type { RequestHandler } from "@builder.io/qwik-city";
 import type Stripe from "stripe";
 import { db } from "~/lib/db/kysely";
 import { StripeEventType, UserRole } from "~/lib/db/schema";
@@ -31,30 +30,8 @@ async function getProductAndUser(priceId: string, customerId: string) {
   return { product, user };
 }
 
-export const onPost: RequestHandler = async (event) => {
-  // Get raw body and signatures
-  const body = await event.request.body
-    ?.getReader()
-    .read()
-    .then((res) => (res.value ? Buffer.from(res.value).toString() : null));
-  const signature = event.request.headers.get("stripe-signature");
-  if (!signature || !body) {
-    throw event.error(404, "Body and signature headers are required");
-  }
-
-  // Create a Stripe.Event
-  let stripeEvent: Stripe.Event | null = null;
-  try {
-    stripeEvent = stripe.webhooks.constructEvent(
-      body,
-      signature,
-      event.env.get("STRIPE_WEBHOOK_SECRET")!
-    );
-  } catch (err) {
-    throw event.error(400, "Webhook signature verification failed");
-  }
-
-  console.log(`Received stripeEvent ${stripeEvent.type}`);
+export const webhookHandler = async (stripeEvent: Stripe.Event) => {
+  console.log(`Received stripeEvent: ${stripeEvent.type}`);
 
   // Handle Stripe.Event
   switch (stripeEvent.type) {
@@ -66,7 +43,7 @@ export const onPost: RequestHandler = async (event) => {
       if (session.status === "complete") {
         // Check if session has user email
         if (!customerEmail) {
-          throw event.error(400, "Customer email not defined");
+          throw new Error("Customer email not defined");
         }
 
         let user = await db
@@ -94,7 +71,7 @@ export const onPost: RequestHandler = async (event) => {
             .executeTakeFirst();
         }
         if (!user) {
-          throw event.error(400, "user not found or could not be created");
+          throw new Error("user not found or could not be created");
         }
 
         // Get product (lineItem) from stripe (allowed only one by one)
@@ -104,11 +81,11 @@ export const onPost: RequestHandler = async (event) => {
           })
         ).line_items?.data;
         if (!lineItems || lineItems.length !== 1 || !lineItems[0].price?.id) {
-          throw event.error(400, "line_items.length must be 1");
+          throw new Error("line_items.length must be 1");
         }
         const item = lineItems[0];
         if (!item.price?.id) {
-          throw event.error(400, "line_item price not found");
+          throw new Error("line_item price not found");
         }
         const product = await db
           .selectFrom("stripe_product")
@@ -116,7 +93,7 @@ export const onPost: RequestHandler = async (event) => {
           .where("price_id", "is", item.price.id)
           .executeTakeFirst();
         if (!product) {
-          throw event.error(400, "product not found");
+          throw new Error("product not found");
         }
 
         await db
@@ -154,7 +131,7 @@ export const onPost: RequestHandler = async (event) => {
             })
             .execute();
         } catch (err: any) {
-          throw event.error(400, err?.message || "Internal server error");
+          throw new Error(err?.message || "Internal server error");
         }
       }
       break;
@@ -175,11 +152,11 @@ export const onPost: RequestHandler = async (event) => {
           })
           .execute();
       } catch (err: any) {
-        throw event.error(400, err?.message || "Internal server error");
+        throw new Error(err?.message || "Internal server error");
       }
       break;
     default:
-      throw event.error(400, `Unhandled event type ${stripeEvent.type}`);
+      throw new Error(`Unhandled event type ${stripeEvent.type}`);
   }
-  event.json(200, { message: "ok" });
+  return { message: "ok" };
 };

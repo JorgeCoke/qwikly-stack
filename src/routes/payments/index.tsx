@@ -17,7 +17,7 @@ import { auth } from "~/lib/lucia-auth";
 import { stripe } from "~/lib/stripe";
 import { ToastType, withToast } from "~/lib/toast";
 
-export const useProducts = routeLoader$(async (event) => {
+export const useProducts = routeLoader$(async () => {
   const getProductPricesFromStripe = async () =>
     await stripe.prices
       .list({
@@ -73,7 +73,7 @@ export const useProducts = routeLoader$(async (event) => {
     .execute();
 });
 
-export const useSubscriptions = routeLoader$(async (event) => {
+export const useSubscriptions = routeLoader$(async () => {
   const getSubscriptionsPricesFromStripe = async () =>
     await stripe.prices
       .list({
@@ -179,8 +179,8 @@ export const useBuyProduct = routeAction$(
       mode: price.type === "one_time" ? "payment" : "subscription",
       payment_method_types: ["card"],
       customer_email: session?.user.email || undefined, // Link user.email if user is already registered
-      cancel_url: `${event.env.get("ORIGIN")}/payments/error`,
-      success_url: `${event.env.get("ORIGIN")}/payments/success`,
+      cancel_url: `${event.env.get("ORIGIN")}payments/error`,
+      success_url: `${event.env.get("ORIGIN")}payments/success`,
       line_items: [
         {
           price: price.id,
@@ -225,6 +225,7 @@ export default component$(() => {
               </p>
             )}
             <Button
+              aria-label="Buy button"
               onClick$={() =>
                 buyProduct
                   .submit({ priceId: e.price_id })
@@ -250,6 +251,7 @@ export default component$(() => {
               </p>
             )}
             <Button
+              aria-label="Buy button"
               onClick$={() =>
                 buyProduct
                   .submit({ priceId: e.price_id })

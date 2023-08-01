@@ -1,5 +1,5 @@
 import { component$, useSignal } from "@builder.io/qwik";
-import { LuMenu, LuUser } from "@qwikest/icons/lucide";
+import { LuMenu, LuUser, LuZap } from "@qwikest/icons/lucide";
 import { twMerge } from "tailwind-merge";
 import { siteConfig } from "~/lib/site.config";
 import { useSession } from "~/routes/layout";
@@ -14,14 +14,16 @@ export const NavBar = component$(() => {
       <nav class="container relative mx-auto  w-full px-4 sm:flex sm:items-center sm:justify-between">
         <div class="flex items-center justify-between">
           <a
-            class="w-max text-xl font-semibold text-white"
+            class="flex w-max items-center gap-2 text-xl font-semibold text-white"
             href="/"
             aria-label={siteConfig.title}
           >
+            <LuZap />
             {siteConfig.title}
           </a>
           <div class="py-4 sm:hidden">
             <Button
+              aria-label="Navbar menu"
               type="button"
               variant="outline"
               class="w-auto"
@@ -37,6 +39,7 @@ export const NavBar = component$(() => {
           <div class="mt-5 flex flex-col gap-x-0 gap-y-4 sm:mt-0 sm:flex-row sm:items-center sm:justify-end sm:gap-x-7 sm:gap-y-0 sm:pl-7">
             {siteConfig.navBar.map((e) => (
               <a
+                aria-label={e.title}
                 key={e.href}
                 class=" text-slate-300 hover:text-white"
                 href={e.href}
@@ -46,16 +49,23 @@ export const NavBar = component$(() => {
             ))}
             {!session.value && (
               <>
-                <AnchorButton variant="outline" href="/auth/log-in">
+                <AnchorButton
+                  variant="outline"
+                  href="/auth/log-in"
+                  aria-label="LogIn button"
+                >
                   Log In
                 </AnchorButton>
-                <AnchorButton href="/auth/sign-up">Sign Up</AnchorButton>
+                <AnchorButton href="/auth/sign-up" aria-label="SignUp button">
+                  Sign Up
+                </AnchorButton>
               </>
             )}
             {session.value && (
               <AnchorButton
                 href="/auth/profile"
                 class="flex items-center gap-2"
+                aria-label="Profile button"
               >
                 <LuUser class="h-4 w-4" /> Profile
               </AnchorButton>
@@ -71,6 +81,7 @@ export const NavBar = component$(() => {
       >
         {siteConfig.navBar.map((e) => (
           <a
+            aria-label={e.title}
             key={e.href}
             class=" text-slate-300 hover:text-white"
             href={e.href}
@@ -80,14 +91,24 @@ export const NavBar = component$(() => {
         ))}
         {!session.value && (
           <>
-            <AnchorButton variant="outline" href="/auth/log-in">
+            <AnchorButton
+              variant="outline"
+              href="/auth/log-in"
+              aria-label="LogIn button"
+            >
               Log In
             </AnchorButton>
-            <AnchorButton href="/auth/sign-up">Sign Up</AnchorButton>
+            <AnchorButton href="/auth/sign-up" aria-label="SignUp button">
+              Sign Up
+            </AnchorButton>
           </>
         )}
         {session.value && (
-          <AnchorButton href="/auth/profile" class="flex items-center gap-2">
+          <AnchorButton
+            href="/auth/profile"
+            class="flex items-center gap-2"
+            aria-label="Profile button"
+          >
             <LuUser class="h-4 w-4" /> Profile
           </AnchorButton>
         )}

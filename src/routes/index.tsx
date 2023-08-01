@@ -15,6 +15,7 @@ export default component$(() => {
         <>
           Latest features from{" "}
           <a
+            aria-label="Qwik homepage"
             href="https://qwik.builder.io/"
             target="_blank"
             rel="noreferrer"
@@ -33,6 +34,7 @@ export default component$(() => {
         <>
           Full-stack Typesafety with{" "}
           <a
+            aria-label="Module forms homepage"
             href="https://qwik.builder.io/docs/integrations/modular-forms/"
             target="_blank"
             rel="noreferrer"
@@ -42,6 +44,7 @@ export default component$(() => {
           </a>{" "}
           , and{" "}
           <a
+            aria-label="Zod homepage"
             href="https://zod.dev/"
             target="_blank"
             rel="noreferrer"
@@ -51,6 +54,7 @@ export default component$(() => {
           </a>
           . Typesafe database querying using{" "}
           <a
+            aria-label="Kysely homepage"
             href="https://kysely.dev/"
             target="_blank"
             rel="noreferrer"
@@ -67,6 +71,7 @@ export default component$(() => {
         <>
           Build all the components you need for your next application with{" "}
           <a
+            aria-label="TailwindCSS homepage"
             href="https://tailwindcss.com/"
             target="_blank"
             rel="noreferrer"
@@ -84,6 +89,7 @@ export default component$(() => {
           Protect pages and API routes throughout your entire app easly thanks
           to{" "}
           <a
+            aria-label="Lucia Auth homepage"
             href="https://lucia-auth.com/"
             target="_blank"
             rel="noreferrer"
@@ -100,6 +106,7 @@ export default component$(() => {
         <>
           Preconfigured{" "}
           <a
+            aria-label="MDX homepage"
             href="https://qwik.builder.io/docs/guides/mdx/#mdx"
             target="_blank"
             rel="noreferrer"
@@ -117,6 +124,7 @@ export default component$(() => {
         <>
           Accept single payments and recurring subscriptions with{" "}
           <a
+            aria-label="Stripe homepage"
             href="https://www.stripe.com/"
             target="_blank"
             rel="noreferrer"
@@ -133,6 +141,7 @@ export default component$(() => {
         <>
           Send any kind of mail with{" "}
           <a
+            aria-label="Resend homepage"
             href="https://resend.com/"
             target="_blank"
             rel="noreferrer"
@@ -150,6 +159,7 @@ export default component$(() => {
         <>
           Outstanding 3D websites with{" "}
           <a
+            aria-label="Three.js homepage"
             href="https://threejs.org/"
             target="_blank"
             rel="noreferrer"
@@ -252,6 +262,7 @@ export default component$(() => {
 
         <div class="text-center">
           <AnchorButton
+            aria-label="GetStarted button"
             class=" rounded-full bg-gradient-to-tl from-blue-600 to-violet-600 px-6 py-3  font-bold  text-white shadow-lg  hover:shadow-blue-700/50 "
             href="/auth/log-in"
           >

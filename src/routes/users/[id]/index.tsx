@@ -95,7 +95,7 @@ export default component$(() => {
   return (
     <section class="container flex w-96 flex-col items-center py-4">
       <H1 class="flex w-full grow items-center gap-4">
-        <AnchorButton href="/users">
+        <AnchorButton href="/users" aria-label="Go back button">
           <LuChevronsLeft />
         </AnchorButton>
         Update user:
@@ -155,9 +155,12 @@ export default component$(() => {
           )}
         </Field>
         <div class="mt-2 flex gap-4">
-          <Button type="submit">Update user</Button>
+          <Button type="submit" aria-label="Update user button">
+            Update user
+          </Button>
           <Button
             type="button"
+            aria-label="Delete user button"
             color="danger"
             onClick$={() =>
               deleteUser.submit({

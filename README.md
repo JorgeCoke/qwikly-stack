@@ -51,7 +51,7 @@ npm run db:seed     // Seed database
 ## How to deploy to fly.io
 
 - Install fly.io CLI: https://fly.io/docs/hands-on/install-flyctl/
-- Create an app: `fly launch`
+- Create an app: `fly launch` (Rename your app)
 - Create a volume for SQLite (1 GB): `fly volumes create qwikly_stack_volume --size 1` (Now you can use "/qwikly_stack_volume/main.db" as DATABASE_URL)
 - Create a ".env.prod" file a import your secrets running: `cat .env.prod | fly secrets import` (Do not forget to update ORIGIN variable)
 - Optional: Add public "build env variables" to Dockerfile files before build command (E.g: ENV PUBLIC_STRIPE_PUB="your_key")

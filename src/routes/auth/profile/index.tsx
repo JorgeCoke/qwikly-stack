@@ -100,6 +100,7 @@ export default component$(() => {
           ? currentSubscription.value.name
           : "none"}
         <Button
+          aria-label="Cancel subscription button"
           disabled={
             currentSubscription.value?.type !==
             StripeEventType.SubscriptionUpdated
@@ -111,8 +112,12 @@ export default component$(() => {
         </Button>
       </p>
       <div class="flex gap-4 pt-6">
-        <Button>Reset Password</Button>
-        <AnchorButton href="/auth/log-out" color="danger">
+        <Button aria-label="Reset password button">Reset Password</Button>
+        <AnchorButton
+          href="/auth/log-out"
+          color="danger"
+          aria-label="Logout button"
+        >
           Log Out
         </AnchorButton>
       </div>

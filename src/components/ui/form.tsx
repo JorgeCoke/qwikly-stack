@@ -42,7 +42,7 @@ type SelectProps = {
   options: { label: string; value: string }[];
 } & any;
 
-export const Select = component$<FormProps>((props: any) => {
+export const Select = component$<SelectProps>((props: any) => {
   const classes = [];
   if (props.type === "hidden") {
     classes.push("hidden");

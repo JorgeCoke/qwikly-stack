@@ -11,7 +11,9 @@ import { type PlatformNode } from "@builder.io/qwik-city/middleware/node";
 import Fastify from "fastify";
 import { join } from "node:path";
 import { fileURLToPath } from "node:url";
+import { stripe } from "./lib/stripe";
 import FastifyQwik from "./plugins/fastify-qwik";
+import { webhookHandler } from "./routes/payments/webhooks/handler";
 
 declare global {
   interface QwikCityPlatform extends PlatformNode {}
@@ -38,6 +40,27 @@ const start = async () => {
 
   // Handle Qwik City using a plugin
   await fastify.register(FastifyQwik, { distDir, buildDir });
+
+  // NOTE: We need the raw body from the request
+  await fastify.register(import("fastify-raw-body"), {
+    global: false,
+    encoding: false,
+    runFirst: true,
+  });
+
+  fastify.post(
+    "/payments/webhooks",
+    { config: { rawBody: true } },
+    async function (request, reply) {
+      const stripeEvent = stripe.webhooks.constructEvent(
+        request.rawBody as Buffer,
+        request.headers["stripe-signature"]!,
+        process.env.STRIPE_WEBHOOK_SECRET!
+      );
+      const result = await webhookHandler(stripeEvent);
+      reply.status(200).send(result);
+    }
+  );
 
   // Start the fastify server
   // NOTE: See https://fastify.dev/docs/latest/Guides/Getting-Started/#note

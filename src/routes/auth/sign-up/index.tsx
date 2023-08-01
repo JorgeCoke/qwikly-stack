@@ -126,7 +126,7 @@ export default component$(() => {
             />
           )}
         </Field>
-        <Button class="mt-2" type="submit">
+        <Button class="mt-2" type="submit" aria-label="SignUp button">
           Sign Up
         </Button>
       </Form>

@@ -78,7 +78,7 @@ export default component$(() => {
   return (
     <section class="container flex w-96 flex-col items-center py-4">
       <H1 class="flex w-full grow items-center gap-4">
-        <AnchorButton href="/users">
+        <AnchorButton href="/users" aria-label="Go back button">
           <LuChevronsLeft />
         </AnchorButton>
         Create user:
@@ -133,7 +133,7 @@ export default component$(() => {
             />
           )}
         </Field>
-        <Button class="mt-2" type="submit">
+        <Button class="mt-2" type="submit" aria-label="Create user button">
           Create user
         </Button>
       </Form>

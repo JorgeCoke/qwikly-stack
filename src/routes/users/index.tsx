@@ -45,7 +45,11 @@ export default component$(() => {
     <section class="container">
       <H1 class="flex justify-between pt-4">
         <span>Users</span>
-        <AnchorButton href="/users/create" class="flex items-center gap-2">
+        <AnchorButton
+          href="/users/create"
+          class="flex items-center gap-2"
+          aria-label="Create user button"
+        >
           <LuPlus class="h-4 w-4" /> Create user
         </AnchorButton>
       </H1>
@@ -74,6 +78,7 @@ export default component$(() => {
               <TableCell>
                 {session.value?.user.userId !== e.id && (
                   <Button
+                    aria-label="Delete user button"
                     color="danger"
                     onClick$={(event: any) => {
                       event.stopPropagation();

@@ -92,7 +92,7 @@ export default component$(() => {
         {LogIn_Form.response.message && (
           <p class="text-red-500">{LogIn_Form.response.message}</p>
         )}
-        <Button class="mt-2" type="submit">
+        <Button class="mt-2" type="submit" aria-label="LogIn button">
           Log In
         </Button>
       </Form>
