@@ -1,42 +1,58 @@
 {
   "name": "super-qwik-template",
+  "version": "0.0.1",
   "description": "Delightful, overpowered, beautifully handcrafted web framework template, built on top of Qwik, seasoned with modern tools.",
   "engines": {
-    "node": ">=20.0.0"
+    "node": ">=20.0.0",
+    "npm": ">=9.0.0"
   },
   "private": true,
   "scripts": {
+    "start": "vite --open --mode ssr",
+    "dev": "vite --open --mode ssr",
+    "dev.debug": "node --inspect-brk ./node_modules/vite/bin/vite.js --mode ssr --force",
+    "preview": "qwik build preview && vite preview --open",
     "build": "qwik build",
     "build.client": "vite build",
     "build.preview": "vite build --ssr src/entry.preview.tsx",
+    "build.server": "vite build -c adapters/fastify/vite.config.ts",
     "build.types": "tsc --incremental --noEmit",
-    "deploy": "wrangler pages publish ./dist",
-    "dev": "vite --mode ssr",
-    "dev.debug": "node --inspect-brk ./node_modules/vite/bin/vite.js --mode ssr --force",
+    "serve": "node server/entry.fastify",
     "fmt": "prettier --write .",
     "fmt.check": "prettier --check .",
     "lint": "eslint \"src/**/*.ts*\"",
-    "preview": "qwik build preview && vite preview --open",
-    "serve": "wrangler pages dev ./dist",
-    "start": "vite --open --mode ssr",
     "qwik": "qwik",
     "db:reset": "rm main.db && touch main.db && npm run migrate",
-    "migrate": "npx tsx migrator.ts"
+    "db:migrate": "tsx src/lib/db/migrator.ts",
+    "release": "branch=$(git branch --show-current); if [[ $branch == 'master' || $branch == 'main' ]]; then standard-version; else echo 'Release allowed in main branch only'; exit 1; fi;",
+    "cz": "cz",
+    "audit": "better-npm-audit audit",
+    "husky:install": "husky install"
   },
   "devDependencies": {
     "@builder.io/qwik": "1.2.5",
     "@builder.io/qwik-city": "1.2.5",
+    "@commitlint/cli": "^17.6.7",
+    "@commitlint/config-conventional": "^17.6.7",
+    "@flydotio/dockerfile": "^0.4.0",
     "@types/better-sqlite3": "^7.6.4",
     "@types/eslint": "8.40.2",
     "@types/node": "^20.4.0",
     "@typescript-eslint/eslint-plugin": "5.61.0",
     "@typescript-eslint/parser": "5.61.0",
     "autoprefixer": "^10.4.14",
+    "better-npm-audit": "^3.7.3",
+    "commitizen": "^4.3.0",
+    "cz-conventional-changelog": "^3.3.0",
     "eslint": "8.44.0",
     "eslint-plugin-qwik": "1.2.5",
+    "fastify-plugin": "^4.5.0",
+    "husky": "^8.0.3",
     "postcss": "^8.4.23",
     "prettier": "2.8.8",
     "prettier-plugin-tailwindcss": "^0.4.1",
+    "rimraf": "^5.0.1",
+    "standard-version": "^9.5.0",
     "tailwindcss": "^3.3.1",
     "typescript": "5.1.6",
     "undici": "5.22.1",
@@ -44,12 +60,19 @@
     "vite-tsconfig-paths": "4.2.0"
   },
   "dependencies": {
+    "@fastify/compress": "^6.2.1",
+    "@fastify/static": "^6.10.1",
     "@lucia-auth/adapter-sqlite": "^2.0.0",
     "@modular-forms/qwik": "0.18.1",
     "@qwikest/icons": "^0.0.8",
     "better-sqlite3": "^8.5.0",
+    "fastify": "^4.17.0",
     "kysely": "^0.26.1",
     "lucia": "^2.0.0",
-    "tailwind-merge": "^1.14.0"
+    "tailwind-merge": "^1.14.0",
+    "tsx": "^3.12.7"
+  },
+  "commitlint": {
+    "extends": "@commitlint/config-conventional"
   }
 }

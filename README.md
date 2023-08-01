@@ -4,24 +4,83 @@ Delightful, overpowered, beautifully handcrafted web framework template, built o
 
 ## What's included?
 
-- [Qwik City](https://qwik.builder.io/) framework
-- [Qwik Icons](https://qwik.builder.io/docs/integrations/icons/) included
-- [Modular Forms](https://qwik.builder.io/docs/integrations/modular-forms/) integration
+- Awesome [Qwik City](https://qwik.builder.io/) framework
+- [Modular Forms](https://qwik.builder.io/docs/integrations/modular-forms/) typesafe integration
 - [Tailwind](https://tailwindcss.com/) of course
-- [Lucia Auth](https://lucia-auth.com/) v2
-- [Kysely](https://kysely.dev/) + SQLite
-- [Zod](https://zod.dev/) validation
-- [MDX](https://qwik.builder.io/docs/guides/mdx/) support
-- SignUp + LogIn + LogOut flow
-- CRUD users example
+- Including [Lucide](https://lucide.dev/) icons
+- Authentication with [Lucia Auth v2](https://lucia-auth.com/)
+- [Kysely](https://kysely.dev/) SQL builder + SQLite
+- Full typesafe development using [zod](https://zod.dev/)
+- Automagically [MDX](https://mdxjs.com/) support including plugins
+- [ ] TODO: [Stripe](https://stripe.com/) Payments and Subscriptions
+- [ ] TODO: Mailer with [Resend](https://resend.com/)
+- [Husky](https://github.com/typicode/husky) hooks
+- Commit nomenclature rules with [commitizen](https://github.com/commitizen/cz-cli)
+- Release management policy with [standard-version](https://github.com/conventional-changelog/standard-version)
+- [ESLint](https://eslint.org/) and [Prettier](https://prettier.io/) linter and formatter
+- [ ] TODO: Including outstanding [Three.JS](https://threejs.org/) scenes
+- [ ] TODO: CI/CD with [Github Actions](https://github.com/features/actions)
+- Fullstack deployments thanks to [Fly.io](https://fly.io) with [Fastify Adapter](https://qwik.builder.io/docs/deployments/node/#node-middleware)
+
+## Features
+
+- Authentication flow: SignUp + LogIn + Profile + LogOut + ResetPassword
+- Payments: One time payment + Recurring Subscription payment
+- Admin dashboard: including a "C.R.U.D Users" table
+- Terms and conditions (MDX example)
 
 ## Set up
 
 ```
-npm ci          // Install dependencies
-npm db:reset    // Clean and executes the migrations required to make your database reflect the state of your schemas
-npm run serve   // Launch project locally
+npm ci                  // Install dependencies
+npm run husky:install   // Install Husky hooks
+npm db:reset            // WARNING! Deletes all data and executes the migrations required to make your database reflect the state of your schemas
+npm run dev             // Launch project locally (You can use "npm run start" too)
 ```
+
+## How to run migrations
+
+```
+npm run db:migrate
+```
+
+## How to deploy to fly.io
+
+- Install fly.io CLI: https://fly.io/docs/hands-on/install-flyctl/
+- Create an app: `fly launch`
+- Create a volume for SQLite (1 GB): `fly volumes create super_qwik_volume --size 1` (Now you can use "/super_qwik_volume_data/main.db" as DATABASE_URL)
+- Create a ".env.prod" file a import your secrets running: `cat .env.prod | fly secrets import`
+- Optional: Add public "build env variables" to Dockerfile files before build command (E.g: ENV PUBLIC_STRIPE_PUB="your_key")
+- Deploy your app: `fly deploy`
+- Visit your newly deployed app running: `fly open`
+
+## Linter & Formatter
+
+```
+npm run lint      // Run Eslint
+npm run fmt       // Run Prettier
+```
+
+## Git Commit with Commitizen
+
+```
+git add .          // Add files
+npm run cz         // Commit with commitizen
+```
+
+## Check vulnerabilities
+
+```
+npm run audit       // Run better-npm-audit
+```
+
+## TODO's
+
+- [ ] Add user roles
+- [ ] Script to seed database (move migrator to lib/db)
+- [ ] Integrate Stripe
+- [ ] Add Github Actions
+- [ ] Add Three.JS / React-three-fiber (Do not forget to lazy loading it)
 
 ---
 
@@ -80,3 +139,13 @@ The production build will generate client and server modules by running both cli
 ```shell
 npm run build # or `yarn build`
 ```
+
+## Fastify Server
+
+This app has a minimal [Fastify server](https://fastify.io/) implementation. After running a full build, you can preview the build using the command:
+
+```
+npm run serve
+```
+
+Then visit [http://localhost:3000/](http://localhost:3000/)

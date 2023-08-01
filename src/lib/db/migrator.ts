@@ -1,7 +1,7 @@
 import { promises as fs } from "fs";
 import { FileMigrationProvider, Migrator } from "kysely";
 import * as path from "path";
-import { db } from "./src/lib/db/kysely";
+import { db } from "./kysely";
 
 // See https://kysely.dev/docs/migrations#running-migrations
 export async function migrateToLatest() {
@@ -10,7 +10,7 @@ export async function migrateToLatest() {
     provider: new FileMigrationProvider({
       fs,
       path,
-      migrationFolder: path.join(__dirname, "src/lib/db/migrations"), // This needs to be an absolute path.
+      migrationFolder: path.join(__dirname, "migrations"), // This needs to be an absolute path.
     }),
   });
 

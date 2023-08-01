@@ -44,4 +44,3 @@ lerna-debug.log*
 main.db
 .env*
 !.env.example
-_NOTES.md
