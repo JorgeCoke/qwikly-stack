@@ -1,4 +1,4 @@
-import { RequestEvent, RequestEventAction } from "@builder.io/qwik-city";
+import { RequestEvent, RequestEventAction, RequestEventBase } from "@builder.io/qwik-city";
 
 export enum ToastType {
     success="success",
@@ -6,7 +6,7 @@ export enum ToastType {
     info="info"
 }
 
-export const redirectWithToast = (event: RequestEventAction | RequestEvent, type: ToastType, message: string) => {
+export const withToast = (event: RequestEventAction | RequestEvent | RequestEventBase, type: ToastType, message: string) => {
     event.cookie.set(
         type,
         message,

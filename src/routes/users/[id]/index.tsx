@@ -1,5 +1,5 @@
 import { component$ } from "@builder.io/qwik";
-import { routeLoader$, z } from "@builder.io/qwik-city";
+import { routeAction$, routeLoader$, z, zod$ } from "@builder.io/qwik-city";
 import type { InitialValues } from "@modular-forms/qwik";
 import { formAction$, useForm, zodForm$ } from "@modular-forms/qwik";
 import { LuChevronsLeft } from "@qwikest/icons/lucide";
@@ -9,7 +9,7 @@ import { H1 } from "~/components/ui/typography";
 import { db } from "~/lib/db/kysely";
 import { UserRole } from "~/lib/db/schema";
 import { CREDENTIALS_PROVIDER_ID, auth } from "~/lib/lucia-auth";
-import { ToastType, redirectWithToast } from "~/lib/toast";
+import { ToastType, withToast } from "~/lib/toast";
 
 export const UpdateUser_Schema = z.object({
   id: z.string().min(1),
@@ -37,6 +37,23 @@ export const useUpdateUser_FormLoader = routeLoader$<
   };
 });
 
+export const useDeleteUser = routeAction$(
+  async (input, event) => {
+    const authRequest = auth.handleRequest(event);
+    const session = await authRequest.validate();
+    if (session?.user.userId === input.id) {
+      withToast(event, ToastType.error, "You can not delete yoursefl!");
+      return event.fail(419, {});
+    }
+    await auth.deleteUser(input.id);
+    withToast(event, ToastType.success, "User deleted!");
+    throw event.redirect(302, "/users");
+  },
+  zod$({
+    id: z.string(),
+  })
+);
+
 export const useUpdateUser_FormAction = formAction$<UpdateUser_Type>(
   async (input, event) => {
     const authRequest = auth.handleRequest(event);
@@ -61,7 +78,7 @@ export const useUpdateUser_FormAction = formAction$<UpdateUser_Type>(
         input.password
       );
     }
-    redirectWithToast(event, ToastType.success, "User updated!");
+    withToast(event, ToastType.success, "User updated!");
     throw event.redirect(302, "/users");
   },
   zodForm$(UpdateUser_Schema)
@@ -73,6 +90,7 @@ export default component$(() => {
     action: useUpdateUser_FormAction(),
     validate: zodForm$(UpdateUser_Schema),
   });
+  const deleteUser = useDeleteUser();
 
   return (
     <section class="container flex w-96 flex-col items-center py-4">
@@ -136,9 +154,21 @@ export default component$(() => {
             />
           )}
         </Field>
-        <Button class="mt-2" type="submit">
-          Update user
-        </Button>
+        <div class="mt-2 flex gap-4">
+          <Button type="submit">Update user</Button>
+          <Button
+            type="button"
+            color="danger"
+            onClick$={() =>
+              deleteUser.submit({
+                // eslint-disable-next-line @typescript-eslint/no-non-null-asserted-optional-chain
+                id: UpdateUser_Form.internal.fields.id?.value!,
+              })
+            }
+          >
+            Delete user
+          </Button>
+        </div>
       </Form>
     </section>
   );

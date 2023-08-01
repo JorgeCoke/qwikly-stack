@@ -8,7 +8,7 @@ import { Input } from "~/components/ui/form";
 import { H1 } from "~/components/ui/typography";
 import { UserRole } from "~/lib/db/schema";
 import { CREDENTIALS_PROVIDER_ID, auth } from "~/lib/lucia-auth";
-import { ToastType, redirectWithToast } from "~/lib/toast";
+import { ToastType, withToast } from "~/lib/toast";
 
 export const SignUp_Schema = z.object({
   email: z.string().email(),
@@ -58,7 +58,7 @@ export const useSignUp_FormAction = formAction$<SignUp_Type>(
         }
         throw err;
       });
-    redirectWithToast(
+    withToast(
       event,
       ToastType.success,
       "You can now Log In into your account!"

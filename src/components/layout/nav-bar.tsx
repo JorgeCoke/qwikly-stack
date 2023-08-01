@@ -1,5 +1,5 @@
 import { component$ } from "@builder.io/qwik";
-import { LuMenu } from "@qwikest/icons/lucide";
+import { LuMenu, LuUser } from "@qwikest/icons/lucide";
 import { siteConfig } from "~/lib/site.config";
 import { useSession } from "~/routes/layout";
 import { AnchorButton, Button } from "../ui/buttons";
@@ -44,9 +44,12 @@ export const NavBar = component$(() => {
               </>
             )}
             {session.value && (
-              <Button>
-                <a href="/auth/log-out">Log out</a>
-              </Button>
+              <AnchorButton
+                href="/auth/profile"
+                class="flex items-center gap-2"
+              >
+                <LuUser class="h-4 w-4" /> Profile
+              </AnchorButton>
             )}
           </div>
         </div>

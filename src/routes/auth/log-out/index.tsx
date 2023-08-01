@@ -1,6 +1,6 @@
 import type { RequestHandler } from "@builder.io/qwik-city";
 import { auth } from "~/lib/lucia-auth";
-import { ToastType, redirectWithToast } from "~/lib/toast";
+import { ToastType, withToast } from "~/lib/toast";
 
 // See endpoint example: https://qwik.builder.io/docs/endpoints/
 export const onGet: RequestHandler = async (event) => {
@@ -11,7 +11,7 @@ export const onGet: RequestHandler = async (event) => {
   } else {
     authRequest.setSession(null);
     await auth.invalidateAllUserSessions(session.user.userId);
-    redirectWithToast(event, ToastType.success, "Logout Success!");
+    withToast(event, ToastType.success, "Logout Success!");
     throw event.redirect(302, "/");
   }
 };

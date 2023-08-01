@@ -11,9 +11,11 @@ import { Button } from "~/components/ui/buttons";
 import { Card } from "~/components/ui/card";
 import { Gradient, H0, H1, H2, H3 } from "~/components/ui/typography";
 import { db } from "~/lib/db/kysely";
-import { StripeEventType, StripeProduct } from "~/lib/db/schema";
+import type { StripeProduct } from "~/lib/db/schema";
+import { StripeEventType } from "~/lib/db/schema";
 import { auth } from "~/lib/lucia-auth";
 import { stripe } from "~/lib/stripe";
+import { ToastType, withToast } from "~/lib/toast";
 
 export const useProducts = routeLoader$(async (event) => {
   const getProductPricesFromStripe = async () =>
@@ -144,8 +146,8 @@ export const useBuyProduct = routeAction$(
     const prices = await stripe.prices.list();
     const price = prices.data.find((e) => e.id === input.priceId);
     if (!price) {
-      // TODO: Return error toast
-      return event.fail(400, { message: "Can not load price from Stripe" });
+      withToast(event, ToastType.error, "Can not load price from Stripe");
+      return event.fail(400, {});
     }
 
     // If it is a subscription, check if user has any other subscription first
@@ -164,11 +166,12 @@ export const useBuyProduct = routeAction$(
         currentSubscription &&
         currentSubscription.type === StripeEventType.SubscriptionUpdated
       ) {
-        // TODO: Return error toast
-        return event.fail(409, {
-          message:
-            "You have already a subscription in progress, please, cancel it in your profile page and try again",
-        });
+        withToast(
+          event,
+          ToastType.error,
+          "You have already a subscription in progress, please, cancel it in your profile page and try again"
+        );
+        return event.fail(409, {});
       }
     }
     // Create Stripe checkout session
@@ -189,8 +192,8 @@ export const useBuyProduct = routeAction$(
       ],
     });
     if (!stripeSession.url) {
-      // TODO: Return error
-      return event.fail(400, { message: "User has not email linked" });
+      withToast(event, ToastType.error, "User has not email linked");
+      return event.fail(400, {});
     }
     return { url: stripeSession.url };
   },
@@ -222,10 +225,14 @@ export default component$(() => {
               </p>
             )}
             <Button
-              onClick$={async () => {
-                const res = await buyProduct.submit({ priceId: e.price_id });
-                await nav(res.value.url);
-              }}
+              onClick$={() =>
+                buyProduct
+                  .submit({ priceId: e.price_id })
+                  .then((res) => nav(res.value.url))
+                  .catch((err) => {
+                    alert(err);
+                  })
+              }
             >
               Buy
             </Button>
@@ -243,10 +250,14 @@ export default component$(() => {
               </p>
             )}
             <Button
-              onClick$={async () => {
-                const res = await buyProduct.submit({ priceId: e.price_id });
-                await nav(res.value.url);
-              }}
+              onClick$={() =>
+                buyProduct
+                  .submit({ priceId: e.price_id })
+                  .then((res) => nav(res.value.url))
+                  .catch((err) => {
+                    alert(err);
+                  })
+              }
             >
               Buy
             </Button>

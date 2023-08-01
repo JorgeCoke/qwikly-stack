@@ -9,7 +9,7 @@ import { Input, Select } from "~/components/ui/form";
 import { H1 } from "~/components/ui/typography";
 import { UserRole } from "~/lib/db/schema";
 import { CREDENTIALS_PROVIDER_ID, auth } from "~/lib/lucia-auth";
-import { ToastType, redirectWithToast } from "~/lib/toast";
+import { ToastType, withToast } from "~/lib/toast";
 
 export const CreateUser_Schema = z.object({
   email: z.string().email(),
@@ -62,7 +62,7 @@ export const useCreateUser_FormAction = formAction$<CreateUser_Type>(
         }
         throw err;
       });
-    redirectWithToast(event, ToastType.success, "User created!");
+    withToast(event, ToastType.success, "User created!");
     throw event.redirect(302, "/users");
   },
   zodForm$(CreateUser_Schema)

@@ -24,8 +24,15 @@ const mergeButtonStyles = (props: any): string => {
         : "bg-red-500 hover:bg-red-600 text-white",
   };
 
-  return twMerge(
+  const classes = [
     "inline-block rounded-md px-3 py-2 text-sm font-semibold transition-all focus:outline-none focus:ring-2 focus:ring-slate-950 focus:ring-offset-slate-950",
+  ];
+  if (props.disabled) {
+    classes.push("opacity-50");
+  }
+
+  return twMerge(
+    ...classes,
     variants[props.variant || "default"],
     colors[props.color || "primary"],
     props.class

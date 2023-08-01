@@ -7,10 +7,12 @@ import {
   zod$,
 } from "@builder.io/qwik-city";
 import { LuPlus, LuTrash } from "@qwikest/icons/lucide";
-import { Button } from "~/components/ui/buttons";
+import { AnchorButton, Button } from "~/components/ui/buttons";
+import { Table, TableCell, TableHead, TableRow } from "~/components/ui/table";
 import { H1 } from "~/components/ui/typography";
 import { db } from "~/lib/db/kysely";
 import { auth } from "~/lib/lucia-auth";
+import { ToastType, withToast } from "~/lib/toast";
 import { useSession } from "../layout";
 
 export const useUsers = routeLoader$(async () => {
@@ -22,9 +24,8 @@ export const useDeleteUser = routeAction$(
     const authRequest = auth.handleRequest(event);
     const session = await authRequest.validate();
     if (session?.user.userId === input.id) {
-      return event.fail(419, {
-        message: "You can not delete yoursefl!",
-      });
+      withToast(event, ToastType.error, "You can not delete yoursefl!");
+      return event.fail(419, {});
     }
     await auth.deleteUser(input.id);
   },
@@ -34,72 +35,43 @@ export const useDeleteUser = routeAction$(
 );
 
 // TODO: Add filtering, sorting and pagination
-// TODO: Create generic table component
 export default component$(() => {
   const users = useUsers();
   const deleteUser = useDeleteUser();
-  const nav = useNavigate();
   const session = useSession();
+  const nav = useNavigate();
 
   return (
     <section class="container">
       <H1 class="flex justify-between pt-4">
         <span>Users</span>
-        <Button>
-          <a href="/users/create" class="flex items-center">
-            <LuPlus class="h-4 w-4" />
-            &nbsp;Create user
-          </a>
-        </Button>
+        <AnchorButton href="/users/create" class="flex items-center gap-2">
+          <LuPlus class="h-4 w-4" /> Create user
+        </AnchorButton>
       </H1>
-      <table class="my-4 min-w-full divide-y divide-slate-700 rounded-md bg-slate-950 shadow">
+      <Table>
         <thead>
           <tr>
-            <th
-              scope="col"
-              class="px-6 py-3 text-left text-xs font-bold uppercase text-slate-400"
-            >
-              ID #
-            </th>
-            <th
-              scope="col"
-              class="px-6 py-3 text-left text-xs font-bold uppercase text-slate-400"
-            >
-              Email
-            </th>
-            <th
-              scope="col"
-              class="px-6 py-3 text-left text-xs font-bold uppercase text-slate-400"
-            >
-              Name
-            </th>
-            <th
-              scope="col"
-              class="px-6 py-3 text-right text-xs font-bold uppercase text-slate-400"
-            >
-              Action
-            </th>
+            <TableHead>ID #</TableHead>
+            <TableHead>Email</TableHead>
+            <TableHead>Name</TableHead>
+            <TableHead>Role</TableHead>
+            <TableHead></TableHead>
           </tr>
         </thead>
         <tbody>
           {users.value.map((e) => (
-            <tr
+            <TableRow
               key={e.id}
-              class="cursor-pointer odd:bg-slate-800 even:bg-slate-700 hover:bg-slate-600"
               onClick$={async () => {
                 await nav(`/users/${e.id}`);
               }}
             >
-              <td class="whitespace-nowrap px-6 py-4 text-sm font-medium text-slate-200">
-                {e.id}
-              </td>
-              <td class="whitespace-nowrap px-6 py-4 text-sm text-slate-200">
-                {e.email}
-              </td>
-              <td class="whitespace-nowrap px-6 py-4 text-sm text-slate-200">
-                {e.name}
-              </td>
-              <td class="px-6 text-right">
+              <TableCell>{e.id}</TableCell>
+              <TableCell>{e.email}</TableCell>
+              <TableCell>{e.name}</TableCell>
+              <TableCell>{e.role}</TableCell>
+              <TableCell>
                 {session.value?.user.userId !== e.id && (
                   <Button
                     color="danger"
@@ -111,11 +83,11 @@ export default component$(() => {
                     <LuTrash />
                   </Button>
                 )}
-              </td>
-            </tr>
+              </TableCell>
+            </TableRow>
           ))}
         </tbody>
-      </table>
+      </Table>
     </section>
   );
 });
