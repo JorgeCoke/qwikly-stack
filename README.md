@@ -1,6 +1,10 @@
+<p align="center">
+    <img alt="Qwikly Stack Logo" src="src/media/qwik-logo.svg" width="128"/>
+</p>
+
 # Qwikly Stack ⚡️
 
-Delightful, overpowered, beautifully handcrafted web framework template, built on top of Qwik, seasoned with modern tools.
+The `qwikest` delightful, overpowered, beautifully handcrafted web framework template, built on top of **Qwik**, seasoned with _modern tools_
 
 ## What's included?
 
@@ -18,18 +22,18 @@ Delightful, overpowered, beautifully handcrafted web framework template, built o
 - Commit nomenclature rules with [commitizen](https://github.com/commitizen/cz-cli)
 - Release management policy with [standard-version](https://github.com/conventional-changelog/standard-version)
 - [ESLint](https://eslint.org/) and [Prettier](https://prettier.io/) linter and formatter
-- [ ] TODO: Including outstanding [Three.JS](https://threejs.org/) scenes
-- [ ] TODO: CI/CD with [Github Actions](https://github.com/features/actions)
+- Including outstanding [Three.JS](https://threejs.org/) scenes
+- CI/CD with [Github Actions](https://github.com/features/actions)
 - Fullstack deployments thanks to [Fly.io](https://fly.io) with [Fastify Adapter](https://qwik.builder.io/docs/deployments/node/#node-middleware)
 
-## Features
+### Features
 
 - Authentication flow: SignUp + LogIn + Profile + LogOut + ResetPassword
 - Payments: One time payment + Recurring Subscription payment + Billing Info Page
 - Admin dashboard: including a "C.R.U.D Users" table
 - Terms and conditions (MDX example)
 
-## Set up
+### Set up
 
 ```
 npm ci                        // Install dependencies
@@ -40,7 +44,7 @@ npm run dev                   // Launch project locally
 npm run dev:stripe            // (Optional) Enables Stripe local webhooks
 ```
 
-## How to run migrations
+### How to run migrations
 
 ```
 npm run db:reset    // DANGER! Removes all data from database, executes migrator and seeder too!
@@ -48,31 +52,32 @@ npm run db:migrate  // Runs migrations
 npm run db:seed     // Seed database
 ```
 
-## How to deploy to fly.io
+### How to deploy to fly.io
 
 - Install fly.io CLI: https://fly.io/docs/hands-on/install-flyctl/
-- Create an app: `fly launch` (Rename your app)
+- Create an app by running `fly launch` in your root project folder (Rename your app)
 - Create a volume for SQLite (1 GB): `fly volumes create qwikly_stack_volume --size 1` (Now you can use "/qwikly_stack_volume/main.db" as DATABASE_URL)
-- Create a ".env.prod" file a import your secrets running: `cat .env.prod | fly secrets import` (Do not forget to update ORIGIN variable) or, you can add them manually one by one with: `fly secrets set DATABASE_URL=postgres://example.com/mydb`
-- Optional: Add public "build env variables" to Dockerfile files before build command (E.g: ENV PUBLIC_STRIPE_PUB="your_key")
+- Create a ".env.prod" file, update it with your PROD variables, and import your secrets running: `cat .env.prod | fly secrets import`, or, you can add them manually one by one with: `fly secrets set SECRET_KEY=secret_value`
+- Optional: Add public build time Env Variables to Dockerfile files before build command (E.g: PUBLIC_STRIPE_PUB="your_public_key")
 - Deploy your app: `fly deploy`
-- Visit your newly deployed app running: `fly open`
+- Visit your newly deployed app by running: `fly open`
+- Optional: If you want to use Github actions, just create a SecretToken for your app from your Fly.io dashboard, and save it to your Github Repository secrets
 
-## Linter & Formatter
+### Linter & Formatter
 
 ```
 npm run lint      // Run Eslint
 npm run fmt       // Run Prettier
 ```
 
-## Git Commit with Commitizen
+### Git Commit with Commitizen
 
 ```
 git add .          // Add files
 npm run cz         // Commit with commitizen
 ```
 
-## Check vulnerabilities
+### Check vulnerabilities
 
 ```
 npm run audit       // Run better-npm-audit
@@ -80,7 +85,7 @@ npm run audit       // Run better-npm-audit
 
 ---
 
-## Project Structure
+# Project Structure
 
 This project is using Qwik with [QwikCity](https://qwik.builder.io/qwikcity/overview/). QwikCity is just an extra set of tools on top of Qwik to make it easier to build a full site, including directory-based routing, layouts, and more.
 
@@ -145,3 +150,11 @@ npm run serve
 ```
 
 Then visit [http://localhost:3000/](http://localhost:3000/)
+
+---
+
+### Did I mention it is blazing fast? ⚡️
+
+<p align="center">
+    <img alt="Qwikly Stack Logo" src="public/lighthouse.png" width="512"/>
+</p>

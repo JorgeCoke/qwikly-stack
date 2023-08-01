@@ -2,6 +2,7 @@ import { component$, Slot } from "@builder.io/qwik";
 import { globalAction$, routeLoader$, z, zod$ } from "@builder.io/qwik-city";
 import { Footer } from "~/components/layout/footer";
 import { NavBar } from "~/components/layout/nav-bar";
+import { TailwindIndicator } from "~/components/layout/tailwind-indicator";
 import { Toaster } from "~/components/layout/toaster";
 import { signJwt } from "~/lib/crypto";
 import { auth } from "~/lib/lucia-auth";
@@ -48,6 +49,7 @@ export default component$(() => {
       </main>
       <Footer />
       <Toaster />
+      <TailwindIndicator />
     </div>
   );
 });

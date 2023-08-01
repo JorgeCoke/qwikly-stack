@@ -1,6 +1,6 @@
 {
   "name": "qwikly-stack",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Delightful, overpowered, beautifully handcrafted web framework template, built on top of Qwik, seasoned with modern tools.",
   "engines": {
     "node": ">=20.0.0",

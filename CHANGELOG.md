@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.0.3](https://github.com/JorgeCoke/super-qwik-template/compare/v0.0.2...v0.0.3) (2023-08-01)
+
+
+### Features
+
+* **cicd:** add github actions ([46230fa](https://github.com/JorgeCoke/super-qwik-template/commit/46230fa7073e944a35f3e17f56c338c8c48a2c63))
+
 ### [0.0.2](https://github.com/JorgeCoke/super-qwik-template/compare/v0.0.1...v0.0.2) (2023-08-01)
 
 
