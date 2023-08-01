@@ -10,7 +10,7 @@ export const RouterHead = component$(() => {
 
   return (
     <>
-      <title>Super Qwik Stack - Template</title>
+      <title>Qwikly Stack</title>
       <meta
         name="description"
         content="Delightful, overpowered, beautifully handcrafted web framework template, built on top of Qwik, seasoned with modern tools."

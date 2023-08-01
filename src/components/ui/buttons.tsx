@@ -2,6 +2,7 @@ import { Slot, component$ } from "@builder.io/qwik";
 import { twMerge } from "tailwind-merge";
 
 // TODO: add Types & HtmlButtonPropTypes
+// TODO: improve styles
 type ButtonProps = {
   variant?: "default" | "outline";
   color?: "primary" | "danger";

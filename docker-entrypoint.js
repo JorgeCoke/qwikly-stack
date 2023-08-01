@@ -9,8 +9,7 @@ const env = { ...process.env };
   // If running the web server then migrate existing database
   if (process.argv.slice(2).join(" ") === "npm run serve") {
     await exec("npm run db:reset"); // TODO: Do not reset the database! Do a migration instead!
-    await exec("npm run db:migrate");
-    await exec("npm run db:seed");
+    // await exec("npm run db:migrate");
   }
 
   // launch application

@@ -18,21 +18,23 @@ export const useUsers = routeLoader$(async () => {
 });
 
 export const useDeleteUser = routeAction$(
-  async (data, event) => {
+  async (input, event) => {
     const authRequest = auth.handleRequest(event);
     const session = await authRequest.validate();
-    if (session?.user.userId === data.id) {
+    if (session?.user.userId === input.id) {
       return event.fail(419, {
         message: "You can not delete yoursefl!",
       });
     }
-    await auth.deleteUser(data.id);
+    await auth.deleteUser(input.id);
   },
   zod$({
     id: z.string(),
   })
 );
 
+// TODO: Add filtering, sorting and pagination
+// TODO: Create generic table component
 export default component$(() => {
   const users = useUsers();
   const deleteUser = useDeleteUser();

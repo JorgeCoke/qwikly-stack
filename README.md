@@ -1,4 +1,4 @@
-# Super Qwik Stack ⚡️
+# Qwikly Stack ⚡️
 
 Delightful, overpowered, beautifully handcrafted web framework template, built on top of Qwik, seasoned with modern tools.
 
@@ -12,7 +12,7 @@ Delightful, overpowered, beautifully handcrafted web framework template, built o
 - [Kysely](https://kysely.dev/) SQL builder + SQLite
 - Full typesafe development using [zod](https://zod.dev/)
 - Automagically [MDX](https://mdxjs.com/) support including plugins
-- [ ] TODO: [Stripe](https://stripe.com/) Payments and Subscriptions
+- [Stripe](https://stripe.com/) Payments and Subscriptions
 - [ ] TODO: Mailer with [Resend](https://resend.com/)
 - [Husky](https://github.com/typicode/husky) hooks
 - Commit nomenclature rules with [commitizen](https://github.com/commitizen/cz-cli)
@@ -25,7 +25,7 @@ Delightful, overpowered, beautifully handcrafted web framework template, built o
 ## Features
 
 - Authentication flow: SignUp + LogIn + Profile + LogOut + ResetPassword
-- Payments: One time payment + Recurring Subscription payment
+- Payments: One time payment + Recurring Subscription payment + Billing Info Page
 - Admin dashboard: including a "C.R.U.D Users" table
 - Terms and conditions (MDX example)
 
@@ -35,23 +35,25 @@ Delightful, overpowered, beautifully handcrafted web framework template, built o
 npm ci                  // Install dependencies
 npm run husky:install   // Install Husky hooks
 cp .env.example .env    // And fill .env with DEV environment variables if needed
-npm db:migrate            // Creates a SQLite db file if not exists, and executes the migrations required to make your database reflect the state of your schemas
-npm run db:seed         // It will seed your database with an admin user (Optional) (You can ignore the output message about "import.meta.env")
-npm run dev             // Launch project locally (You can use "npm run start" too)
+npm db:reset            // Creates a SQLite db file if not exists, and executes the migrations required to make your database reflect the state of your schemas, and it will seed your database with an admin user (You can ignore the output message about "import.meta.env")
+npm run dev             // Launch project locally
+npm run dev:stripe      // (Optional) Enables Stripe local webhooks
 ```
 
 ## How to run migrations
 
 ```
-npm run db:migrate
+npm run db:reset    // DANGER! Removes all data from database, executes migrator and seeder too!
+npm run db:migrate  // Runs migrations
+npm run db:seed     // Seed database
 ```
 
 ## How to deploy to fly.io
 
 - Install fly.io CLI: https://fly.io/docs/hands-on/install-flyctl/
 - Create an app: `fly launch`
-- Create a volume for SQLite (1 GB): `fly volumes create super_qwik_volume --size 1` (Now you can use "/super_qwik_volume_data/main.db" as DATABASE_URL)
-- Create a ".env.prod" file a import your secrets running: `cat .env.prod | fly secrets import`
+- Create a volume for SQLite (1 GB): `fly volumes create qwikly_stack_volume --size 1` (Now you can use "/qwikly_stack_volume/main.db" as DATABASE_URL)
+- Create a ".env.prod" file a import your secrets running: `cat .env.prod | fly secrets import` (Do not forget to update ORIGIN variable)
 - Optional: Add public "build env variables" to Dockerfile files before build command (E.g: ENV PUBLIC_STRIPE_PUB="your_key")
 - Deploy your app: `fly deploy`
 - Visit your newly deployed app running: `fly open`

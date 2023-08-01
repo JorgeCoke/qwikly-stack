@@ -1,14 +1,14 @@
-# fly.toml app configuration file generated for super-qwik on 2023-07-26T22:02:18+02:00
+# fly.toml app configuration file generated for qwikly-stack on 2023-07-26T22:02:18+02:00
 #
 # See https://fly.io/docs/reference/configuration/ for information about how to use this file.
 #
 
-app = "super-qwik"
+app = "qwikly-stack"
 primary_region = "cdg"
 
 [mounts]
-  source = "super_qwik_volume"
-  destination = "/super_qwik_volume_data"
+  source = "qwikly_stack_volume"
+  destination = "/qwikly_stack_volume"
 
 [http_service]
   internal_port = 3000

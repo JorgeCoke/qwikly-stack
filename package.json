@@ -1,5 +1,5 @@
 {
-  "name": "super-qwik-template",
+  "name": "qwikly-stack",
   "version": "0.0.1",
   "description": "Delightful, overpowered, beautifully handcrafted web framework template, built on top of Qwik, seasoned with modern tools.",
   "engines": {
@@ -8,8 +8,8 @@
   },
   "private": true,
   "scripts": {
-    "start": "vite --open --mode ssr",
     "dev": "vite --open --mode ssr",
+    "dev:stripe": "stripe listen --events checkout.session.completed,customer.subscription.updated,customer.subscription.deleted --forward-to localhost:5173/payments/webhooks",
     "dev.debug": "node --inspect-brk ./node_modules/vite/bin/vite.js --mode ssr --force",
     "preview": "qwik build preview && vite preview --open",
     "build": "qwik build",
@@ -22,8 +22,8 @@
     "fmt.check": "prettier --check .",
     "lint": "eslint \"src/**/*.ts*\"",
     "qwik": "qwik",
+    "db:reset": "tsx src/lib/db/utils/reset.ts && npm run db:migrate && npm run db:seed",
     "db:migrate": "tsx src/lib/db/utils/migrator.ts",
-    "db:reset": "tsx src/lib/db/utils/reset.ts",
     "db:seed": "tsx src/lib/db/utils/seeder.ts",
     "release": "branch=$(git branch --show-current); if [[ $branch == 'master' || $branch == 'main' ]]; then standard-version; else echo 'Release allowed in main branch only'; exit 1; fi;",
     "cz": "cz",
@@ -47,7 +47,6 @@
     "cz-conventional-changelog": "^3.3.0",
     "eslint": "8.44.0",
     "eslint-plugin-qwik": "1.2.5",
-    "fastify-plugin": "^4.5.0",
     "husky": "^8.0.3",
     "postcss": "^8.4.23",
     "prettier": "2.8.8",
@@ -69,9 +68,11 @@
     "better-sqlite3": "^8.5.0",
     "dotenv": "^16.3.1",
     "fastify": "^4.17.0",
+    "fastify-plugin": "^4.5.0",
     "kysely": "^0.26.1",
     "lucia": "^2.0.0",
     "nanoid": "^4.0.2",
+    "stripe": "^12.16.0",
     "tailwind-merge": "^1.14.0",
     "tsx": "^3.12.7"
   },

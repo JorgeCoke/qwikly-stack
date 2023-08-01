@@ -1,11 +1,15 @@
 export type SiteConfig = typeof siteConfig;
 
 export const siteConfig = {
-  title: "Super Qwik Stack",
+  title: "Qwikly Stack",
   navBar: [
     {
       title: "Home",
       href: "/",
+    },
+    {
+      title: "Payments",
+      href: "/payments",
     },
     {
       title: "C.R.U.D.",

@@ -28,7 +28,7 @@ const start = async () => {
   // Create the fastify server
   // https://www.fastify.io/docs/latest/Guides/Getting-Started/
   const fastify = Fastify({
-    logger: true,
+    logger: false,
   });
 
   // Enable compression
@@ -40,7 +40,8 @@ const start = async () => {
   await fastify.register(FastifyQwik, { distDir, buildDir });
 
   // Start the fastify server
-  await fastify.listen({ host: "0.0.0.0", port: PORT });
+  // NOTE: See https://fastify.dev/docs/latest/Guides/Getting-Started/#note
+  await fastify.listen({ host: "::", port: PORT });
 };
 
 start();

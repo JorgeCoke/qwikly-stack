@@ -2,7 +2,7 @@ import { component$ } from "@builder.io/qwik";
 import type { RequestHandler } from "@builder.io/qwik-city";
 import { LuChevronsRight } from "@qwikest/icons/lucide";
 import { AnchorButton } from "~/components/ui/buttons";
-import { H0 } from "~/components/ui/typography";
+import { Gradient, H0 } from "~/components/ui/typography";
 import ImgQwikLogo from "~/media/qwik-logo.svg?jsx";
 
 export default component$(() => {
@@ -11,10 +11,7 @@ export default component$(() => {
       <ImgQwikLogo class="mx-auto h-24" />
       <div class="mx-auto max-w-3xl text-center">
         <H0>
-          Now it's easier than ever to{" "}
-          <span class="bg-gradient-to-tr from-blue-600 to-violet-400 bg-clip-text text-transparent">
-            build products
-          </span>
+          Now it's easier than ever to <Gradient>build products</Gradient>
         </H0>
       </div>
 

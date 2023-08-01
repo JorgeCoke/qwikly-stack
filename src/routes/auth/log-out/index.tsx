@@ -7,7 +7,7 @@ export const onGet: RequestHandler = async (event) => {
   const authRequest = auth.handleRequest(event);
   const session = await authRequest.validate();
   if (!session) {
-    event.json(401, { message: "Unauthorized" });
+    throw event.error(401, "Unauthorized");
   } else {
     authRequest.setSession(null);
     await auth.invalidateAllUserSessions(session.user.userId);

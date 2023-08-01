@@ -32,7 +32,6 @@ export const useCreateUser_FormLoader = routeLoader$<
 
 export const useCreateUser_FormAction = formAction$<CreateUser_Type>(
   async (input, event) => {
-    // TODO: Add shareable guards/actions? useIsAuthenticated(role?);
     const authRequest = auth.handleRequest(event);
     const session = await authRequest.validate();
     if (!session) {
