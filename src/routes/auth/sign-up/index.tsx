@@ -6,6 +6,7 @@ import type { LuciaError } from "lucia";
 import { Button } from "~/components/ui/buttons";
 import { Input } from "~/components/ui/form";
 import { H1 } from "~/components/ui/typography";
+import { UserRole } from "~/lib/db/schema";
 import { CREDENTIALS_PROVIDER_ID, auth } from "~/lib/lucia-auth";
 import { ToastType, redirectWithToast } from "~/lib/toast";
 
@@ -43,6 +44,7 @@ export const useSignUp_FormAction = formAction$<SignUp_Type>(
         attributes: {
           email: input.email.toLowerCase().trim(),
           name: input.name,
+          role: UserRole.User,
         },
       })
       .catch((err) => {

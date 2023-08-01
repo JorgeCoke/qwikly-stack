@@ -12,6 +12,7 @@ WORKDIR /app
 # Set production environment
 ENV NODE_ENV="production"
 
+#########################################
 
 # Throw-away build stage to reduce size of final image
 FROM base as build
@@ -34,6 +35,7 @@ RUN npm run build
 # Remove development dependencies
 RUN npm prune --omit=dev
 
+#########################################
 
 # Final stage for app image
 FROM base

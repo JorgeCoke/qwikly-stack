@@ -34,7 +34,9 @@ Delightful, overpowered, beautifully handcrafted web framework template, built o
 ```
 npm ci                  // Install dependencies
 npm run husky:install   // Install Husky hooks
-npm db:reset            // WARNING! Deletes all data and executes the migrations required to make your database reflect the state of your schemas
+cp .env.example .env    // And fill .env with DEV environment variables if needed
+npm db:migrate            // Creates a SQLite db file if not exists, and executes the migrations required to make your database reflect the state of your schemas
+npm run db:seed         // It will seed your database with an admin user (Optional) (You can ignore the output message about "import.meta.env")
 npm run dev             // Launch project locally (You can use "npm run start" too)
 ```
 
@@ -73,14 +75,6 @@ npm run cz         // Commit with commitizen
 ```
 npm run audit       // Run better-npm-audit
 ```
-
-## TODO's
-
-- [ ] Add user roles
-- [ ] Script to seed database (move migrator to lib/db)
-- [ ] Integrate Stripe
-- [ ] Add Github Actions
-- [ ] Add Three.JS / React-three-fiber (Do not forget to lazy loading it)
 
 ---
 

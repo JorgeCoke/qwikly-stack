@@ -5,8 +5,9 @@ import { FormError, formAction$, useForm, zodForm$ } from "@modular-forms/qwik";
 import { LuChevronsLeft } from "@qwikest/icons/lucide";
 import type { LuciaError } from "lucia";
 import { AnchorButton, Button } from "~/components/ui/buttons";
-import { Input } from "~/components/ui/form";
+import { Input, Select } from "~/components/ui/form";
 import { H1 } from "~/components/ui/typography";
+import { UserRole } from "~/lib/db/schema";
 import { CREDENTIALS_PROVIDER_ID, auth } from "~/lib/lucia-auth";
 import { ToastType, redirectWithToast } from "~/lib/toast";
 
@@ -14,6 +15,7 @@ export const CreateUser_Schema = z.object({
   email: z.string().email(),
   name: z.string().nullable(),
   password: z.string().min(1),
+  role: z.nativeEnum(UserRole),
 });
 type CreateUser_Type = z.infer<typeof CreateUser_Schema>;
 
@@ -24,6 +26,7 @@ export const useCreateUser_FormLoader = routeLoader$<
     email: "",
     name: null,
     password: "",
+    role: UserRole.User,
   };
 });
 
@@ -46,6 +49,7 @@ export const useCreateUser_FormAction = formAction$<CreateUser_Type>(
         attributes: {
           email: input.email.toLowerCase().trim(),
           name: input.name,
+          role: input.role,
         },
       })
       .catch((err) => {
@@ -101,6 +105,20 @@ export default component$(() => {
               type="text"
               value={field.value}
               error={field.error}
+            />
+          )}
+        </Field>
+        <Field name="role">
+          {(field, props) => (
+            <Select
+              {...props}
+              label="Role"
+              value={field.value}
+              error={field.error}
+              options={[
+                { label: "Admin", value: UserRole.Admin },
+                { label: "User", value: UserRole.User },
+              ]}
             />
           )}
         </Field>

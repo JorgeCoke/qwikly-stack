@@ -8,7 +8,7 @@ import { sqliteDatabase } from "./db/sqlite";
 export const CREDENTIALS_PROVIDER_ID = "Credentials"
 
 export const auth = lucia({
-	env: import.meta.env.DEV ? "DEV" : "PROD",
+	env: import.meta.env!! ? (import.meta.env.DEV ? "DEV" : "PROD") : "DEV",
     middleware: qwik(),
     adapter: betterSqlite3(sqliteDatabase, {
 		user: "user",
@@ -19,7 +19,8 @@ export const auth = lucia({
 		return {
 			// NOTE: `userId` included by default
 			email: data.email,
-			name: data.name
+			name: data.name,
+			role: data.role
 		};
 	},
 	// sessionCookie: {

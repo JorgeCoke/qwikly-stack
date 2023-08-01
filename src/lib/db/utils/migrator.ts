@@ -1,16 +1,21 @@
+import 'dotenv/config';
 import { promises as fs } from "fs";
 import { FileMigrationProvider, Migrator } from "kysely";
 import * as path from "path";
-import { db } from "./kysely";
+import { db } from "../kysely";
 
 // See https://kysely.dev/docs/migrations#running-migrations
-export async function migrateToLatest() {
+async function migrateToLatest() {
+  if (!process.env.DATABASE_URL) {
+    throw new Error(`process.env.DATABASE_URL is not defined!`)
+  }
+
   const migrator = new Migrator({
     db,
     provider: new FileMigrationProvider({
       fs,
       path,
-      migrationFolder: path.join(__dirname, "migrations"), // This needs to be an absolute path.
+      migrationFolder: path.join(__dirname, "../migrations"), // This needs to be an absolute path.
     }),
   });
 

@@ -4,9 +4,10 @@ import type { InitialValues } from "@modular-forms/qwik";
 import { formAction$, useForm, zodForm$ } from "@modular-forms/qwik";
 import { LuChevronsLeft } from "@qwikest/icons/lucide";
 import { AnchorButton, Button } from "~/components/ui/buttons";
-import { Input } from "~/components/ui/form";
+import { Input, Select } from "~/components/ui/form";
 import { H1 } from "~/components/ui/typography";
 import { db } from "~/lib/db/kysely";
+import { UserRole } from "~/lib/db/schema";
 import { CREDENTIALS_PROVIDER_ID, auth } from "~/lib/lucia-auth";
 import { ToastType, redirectWithToast } from "~/lib/toast";
 
@@ -15,6 +16,7 @@ export const UpdateUser_Schema = z.object({
   email: z.string().email(),
   name: z.string().nullable(),
   password: z.string().optional(),
+  role: z.nativeEnum(UserRole),
 });
 type UpdateUser_Type = z.infer<typeof UpdateUser_Schema>;
 
@@ -23,7 +25,7 @@ export const useUpdateUser_FormLoader = routeLoader$<
 >(async (req) => {
   const user = await db
     .selectFrom("user")
-    .where("user.id", "=", req.params.id)
+    .where("user.id", "is", req.params.id)
     .selectAll()
     .executeTakeFirstOrThrow();
   return {
@@ -31,6 +33,7 @@ export const useUpdateUser_FormLoader = routeLoader$<
     email: user.email,
     name: user.name,
     password: "",
+    role: user.role,
   };
 });
 
@@ -43,12 +46,12 @@ export const useUpdateUser_FormAction = formAction$<UpdateUser_Type>(
     }
     await db
       .updateTable("user")
-      .where("user.id", "=", input.id)
-      .set({ name: input.name })
+      .where("user.id", "is", input.id)
+      .set({ name: input.name, role: input.role })
       .executeTakeFirstOrThrow();
     const userEmail = await db
       .selectFrom("user")
-      .where("user.id", "=", input.id)
+      .where("user.id", "is", input.id)
       .select(["user.email"])
       .executeTakeFirstOrThrow();
     if (input.password) {
@@ -104,6 +107,20 @@ export default component$(() => {
               label="Name"
               value={field.value}
               error={field.error}
+            />
+          )}
+        </Field>
+        <Field name="role">
+          {(field, props) => (
+            <Select
+              {...props}
+              label="Role"
+              value={field.value}
+              error={field.error}
+              options={[
+                { label: "Admin", value: UserRole.Admin },
+                { label: "User", value: UserRole.User },
+              ]}
             />
           )}
         </Field>

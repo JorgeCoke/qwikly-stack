@@ -26,10 +26,7 @@ export const useDeleteUser = routeAction$(
         message: "You can not delete yoursefl!",
       });
     }
-    await db
-      .deleteFrom("user")
-      .where("user.id", "==", data.id)
-      .executeTakeFirstOrThrow();
+    await auth.deleteUser(data.id);
   },
   zod$({
     id: z.string(),

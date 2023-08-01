@@ -1,4 +1,5 @@
 import { Kysely } from 'kysely'
+import { UserRole } from '../schema'
 
 export async function up(db: Kysely<any>): Promise<void> {
   await db.schema
@@ -6,6 +7,7 @@ export async function up(db: Kysely<any>): Promise<void> {
     .addColumn('id', 'text', (col) => col.primaryKey())
     .addColumn('email', 'text', (col) => col.notNull().unique())
     .addColumn('name', 'text')
+    .addColumn('role', 'text', (col) => col.notNull().defaultTo(UserRole.User))
     .execute()
 
   await db.schema
