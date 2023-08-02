@@ -53,10 +53,10 @@ export default component$(() => {
           Reset password
         </Button>
       </Form>
-      <p class="mt-8 flex w-full flex-row items-center justify-center border-t border-slate-700 pt-6 text-center text-slate-400">
+      <p class="mt-8 flex w-full flex-row items-center justify-center border-t border-slate-400 pt-6 text-center text-slate-800 dark:border-slate-700 dark:text-slate-400">
         Go back to
         <a
-          class="px-2 font-medium underline underline-offset-4 hover:text-white"
+          class="px-2 font-medium underline underline-offset-4 hover:text-black dark:hover:text-white"
           href={`/auth/log-in`}
         >
           Log In page

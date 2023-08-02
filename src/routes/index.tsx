@@ -37,7 +37,7 @@ export default component$(() => {
       title: "Full-stack Typesafety",
       body: (
         <>
-          Full-stack Typesafety with{" "}
+          Full-stack typesafety with{" "}
           <a
             aria-label="Module forms homepage"
             href="https://qwik.builder.io/docs/integrations/modular-forms/"
@@ -250,7 +250,7 @@ export default component$(() => {
 
   return (
     <section class="container  py-12">
-      <ThreeJsScene />
+      <ThreeJsScene color="#aaa" />
       <div class="relative z-10 mx-auto max-w-[85rem] space-y-10 py-12">
         <QwikLogo class="mx-auto h-24" />
         <div class="mx-auto max-w-3xl text-center">
@@ -260,29 +260,30 @@ export default component$(() => {
         </div>
 
         <div class="mx-auto max-w-5xl text-center">
-          <p class="text-lg text-slate-400">
-            Delightful, overpowered, beautifully handcrafted full-stack web
-            framework template, built on top of Qwik, seasoned with modern tools
-          </p>
+          <H5>
+            The qwikest delightful, overpowered, beautifully handcrafted
+            full-stack web framework template, built on top of Qwik, seasoned
+            with modern tools
+          </H5>
         </div>
 
         <div class="text-center">
           <AnchorButton
             aria-label="GetStarted button"
-            class=" rounded-full bg-gradient-to-tl from-blue-600 to-violet-600 px-6 py-3  font-bold  text-white shadow-lg  hover:shadow-blue-700/50 "
+            class=" rounded-full bg-gradient-to-tl from-blue-600 to-violet-600 px-6 py-3  font-bold  text-white shadow-lg hover:shadow-blue-700/50  dark:text-white "
             href="/auth/log-in"
           >
             GET STARTED
           </AnchorButton>
         </div>
         <div class="flex justify-center">
-          <div class="group flex cursor-pointer items-center justify-between gap-4 rounded-full border border-white/[.05] bg-white/[.05] p-1 px-4 pl-4 text-sm text-slate-300 shadow-md hover:bg-white/[.1]">
+          <div class="group flex cursor-pointer items-center justify-between gap-4 rounded-full border border-white/[.7] bg-white p-1 px-4 pl-4 text-sm text-slate-700 shadow-md hover:bg-white/[.4] dark:border-white/[.05] dark:bg-white/[.05] dark:text-slate-300 dark:hover:bg-white/[.1]">
             <span>Open Source, and Edge Runtime ready!</span>
             <LucideChevronsRight />
           </div>
         </div>
       </div>
-      <div class="mx-auto flex max-w-5xl flex-col items-center gap-8 border-t border-slate-500 py-12 align-middle">
+      <div class="mx-auto flex max-w-5xl flex-col items-center gap-8 border-t border-slate-300 py-12 align-middle dark:border-slate-500">
         <H1 class="text-center">What&apos;s included?</H1>
 
         <H5 class="max-w-3xl text-center">
@@ -294,8 +295,8 @@ export default component$(() => {
         <div class="grid grid-cols-1 gap-5 pt-12 md:grid-cols-3">
           {features.map((feature) => (
             <Card key={feature.title} class="p-6">
-              <H3 class="">{feature.title}</H3>
-              <p class="text-sm font-light text-slate-400">{feature.body}</p>
+              <H3 class="font-semibold">{feature.title}</H3>
+              <H5 class="text-sm font-light">{feature.body}</H5>
             </Card>
           ))}
         </div>
@@ -349,13 +350,13 @@ export default component$(() => {
               key={index}
               class="transform p-5 shadow-sm duration-300 hover:-translate-y-2"
             >
-              <div class="mb-2 flex items-center justify-between text-white">
+              <div class="mb-2 flex items-center justify-between text-black dark:text-white">
                 <p class="text-lg font-bold leading-5">{step.title}</p>
                 <p class="text-deep-slate-accent-400 flex h-6 w-6 items-center justify-center rounded bg-gradient-to-tl from-blue-600 to-violet-600 font-bold text-white">
                   {index}
                 </p>
               </div>
-              <p class="text-sm text-slate-400">{step.description}</p>
+              <H5 class="text-sm">{step.description}</H5>
             </Card>
           ))}
         </div>
@@ -365,11 +366,11 @@ export default component$(() => {
           Trusted by <Gradient>our clients</Gradient>
         </H1>
 
-        <div class="grid gap-y-10 divide-slate-500 sm:grid-cols-2 sm:gap-y-12 lg:grid-cols-3 lg:divide-x">
+        <div class="grid gap-y-10 divide-slate-400 dark:divide-slate-500 sm:grid-cols-2 sm:gap-y-12 lg:grid-cols-3 lg:divide-x">
           {trusted.map((e, index) => (
             <div
               key={index}
-              class="flex flex-col items-center gap-4 text-white sm:px-4 md:gap-6 lg:px-8"
+              class="flex flex-col items-center gap-4 text-black dark:text-white sm:px-4 md:gap-6 lg:px-8"
             >
               <div class="flex flex-col items-center gap-2 sm:flex-row md:gap-3">
                 <div class="h-12 w-12 overflow-hidden rounded-full bg-slate-700 shadow-lg md:h-14 md:w-14">
@@ -395,10 +396,10 @@ export default component$(() => {
       </div>
       <div class="mx-auto flex flex-col gap-5 py-12">
         <H5 class=" text-center text-sm">AS SEEN ON</H5>
-        <div class="flex flex-col items-center justify-center gap-4 bg-slate-950 align-middle md:flex-row md:gap-8">
-          <InstagramIcon class="h-20 w-36 md:h-24" />
-          <TikTokIcon class="h-20 w-36 md:h-24" />
-          <YoutubeIcon class="h-20 w-36 md:h-24" />
+        <div class="flex flex-col items-center justify-center gap-4 bg-slate-100 align-middle dark:bg-slate-950 md:flex-row md:gap-8">
+          <InstagramIcon class="h-20 w-36 fill-black dark:fill-white md:h-24" />
+          <TikTokIcon class="h-20 w-36 fill-black dark:fill-white md:h-24" />
+          <YoutubeIcon class="h-20 w-36 fill-black dark:fill-white md:h-24" />
         </div>
       </div>
     </section>

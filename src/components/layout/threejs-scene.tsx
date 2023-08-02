@@ -15,7 +15,10 @@ interface State {
   renderer: NoSerialize<THREE.WebGLRenderer>;
 }
 
-export const ThreeJsScene = component$(() => {
+type ThreeJsSceneProps = {
+  color: string;
+};
+export const ThreeJsScene = component$<ThreeJsSceneProps>((props) => {
   const canvas = useSignal<HTMLCanvasElement>();
   const state = useStore<State>({
     scene: noSerialize(undefined),
@@ -45,7 +48,7 @@ export const ThreeJsScene = component$(() => {
     const LATITUDE_COUNT = 40;
     const LONGITUDE_COUNT = 80;
     const DOT_SIZE = 0.05;
-    const DOT_COLOR = 0xffffff;
+    const DOT_COLOR = props.color;
 
     // Define an array to hold the geometries of all the dots.
     const dotGeometries = [];
@@ -135,7 +138,7 @@ export const ThreeJsScene = component$(() => {
 
   return (
     <canvas
-      class="absolute left-0 top-0 z-0 opacity-20 duration-300 animate-in fade-in zoom-in"
+      class="absolute left-0 top-0 z-0 opacity-60 duration-300 animate-in fade-in zoom-in dark:opacity-20"
       ref={canvas}
       id="canvas"
     ></canvas>

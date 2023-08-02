@@ -19,17 +19,19 @@ export const Input = component$<FormProps>((props: any) => {
   return (
     <div class={twMerge("inline-flex w-full flex-col gap-1 py-2", ...classes)}>
       {props.label && (
-        <label class="text-slate-100">
+        <label class="text-slate-900 dark:text-slate-100">
           {props.label}
           {props.required && <span class="text-red-500">&nbsp;*</span>}
         </label>
       )}
       <input
         {...props}
-        class="rounded-md bg-slate-950 px-3 py-2 text-slate-200 ring-1 ring-inset ring-slate-800 "
+        class="rounded-md bg-white px-3 py-2 text-slate-800 ring-1 ring-inset ring-slate-300 dark:bg-slate-950 dark:text-slate-200 dark:ring-slate-800 "
       />
       {props.description && (
-        <p class=" text-sm text-slate-400">{props.description}</p>
+        <p class=" text-sm text-slate-600 dark:text-slate-400">
+          {props.description}
+        </p>
       )}
       {props.error && <p class="text-sm text-red-500">{props.error}</p>}
     </div>
@@ -54,14 +56,14 @@ export const Select = component$<SelectProps>((props: any) => {
   return (
     <div class={twMerge("inline-flex w-full flex-col gap-1 py-2", ...classes)}>
       {props.label && (
-        <label class="text-slate-100">
+        <label class="text-slate-900 dark:text-slate-100">
           {props.label}
           {props.required && <span class="text-red-500">&nbsp;*</span>}
         </label>
       )}
       <select
         {...props}
-        class="block w-full rounded-md bg-slate-950 px-3 py-2 text-slate-200 ring-1 ring-inset ring-slate-800 "
+        class="block w-full rounded-md bg-white px-3 py-2 text-slate-800 ring-1 ring-inset ring-slate-300 dark:bg-slate-950 dark:text-slate-200 dark:ring-slate-800 "
       >
         {props.options.map((e: { label: string; value: string }) => (
           <option

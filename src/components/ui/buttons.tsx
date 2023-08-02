@@ -11,17 +11,17 @@ type ButtonProps = {
 const mergeButtonStyles = (props: any): string => {
   const variants: any = {
     default:
-      "text-black bg-slate-200 hover:bg-slate-400 border border-transparent",
+      "dark:text-black text-white dark:bg-slate-200 bg-slate-800 dark:hover:bg-slate-400 hover:bg-slate-700 border border-transparent",
     outline:
-      "text-slate-200 bg-transparent hover:bg-slate-800 border border-slate-400",
+      "dark:text-slate-200 text-slate-800 bg-transparent dark:hover:bg-slate-800 hover:bg-slate-300 border dark:border-slate-400 border-slate-800",
   };
 
   const colors: any = {
     primary: "",
     danger:
       props.variant === "outline"
-        ? "text-red-500 border-red-500"
-        : "bg-red-500 hover:bg-red-600 text-white",
+        ? "text-red-500 border-red-500 dark:text-red-500 dark:border-red-500"
+        : "bg-red-500 hover:bg-red-600 dark:bg-red-500 dark:hover:bg-red-600 text-white dark:text-white",
   };
 
   const classes = [

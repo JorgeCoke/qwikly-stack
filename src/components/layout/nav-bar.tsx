@@ -12,11 +12,11 @@ export const NavBar = component$(() => {
   const showMobileNavBar = useSignal(false);
 
   return (
-    <header class="z-10 flex w-full flex-col border-b border-white/[.1] bg-slate-950 sm:justify-start md:flex-row">
+    <header class="z-10 flex w-full flex-col border-b border-black/[.1] bg-white dark:border-white/[.1] dark:bg-slate-950 sm:justify-start md:flex-row">
       <nav class="container relative mx-auto  w-full px-4 sm:flex sm:items-center sm:justify-between">
         <div class="flex items-center justify-between">
           <a
-            class="flex w-max items-center gap-2 text-xl font-semibold text-white"
+            class="flex w-max items-center gap-2 text-xl font-semibold text-black dark:text-white"
             href="/"
             aria-label={siteConfig.title}
           >
@@ -43,7 +43,7 @@ export const NavBar = component$(() => {
               <a
                 aria-label={e.title}
                 key={e.href}
-                class=" text-slate-300 hover:text-white"
+                class="text-slate-800 hover:text-black dark:text-slate-300 dark:hover:text-white"
                 href={e.href}
               >
                 {e.title}
@@ -85,7 +85,7 @@ export const NavBar = component$(() => {
           <a
             aria-label={e.title}
             key={e.href}
-            class=" text-slate-300 hover:text-white"
+            class="text-slate-800 hover:text-black dark:text-slate-300 dark:hover:text-white"
             href={e.href}
           >
             {e.title}

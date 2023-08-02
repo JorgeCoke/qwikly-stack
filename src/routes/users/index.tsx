@@ -10,7 +10,7 @@ import LucidePlus from "~/components/icons/lucide-plus";
 import LucideTrash from "~/components/icons/lucide-trash";
 import { AnchorButton, Button } from "~/components/ui/buttons";
 import { Table, TableCell, TableHead, TableRow } from "~/components/ui/table";
-import { H1 } from "~/components/ui/typography";
+import { H1, H5 } from "~/components/ui/typography";
 import { db } from "~/lib/db/kysely";
 import { auth } from "~/lib/lucia-auth";
 import { ToastType, withToast } from "~/lib/toast";
@@ -86,12 +86,23 @@ export default component$(() => {
                       deleteUser.submit({ id: e.id! });
                     }}
                   >
-                    <LucideTrash />
+                    <LucideTrash class="h-3 w-3" />
                   </Button>
                 )}
               </TableCell>
             </TableRow>
           ))}
+          {users.value.length === 0 && (
+            <TableRow>
+              <TableCell>
+                <H5>No users found</H5>
+              </TableCell>
+              <TableCell></TableCell>
+              <TableCell></TableCell>
+              <TableCell></TableCell>
+              <TableCell></TableCell>
+            </TableRow>
+          )}
         </tbody>
       </Table>
     </section>

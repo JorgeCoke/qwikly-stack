@@ -1,5 +1,5 @@
 <p align="center">
-    <img alt="Qwikly Stack Logo" src="src/media/qwik-logo.svg" width="128"/>
+    <img alt="Qwikly Stack Logo" src="public/qwik.svg" width="128"/>
 </p>
 
 # Qwikly Stack ⚡️

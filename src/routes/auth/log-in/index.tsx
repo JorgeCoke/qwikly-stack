@@ -97,10 +97,10 @@ export default component$(() => {
           Log In
         </Button>
       </Form>
-      <p class="mt-8 flex w-full flex-row items-center justify-center border-t border-slate-700 pt-6 text-center text-slate-400">
+      <p class="mt-8 flex w-full flex-row items-center justify-center border-t border-slate-400 pt-6 text-center text-slate-800 dark:border-slate-700 dark:text-slate-400">
         Forgotten your password?
         <a
-          class="px-2 font-medium underline underline-offset-4 hover:text-white"
+          class="px-2 font-medium underline underline-offset-4 hover:text-black dark:hover:text-white"
           href={`/auth/reset-password?email=${LogIn_Form.internal.fields.email?.value}`}
         >
           Click here

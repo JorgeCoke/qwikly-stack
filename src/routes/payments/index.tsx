@@ -220,7 +220,7 @@ export default component$(() => {
           <Card key={e.id} class="p-4">
             <Price product={e} />
             {e.metadata && (
-              <p class="py-4 text-white">
+              <p class="py-4 text-black dark:text-white">
                 {JSON.parse(e.metadata).description}
               </p>
             )}
@@ -246,7 +246,7 @@ export default component$(() => {
           <Card key={e.id} class="p-4">
             <Price product={e} />
             {e.metadata && (
-              <p class="py-4 text-white">
+              <p class="py-4 text-black dark:text-white">
                 {JSON.parse(e.metadata).description}
               </p>
             )}
@@ -277,9 +277,9 @@ export const Price = component$<PriceProps>((props) => {
   const currencySymbol = props.product.currency === "eur" ? "€" : "$";
 
   return (
-    <H3 class="text-white">
+    <H3>
       {props.product.name}
-      <Gradient class="pl-4 font-light">
+      <Gradient class="pl-4 dark:font-light">
         {props.product.amount / 100} {currencySymbol}{" "}
         {props.product.recurring &&
           `/ ${JSON.parse(props.product.recurring).interval}`}

@@ -6,7 +6,7 @@
   "start_url": "/",
   "name": "Qwikly Stack",
   "short_name": "Qwikly Stack",
-  "description": "Delightful, overpowered, beautifully handcrafted full-stack web framework template, built on top of Qwik, seasoned with modern tools",
+  "description": "The qwikest delightful, overpowered, beautifully handcrafted full-stack web framework template, built on top of Qwik, seasoned with modern tools",
   "icons": [
     {
       "src": "/icon-192x192.png",

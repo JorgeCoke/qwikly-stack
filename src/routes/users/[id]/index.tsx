@@ -96,7 +96,7 @@ export default component$(() => {
     <section class="container flex w-96 flex-col items-center py-4">
       <H1 class="flex w-full grow items-center gap-4">
         <AnchorButton href="/users" aria-label="Go back button">
-          <LucideChevronsLeft />
+          <LucideChevronsLeft class="h-4 w-4" />
         </AnchorButton>
         Update user:
       </H1>

@@ -9,7 +9,7 @@ export const Card = component$<CardProps>((props) => {
   return (
     <div
       class={twMerge(
-        " rounded-md border border-white/[.1] bg-slate-950 px-3 py-2",
+        "rounded-md border border-black/[.1] bg-white px-3 py-2 dark:border-white/[.1] dark:bg-slate-950",
         props.class
       )}
     >

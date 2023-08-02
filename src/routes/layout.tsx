@@ -42,9 +42,9 @@ export const useToasts = routeLoader$(async (event) => {
 
 export default component$(() => {
   return (
-    <div class="flex min-h-screen flex-col overflow-x-hidden bg-slate-900">
+    <div class="flex min-h-screen flex-col overflow-x-hidden bg-slate-100 dark:bg-slate-900">
       <NavBar />
-      <main class="flex-1 bg-gradient-to-b from-violet-600/[.15] via-transparent">
+      <main class="flex-1 bg-gradient-to-b from-slate-50 via-transparent dark:from-violet-600/[.15] dark:via-transparent">
         <Slot />
       </main>
       <Footer />

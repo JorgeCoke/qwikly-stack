@@ -2,7 +2,7 @@ import { component$ } from "@builder.io/qwik";
 import { routeAction$, routeLoader$ } from "@builder.io/qwik-city";
 import { AnchorButton, Button } from "~/components/ui/buttons";
 import { Table, TableCell, TableHead, TableRow } from "~/components/ui/table";
-import { Gradient, H1, H2 } from "~/components/ui/typography";
+import { Gradient, H1, H2, H5 } from "~/components/ui/typography";
 import { db } from "~/lib/db/kysely";
 import { StripeEventType } from "~/lib/db/schema";
 import { auth } from "~/lib/lucia-auth";
@@ -95,7 +95,7 @@ export default component$(() => {
         <Gradient class="font-light">{session.value?.user.email}</Gradient>
       </H2>
       <BillingTable />
-      <p class="flex items-center gap-4 text-white">
+      <p class="flex items-center gap-4 text-black dark:text-white">
         Current Subscription:{" "}
         {currentSubscription.value?.type === StripeEventType.SubscriptionUpdated
           ? currentSubscription.value.name
@@ -159,6 +159,16 @@ const BillingTable = component$(() => {
             <TableCell>{e.created_at.toLocaleString()}</TableCell>
           </TableRow>
         ))}
+        {stripeEventsFromSession.value.length === 0 && (
+          <TableRow>
+            <TableCell>
+              <H5>No billing data found</H5>
+            </TableCell>
+            <TableCell></TableCell>
+            <TableCell></TableCell>
+            <TableCell></TableCell>
+          </TableRow>
+        )}
       </tbody>
     </Table>
   );
