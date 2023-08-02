@@ -13,7 +13,7 @@ export const RouterHead = component$(() => {
       <title>Qwikly Stack</title>
       <meta
         name="description"
-        content="Delightful, overpowered, beautifully handcrafted web framework template, built on top of Qwik, seasoned with modern tools."
+        content="Delightful, overpowered, beautifully handcrafted full-stack web framework template, built on top of Qwik, seasoned with modern tools."
       />
       <link rel="canonical" href={loc.url.href} />
       <meta name="viewport" content="width=device-width, initial-scale=1.0" />

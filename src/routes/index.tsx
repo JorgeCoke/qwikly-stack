@@ -261,8 +261,9 @@ export default component$(() => {
 
         <div class="mx-auto max-w-5xl text-center">
           <p class="text-lg text-slate-400">
-            Delightful, overpowered, beautifully handcrafted web framework
-            template, built on top of Qwik, seasoned with modern tools.
+            Delightful, overpowered, beautifully handcrafted full-stack web
+            framework template, built on top of Qwik, seasoned with modern
+            tools.
           </p>
         </div>
 

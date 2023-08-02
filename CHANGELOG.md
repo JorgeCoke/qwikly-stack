@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.0.4](https://github.com/JorgeCoke/super-qwik-template/compare/v0.0.2...v0.0.4) (2023-08-02)
+
+
+### Features
+
+* **cicd:** add github actions ([4ac0509](https://github.com/JorgeCoke/super-qwik-template/commit/4ac0509c8c3778d2846f66a8d0ae0a8253ed4577))
+* **threejs:** add threejs scene ([c0df79a](https://github.com/JorgeCoke/super-qwik-template/commit/c0df79ab4e23b26e95b65ce2fd39fd859b825fa6))
+
 ### [0.0.3](https://github.com/JorgeCoke/super-qwik-template/compare/v0.0.2...v0.0.3) (2023-08-01)
 
 

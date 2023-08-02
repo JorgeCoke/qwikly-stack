@@ -4,7 +4,7 @@
 
 # Qwikly Stack ⚡️
 
-The `qwikest` delightful, overpowered, beautifully handcrafted web framework template, built on top of **Qwik**, seasoned with _modern tools_
+The `qwikest` delightful, overpowered, beautifully handcrafted full-stack web framework template, built on top of **Qwik**, seasoned with _modern tools_
 
 ## What's included?
 
