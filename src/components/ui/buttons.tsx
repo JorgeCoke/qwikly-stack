@@ -14,6 +14,7 @@ const mergeButtonStyles = (props: any): string => {
       "dark:text-black text-white dark:bg-slate-200 bg-slate-800 dark:hover:bg-slate-400 hover:bg-slate-700 border border-transparent",
     outline:
       "dark:text-slate-200 text-slate-800 bg-transparent dark:hover:bg-slate-800 hover:bg-slate-300 border dark:border-slate-400 border-slate-800",
+    ghost: "bg-transparent text-black dark:text-white border-transparent",
   };
 
   const colors: any = {
@@ -25,7 +26,7 @@ const mergeButtonStyles = (props: any): string => {
   };
 
   const classes = [
-    "inline-block rounded-md px-3 py-2 text-sm font-semibold transition-all focus:outline-none focus:ring-2 focus:ring-slate-950 focus:ring-offset-slate-950",
+    "inline-block rounded-md px-3 py-2 text-sm font-semibold transition-all",
   ];
   if (props.disabled) {
     classes.push("opacity-50");

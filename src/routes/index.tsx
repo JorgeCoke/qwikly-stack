@@ -1,4 +1,4 @@
-import { component$ } from "@builder.io/qwik";
+import { component$, useSignal, useVisibleTask$ } from "@builder.io/qwik";
 import type { RequestHandler } from "@builder.io/qwik-city";
 import InstagramIcon from "~/components/icons/instagram-icon";
 import LucideChevronsRight from "~/components/icons/lucide-chevrons-right";
@@ -13,6 +13,15 @@ import { Card } from "~/components/ui/card";
 import { Gradient, H0, H1, H2, H3, H5 } from "~/components/ui/typography";
 
 export default component$(() => {
+  const showThreeJsScene = useSignal<boolean>(false);
+
+  useVisibleTask$(() => {
+    // NOTE: sm screens: https://tailwindcss.com/docs/screens
+    if (window.innerWidth > 640) {
+      showThreeJsScene.value = true;
+    }
+  });
+
   const features = [
     {
       title: "Qwik",
@@ -250,7 +259,7 @@ export default component$(() => {
 
   return (
     <section class="container  py-12">
-      <ThreeJsScene color="#aaa" />
+      {showThreeJsScene.value && <ThreeJsScene color="#aaa" />}
       <div class="relative z-10 mx-auto max-w-[85rem] space-y-10 py-12">
         <QwikLogo class="mx-auto h-24" />
         <div class="mx-auto max-w-3xl text-center">
@@ -259,7 +268,7 @@ export default component$(() => {
           </H0>
         </div>
 
-        <div class="mx-auto max-w-5xl text-center">
+        <div class="mx-auto max-w-3xl text-center">
           <H5>
             The qwikest delightful, overpowered, beautifully handcrafted
             full-stack web framework template, built on top of Qwik, seasoned
@@ -304,7 +313,7 @@ export default component$(() => {
       <div class="flex flex-col py-12">
         <div class="mb-10 max-w-xl sm:text-center md:mx-auto md:mb-12 lg:max-w-2xl">
           <div>
-            <p class="my-6 inline-block rounded-full bg-slate-100 p-4 py-px text-xs font-extrabold ">
+            <p class="my-6 inline-block rounded-full bg-white p-4 py-px text-xs font-extrabold dark:bg-slate-100 ">
               <Gradient>BRAND NEW</Gradient>
             </p>
           </div>
@@ -396,7 +405,7 @@ export default component$(() => {
       </div>
       <div class="mx-auto flex flex-col gap-5 py-12">
         <H5 class=" text-center text-sm">AS SEEN ON</H5>
-        <div class="flex flex-col items-center justify-center gap-4 bg-slate-100 align-middle dark:bg-slate-950 md:flex-row md:gap-8">
+        <div class="flex flex-col items-center justify-center gap-4 bg-slate-50 align-middle dark:bg-slate-950 md:flex-row md:gap-8">
           <InstagramIcon class="h-20 w-36 fill-black dark:fill-white md:h-24" />
           <TikTokIcon class="h-20 w-36 fill-black dark:fill-white md:h-24" />
           <YoutubeIcon class="h-20 w-36 fill-black dark:fill-white md:h-24" />

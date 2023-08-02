@@ -6,6 +6,7 @@ import LucideMenu from "../icons/lucide-menu";
 import LucideUser from "../icons/lucide-user";
 import LucideZap from "../icons/lucide-zap";
 import { AnchorButton, Button } from "../ui/buttons";
+import { ThemeSwitch } from "./theme-switch";
 
 export const NavBar = component$(() => {
   const session = useSession();
@@ -49,29 +50,32 @@ export const NavBar = component$(() => {
                 {e.title}
               </a>
             ))}
-            {!session.value && (
-              <>
+            <div class="flex gap-3">
+              {!session.value && (
+                <>
+                  <AnchorButton
+                    variant="outline"
+                    href="/auth/log-in"
+                    aria-label="LogIn button"
+                  >
+                    Log In
+                  </AnchorButton>
+                  <AnchorButton href="/auth/sign-up" aria-label="SignUp button">
+                    Sign Up
+                  </AnchorButton>
+                </>
+              )}
+              {session.value && (
                 <AnchorButton
-                  variant="outline"
-                  href="/auth/log-in"
-                  aria-label="LogIn button"
+                  href="/auth/profile"
+                  class="flex items-center gap-2"
+                  aria-label="Profile button"
                 >
-                  Log In
+                  <LucideUser class="h-4 w-4" /> Profile
                 </AnchorButton>
-                <AnchorButton href="/auth/sign-up" aria-label="SignUp button">
-                  Sign Up
-                </AnchorButton>
-              </>
-            )}
-            {session.value && (
-              <AnchorButton
-                href="/auth/profile"
-                class="flex items-center gap-2"
-                aria-label="Profile button"
-              >
-                <LucideUser class="h-4 w-4" /> Profile
-              </AnchorButton>
-            )}
+              )}
+              <ThemeSwitch />
+            </div>
           </div>
         </div>
       </nav>
@@ -114,6 +118,7 @@ export const NavBar = component$(() => {
             <LucideUser class="h-4 w-4" /> Profile
           </AnchorButton>
         )}
+        <ThemeSwitch />
       </div>
     </header>
   );

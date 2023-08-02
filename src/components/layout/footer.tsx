@@ -1,6 +1,7 @@
 import { component$ } from "@builder.io/qwik";
 import { siteConfig } from "~/lib/site.config";
 import GithubIcon from "../icons/github-icon";
+import { ThemeSwitch } from "./theme-switch";
 
 export const Footer = component$(() => {
   const links = [
@@ -32,21 +33,24 @@ export const Footer = component$(() => {
           </a>
         </p>
 
-        <div class="space-x-2">
-          {links.map((e) => (
-            <a
-              aria-label="Github link"
-              key={e.href}
-              href={e.href}
-              class="inline-flex h-10 w-10 items-center justify-center rounded-full  text-center text-slate-400 transition hover:bg-slate-300 hover:text-slate-700 focus:outline-none focus:ring-2 focus:ring-slate-600 focus:ring-offset-2 focus:ring-offset-white dark:hover:bg-slate-800 dark:hover:text-slate-200"
-            >
-              {e.icon}
-            </a>
-          ))}
+        <div class="flex items-center justify-between">
+          <ThemeSwitch />
+          <div class="space-x-2">
+            {links.map((e) => (
+              <a
+                aria-label="Github link"
+                key={e.href}
+                href={e.href}
+                class="inline-flex h-10 w-10 items-center justify-center rounded-full  text-center text-slate-400 transition hover:bg-slate-300 hover:text-slate-700 focus:outline-none focus:ring-2 focus:ring-slate-600 focus:ring-offset-2 focus:ring-offset-white dark:hover:bg-slate-800 dark:hover:text-slate-200"
+              >
+                {e.icon}
+              </a>
+            ))}
+          </div>
+          <p class="text-xs text-black opacity-20 dark:text-white">
+            v{process.env.npm_package_version}
+          </p>
         </div>
-        <p class="absolute right-2 text-xs text-black opacity-20 dark:text-white">
-          v{process.env.npm_package_version}
-        </p>
       </div>
     </footer>
   );

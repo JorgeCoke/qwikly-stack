@@ -130,7 +130,7 @@ export const ThreeJsScene = component$<ThreeJsSceneProps>((props) => {
     function onWindowResize() {
       camera.aspect = window.innerWidth / window.innerHeight;
       camera.updateProjectionMatrix();
-      renderer.setSize(window.innerWidth, window.innerHeight - 115);
+      renderer.setSize(window.innerWidth, window.innerHeight - 100);
     }
     window.addEventListener("resize", onWindowResize);
     onWindowResize();
