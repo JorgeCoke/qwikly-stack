@@ -1,7 +1,9 @@
 import type Stripe from "stripe";
+import { signJwt } from "~/lib/crypto";
 import { db } from "~/lib/db/kysely";
 import { StripeEventType, UserRole } from "~/lib/db/schema";
 import { CREDENTIALS_PROVIDER_ID, auth } from "~/lib/lucia-auth";
+import { sendSetPasswordEmail } from "~/lib/mail/mailer";
 import { stripe } from "~/lib/stripe";
 
 async function getProductAndUser(priceId: string, customerId: string) {
@@ -69,6 +71,11 @@ export const webhookHandler = async (stripeEvent: Stripe.Event) => {
             .selectAll()
             .where("user.email", "is", customerEmail)
             .executeTakeFirst();
+          const token = await signJwt({ customerEmail }, 24 * 60 * 60);
+          sendSetPasswordEmail(
+            { to: customerEmail },
+            { url: `${process.env.ORIGIN}auth/set-password?token=${token}` }
+          );
         }
         if (!user) {
           throw new Error("user not found or could not be created");
