@@ -1,0 +1,9 @@
+# Block all crawlers for /auth/profile/ , /auth/log-out/ and /users/
+User-agent: *
+Disallow: /auth/profile/
+Disallow: /auth/log-out/
+Disallow: /users/
+
+# Allow all crawlers
+User-agent: *
+Allow: /

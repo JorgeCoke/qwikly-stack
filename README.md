@@ -30,7 +30,7 @@ The `qwikest` delightful, overpowered, beautifully handcrafted full-stack web fr
 
 - Authentication flow: SignUp + LogIn + Profile + LogOut + ResetPassword
 - Payments: One time payment + Recurring Subscription payment + Billing Info Page
-- Admin dashboard: including a "C.R.U.D Users" table
+- Admin dashboard: including "C.R.U.D Users" table
 - Terms and conditions (MDX example)
 
 ### Set up
@@ -75,6 +75,13 @@ npm run fmt       // Run Prettier
 ```
 git add .          // Add files
 npm run cz         // Commit with commitizen
+```
+
+### Release a new version
+
+```
+npm run release                     // Create a new bump version
+git push --follow-tags origin main  // Push the new version tag and trigger Github deployment action
 ```
 
 ### Check vulnerabilities

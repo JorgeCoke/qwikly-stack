@@ -4,13 +4,13 @@ import InstagramIcon from "~/components/icons/instagram-icon";
 import LucideChevronsRight from "~/components/icons/lucide-chevrons-right";
 import LucideStar from "~/components/icons/lucide-star";
 import LucideStarHalf from "~/components/icons/lucide-star-half";
+import QwikLogo from "~/components/icons/qwik-logo";
 import TikTokIcon from "~/components/icons/tiktok-icon";
 import YoutubeIcon from "~/components/icons/youtube-icon";
 import { ThreeJsScene } from "~/components/layout/threejs-scene";
 import { AnchorButton } from "~/components/ui/buttons";
 import { Card } from "~/components/ui/card";
 import { Gradient, H0, H1, H2, H3, H5 } from "~/components/ui/typography";
-import ImgQwikLogo from "~/media/qwik-logo.svg?jsx";
 
 export default component$(() => {
   const features = [
@@ -252,7 +252,7 @@ export default component$(() => {
     <section class="container  py-12">
       <ThreeJsScene />
       <div class="relative z-10 mx-auto max-w-[85rem] space-y-10 py-12">
-        <ImgQwikLogo class="mx-auto h-24" />
+        <QwikLogo class="mx-auto h-24" />
         <div class="mx-auto max-w-3xl text-center">
           <H0>
             Now it's easier than ever to <Gradient>build products</Gradient>
@@ -262,8 +262,7 @@ export default component$(() => {
         <div class="mx-auto max-w-5xl text-center">
           <p class="text-lg text-slate-400">
             Delightful, overpowered, beautifully handcrafted full-stack web
-            framework template, built on top of Qwik, seasoned with modern
-            tools.
+            framework template, built on top of Qwik, seasoned with modern tools
           </p>
         </div>
 
