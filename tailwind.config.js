@@ -7,6 +7,7 @@ module.exports = {
       padding: "1rem",
     },
     extend: {},
+    keyframes: {}
   },
-  plugins: [],
+  plugins: [require("tailwindcss-animate")],
 };

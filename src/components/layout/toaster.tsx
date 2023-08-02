@@ -12,7 +12,7 @@ export const Toaster = component$(() => {
 
   return (toasts.value.success || toasts.value.error || toasts.value.info) &&
     shown.value ? (
-    <div class="absolute left-0 top-8 w-full">
+    <div class="absolute left-0 top-8 z-20 w-full">
       <div class="mx-auto w-full rounded-md border border-slate-500 bg-slate-100 shadow-lg md:w-2/3 xl:w-1/2">
         <div class="flex items-center justify-between p-4">
           <span class="flex items-center text-slate-950">

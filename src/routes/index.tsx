@@ -6,6 +6,7 @@ import LucideStar from "~/components/icons/lucide-star";
 import LucideStarHalf from "~/components/icons/lucide-star-half";
 import TikTokIcon from "~/components/icons/tiktok-icon";
 import YoutubeIcon from "~/components/icons/youtube-icon";
+import { ThreeJsScene } from "~/components/layout/threejs-scene";
 import { AnchorButton } from "~/components/ui/buttons";
 import { Card } from "~/components/ui/card";
 import { Gradient, H0, H1, H2, H3, H5 } from "~/components/ui/typography";
@@ -176,7 +177,7 @@ export default component$(() => {
     },
     {
       title: "Fully customizable",
-      body: <>Feel free to add/remove whatever technology you want.</>,
+      body: <>Feel free to add/remove whatever technology you want</>,
     },
   ];
 
@@ -249,7 +250,8 @@ export default component$(() => {
 
   return (
     <section class="container  py-12">
-      <div class="mx-auto max-w-[85rem] space-y-10 py-12">
+      <ThreeJsScene />
+      <div class="relative z-10 mx-auto max-w-[85rem] space-y-10 py-12">
         <ImgQwikLogo class="mx-auto h-24" />
         <div class="mx-auto max-w-3xl text-center">
           <H0>

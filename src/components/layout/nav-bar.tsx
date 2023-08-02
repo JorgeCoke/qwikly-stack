@@ -12,7 +12,7 @@ export const NavBar = component$(() => {
   const showMobileNavBar = useSignal(false);
 
   return (
-    <header class="flex w-full flex-col border-b border-white/[.1] bg-slate-950 sm:justify-start md:flex-row">
+    <header class="z-10 flex w-full flex-col border-b border-white/[.1] bg-slate-950 sm:justify-start md:flex-row">
       <nav class="container relative mx-auto  w-full px-4 sm:flex sm:items-center sm:justify-between">
         <div class="flex items-center justify-between">
           <a
