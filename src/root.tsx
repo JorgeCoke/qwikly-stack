@@ -24,10 +24,7 @@ export default component$(() => {
         <title>{siteConfig.title}</title>
         <meta name="description" content={siteConfig.description} />
         <meta name="application-name" content={siteConfig.title} />
-        <meta
-          name="viewport"
-          content="width=device-width, initial-scale=1.0, maximum-scale=1.0"
-        />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <meta
           name="keywords"
           content="qwikly stack, qwik, qwikly, template, stack, framework, fullstack, kysely, lucia auth, github"

@@ -47,7 +47,7 @@ export const Footer = component$(() => {
               </a>
             ))}
           </div>
-          <p class="text-xs text-black opacity-20 dark:text-white">
+          <p class="text-xs text-black opacity-50 dark:text-white">
             v{process.env.npm_package_version}
           </p>
         </div>

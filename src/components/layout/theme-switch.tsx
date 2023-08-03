@@ -7,7 +7,11 @@ export const ThemeSwitch = component$(() => {
   const themeSwich = useThemeSwich();
 
   return (
-    <Button onClick$={() => themeSwich.submit()} variant="ghost">
+    <Button
+      onClick$={() => themeSwich.submit()}
+      variant="ghost"
+      aria-label="Theme switcher"
+    >
       <LucideSunmoon class="h-4 w-4" />
     </Button>
   );
