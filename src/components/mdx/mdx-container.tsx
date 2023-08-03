@@ -1,10 +1,12 @@
-import { Slot, component$ } from "@builder.io/qwik";
+import { Slot, component$, useStyles$ } from "@builder.io/qwik";
+import styles from "./styles.css?inline";
 
-// TODO: Styles are not working
 export const MdxContainer = component$(() => {
+  useStyles$(styles);
+
   return (
-    <section class="container text-black dark:text-white">
+    <article class="container py-12 text-black dark:text-white">
       <Slot />
-    </section>
+    </article>
   );
 });
