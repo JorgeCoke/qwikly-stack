@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.0.5](https://github.com/JorgeCoke/super-qwik-template/compare/v0.0.4...v0.0.5) (2023-08-03)
+
+
+### Features
+
+* **chore:** improve SEO ([c498740](https://github.com/JorgeCoke/super-qwik-template/commit/c498740de19e89bd5d37e8a1a5c54615dd518a25))
+* **ui:** add light-dark mode ([1e1c93b](https://github.com/JorgeCoke/super-qwik-template/commit/1e1c93b10716d87323da42524987ac8fa0b7ad58))
+* **ui:** add light-dark theme toggle ([0310ffb](https://github.com/JorgeCoke/super-qwik-template/commit/0310ffb50dd482fa2fa3555bc800440359928fa7))
+* **ui:** close toast automatically + add version in footer section ([7ee5723](https://github.com/JorgeCoke/super-qwik-template/commit/7ee572389877cca3590e5fc0151ec4b46a119cd3))
+
 ### [0.0.4](https://github.com/JorgeCoke/super-qwik-template/compare/v0.0.2...v0.0.4) (2023-08-02)
 
 
