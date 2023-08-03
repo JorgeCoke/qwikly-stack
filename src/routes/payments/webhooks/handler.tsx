@@ -71,7 +71,7 @@ export const webhookHandler = async (stripeEvent: Stripe.Event) => {
             .selectAll()
             .where("user.email", "is", customerEmail)
             .executeTakeFirst();
-          const token = await signJwt({ customerEmail }, 24 * 60 * 60);
+          const token = await signJwt({ email: customerEmail }, 24 * 60 * 60);
           sendSetPasswordEmail(
             { to: customerEmail },
             { url: `${process.env.ORIGIN}auth/set-password?token=${token}` }

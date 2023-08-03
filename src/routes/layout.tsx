@@ -27,8 +27,8 @@ export const useSendSetPasswordEmail = globalAction$(async (input, event) => {
 }, zod$({ email: z.string().email().nullable() }));
 
 export const useThemeSwich = globalAction$(async (input, event) => {
-  const theme = event.cookie.get("theme")?.value || "dark";
-  event.cookie.set("theme", theme === "dark" ? "light" : "dark", {
+  const theme = event.cookie.get("theme")?.value || "light";
+  event.cookie.set("theme", theme === "light" ? "dark" : "light", {
     path: "/",
     sameSite: "strict",
     maxAge: 30 * 24 * 60 * 60,
@@ -51,7 +51,15 @@ export const useToasts = routeLoader$(async (event) => {
 });
 
 export const useTheme = routeLoader$(async (event) => {
-  const theme = event.cookie.get("theme")?.value || "dark";
+  if (!event.cookie.get("theme")?.value) {
+    event.cookie.set("theme", "light", {
+      path: "/",
+      sameSite: "strict",
+      maxAge: 30 * 24 * 60 * 60,
+      secure: true,
+    });
+  }
+  const theme = event.cookie.get("theme")?.value || "light";
   return theme as "light" | "dark";
 });
 
@@ -59,7 +67,7 @@ export default component$(() => {
   const theme = useTheme();
 
   return (
-    <div class={theme}>
+    <div class={theme.value}>
       <div class="flex min-h-screen flex-col overflow-x-hidden bg-slate-100 dark:bg-slate-900">
         <NavBar />
         <main class="flex-1 bg-gradient-to-b from-slate-50 via-transparent dark:from-violet-600/[.15] dark:via-transparent">

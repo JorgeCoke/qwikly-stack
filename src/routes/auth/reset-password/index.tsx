@@ -1,5 +1,5 @@
 import { component$ } from "@builder.io/qwik";
-import { routeLoader$, useNavigate, z } from "@builder.io/qwik-city";
+import { routeLoader$, z } from "@builder.io/qwik-city";
 import type { InitialValues } from "@modular-forms/qwik";
 import { useForm, zodForm$ } from "@modular-forms/qwik";
 import LucideKeySquare from "~/components/icons/lucide-key-square";
@@ -21,7 +21,6 @@ export const useResetPassword_FormLoader = routeLoader$<
 
 export default component$(() => {
   const sendSetPasswordEmail = useSendSetPasswordEmail();
-  const nav = useNavigate();
 
   const [ResetPassword_Form, { Form, Field }] = useForm<ResetPassword_Type>({
     loader: useResetPassword_FormLoader(),
@@ -34,7 +33,6 @@ export default component$(() => {
       <Form
         onSubmit$={async (input) => {
           await sendSetPasswordEmail.submit({ email: input.email });
-          await nav("/auth/log-in");
         }}
       >
         <Field name="email">

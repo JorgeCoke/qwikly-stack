@@ -12,7 +12,7 @@ export const Toaster = component$(() => {
   useVisibleTask$(() => {
     const timeoutId = setTimeout(() => {
       shown.value = false;
-    }, 3000);
+    }, 5000);
     return () => {
       clearTimeout(timeoutId);
     };
