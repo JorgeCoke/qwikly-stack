@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.0.6](https://github.com/JorgeCoke/super-qwik-template/compare/v0.0.5...v0.0.6) (2023-08-03)
+
+
+### Bug Fixes
+
+* **a11y:** contrast ratio + maximum viewport scale ([62a2b08](https://github.com/JorgeCoke/super-qwik-template/commit/62a2b08666f5cbaad52aa60f9cab5bcba0399dd5))
+* **ui:** mdx styles ([d7284e8](https://github.com/JorgeCoke/super-qwik-template/commit/d7284e829598c0d6177bf68cb1383e9d2b3358db))
+
 ### [0.0.5](https://github.com/JorgeCoke/super-qwik-template/compare/v0.0.4...v0.0.5) (2023-08-03)
 
 
