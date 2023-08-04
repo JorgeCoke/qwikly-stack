@@ -2,12 +2,13 @@ import { component$ } from "@builder.io/qwik";
 import { routeAction$, routeLoader$, z, zod$ } from "@builder.io/qwik-city";
 import type { InitialValues } from "@modular-forms/qwik";
 import { formAction$, useForm, zodForm$ } from "@modular-forms/qwik";
+import { eq } from "drizzle-orm";
 import LucideChevronsLeft from "~/components/icons/lucide-chevrons-left";
 import { AnchorButton, Button } from "~/components/ui/buttons";
 import { Input, Select } from "~/components/ui/form";
 import { H1 } from "~/components/ui/typography";
-import { db } from "~/lib/db/kysely";
-import { UserRole } from "~/lib/db/schema";
+import { db } from "~/lib/db/drizzle";
+import { UserRole, users } from "~/lib/db/schema";
 import { CREDENTIALS_PROVIDER_ID, auth } from "~/lib/lucia-auth";
 import { ToastType, withToast } from "~/lib/toast";
 
@@ -24,10 +25,11 @@ export const useUpdateUser_FormLoader = routeLoader$<
   InitialValues<UpdateUser_Type>
 >(async (req) => {
   const user = await db
-    .selectFrom("user")
-    .where("user.id", "is", req.params.id)
-    .selectAll()
-    .executeTakeFirstOrThrow();
+    .select()
+    .from(users)
+    .where(eq(users.id, req.params.id))
+    .get();
+
   return {
     id: user.id,
     email: user.email,
@@ -61,16 +63,12 @@ export const useUpdateUser_FormAction = formAction$<UpdateUser_Type>(
     if (!session) {
       throw event.redirect(302, "/401");
     }
-    await db
-      .updateTable("user")
-      .where("user.id", "is", input.id)
-      .set({ name: input.name, role: input.role })
-      .executeTakeFirstOrThrow();
+    await db.update(users).set({ name: input.name, role: input.role }).run();
     const userEmail = await db
-      .selectFrom("user")
-      .where("user.id", "is", input.id)
-      .select(["user.email"])
-      .executeTakeFirstOrThrow();
+      .select()
+      .from(users)
+      .where(eq(users.id, input.id))
+      .get();
     if (input.password) {
       await auth.updateKeyPassword(
         CREDENTIALS_PROVIDER_ID,

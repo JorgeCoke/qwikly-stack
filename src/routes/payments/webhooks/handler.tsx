@@ -1,17 +1,24 @@
+import { eq } from "drizzle-orm";
 import type Stripe from "stripe";
 import { signJwt } from "~/lib/crypto";
-import { db } from "~/lib/db/kysely";
-import { StripeEventType, UserRole } from "~/lib/db/schema";
+import { db } from "~/lib/db/drizzle";
+import {
+  StripeEventType,
+  UserRole,
+  stripeEvents,
+  stripeProducts,
+  users,
+} from "~/lib/db/schema";
 import { CREDENTIALS_PROVIDER_ID, auth } from "~/lib/lucia-auth";
 import { sendSetPasswordEmail } from "~/lib/mail/mailer";
 import { stripe } from "~/lib/stripe";
 
 async function getProductAndUser(priceId: string, customerId: string) {
   const product = await db
-    .selectFrom("stripe_product")
-    .selectAll()
-    .where("price_id", "is", priceId)
-    .executeTakeFirst();
+    .select()
+    .from(stripeProducts)
+    .where(eq(stripeProducts.priceId, priceId))
+    .get();
   if (!product) {
     throw new Error("product not found");
   }
@@ -22,10 +29,10 @@ async function getProductAndUser(priceId: string, customerId: string) {
     throw new Error("customer not found");
   }
   const user = await db
-    .selectFrom("user")
-    .selectAll()
-    .where("email", "is", customer.email)
-    .executeTakeFirst();
+    .select()
+    .from(users)
+    .where(eq(users.email, customer.email))
+    .get();
   if (!user) {
     throw new Error("user not found");
   }
@@ -49,10 +56,11 @@ export const webhookHandler = async (stripeEvent: Stripe.Event) => {
         }
 
         let user = await db
-          .selectFrom("user")
-          .selectAll()
-          .where("user.email", "is", customerEmail)
-          .executeTakeFirst();
+          .select()
+          .from(users)
+          .where(eq(users.email, customerEmail))
+          .get();
+
         if (!user) {
           await auth.createUser({
             key: {
@@ -67,10 +75,10 @@ export const webhookHandler = async (stripeEvent: Stripe.Event) => {
             },
           });
           user = await db
-            .selectFrom("user")
-            .selectAll()
-            .where("user.email", "is", customerEmail)
-            .executeTakeFirst();
+            .select()
+            .from(users)
+            .where(eq(users.email, customerEmail))
+            .get();
           const token = await signJwt({ email: customerEmail }, 24 * 60 * 60);
           sendSetPasswordEmail(
             { to: customerEmail },
@@ -95,25 +103,25 @@ export const webhookHandler = async (stripeEvent: Stripe.Event) => {
           throw new Error("line_item price not found");
         }
         const product = await db
-          .selectFrom("stripe_product")
-          .selectAll()
-          .where("price_id", "is", item.price.id)
-          .executeTakeFirst();
+          .select()
+          .from(stripeProducts)
+          .where(eq(stripeProducts.priceId, item.price.id))
+          .get();
         if (!product) {
           throw new Error("product not found");
         }
 
         await db
-          .insertInto("stripe_event")
+          .insert(stripeEvents)
           .values({
             id: session.id,
             type: session.subscription
               ? StripeEventType.CheckoutSubscription
               : StripeEventType.CheckoutProduct,
-            stripe_product_id: product.id,
-            user_id: user.id,
+            stripeProductId: product.id,
+            userId: user.id,
           })
-          .execute();
+          .run();
       }
 
       break;
@@ -129,14 +137,14 @@ export const webhookHandler = async (stripeEvent: Stripe.Event) => {
             customerId
           );
           await db
-            .insertInto("stripe_event")
+            .insert(stripeEvents)
             .values({
               id: subscriptionUpdated.id,
               type: StripeEventType.SubscriptionUpdated,
-              stripe_product_id: product.id,
-              user_id: user.id,
+              stripeProductId: product.id,
+              userId: user.id,
             })
-            .execute();
+            .run();
         } catch (err: any) {
           throw new Error(err?.message || "Internal server error");
         }
@@ -150,14 +158,14 @@ export const webhookHandler = async (stripeEvent: Stripe.Event) => {
       try {
         const { product, user } = await getProductAndUser(priceId, customerId);
         await db
-          .insertInto("stripe_event")
+          .insert(stripeEvents)
           .values({
             id: `${subscriptionDeleted.id}_DELETED`,
             type: StripeEventType.SubscriptionDeleted,
-            stripe_product_id: product.id,
-            user_id: user.id,
+            stripeProductId: product.id,
+            userId: user.id,
           })
-          .execute();
+          .run();
       } catch (err: any) {
         throw new Error(err?.message || "Internal server error");
       }

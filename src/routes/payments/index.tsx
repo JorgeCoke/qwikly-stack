@@ -6,13 +6,18 @@ import {
   z,
   zod$,
 } from "@builder.io/qwik-city";
+import { desc, eq, inArray, isNotNull, isNull } from "drizzle-orm";
 import type Stripe from "stripe";
 import { Button } from "~/components/ui/buttons";
 import { Card } from "~/components/ui/card";
 import { Gradient, H0, H1, H2, H3 } from "~/components/ui/typography";
-import { db } from "~/lib/db/kysely";
-import type { StripeProduct } from "~/lib/db/schema";
-import { StripeEventType } from "~/lib/db/schema";
+import { db } from "~/lib/db/drizzle";
+import {
+  StripeEventType,
+  StripeProduct,
+  stripeEvents,
+  stripeProducts,
+} from "~/lib/db/schema";
 import { auth } from "~/lib/lucia-auth";
 import { stripe } from "~/lib/stripe";
 import { ToastType, withToast } from "~/lib/toast";
@@ -46,31 +51,38 @@ export const useProducts = routeLoader$(async () => {
   // end TODO:
   for (const productPriceFromStripe of productPricesFromStripe) {
     const product = await db
-      .selectFrom("stripe_product")
-      .selectAll()
-      .where("id", "is", (productPriceFromStripe.product as Stripe.Product).id)
-      .executeTakeFirst();
+      .select()
+      .from(stripeProducts)
+      .where(
+        eq(
+          stripeProducts.id,
+          (productPriceFromStripe.product as Stripe.Product).id
+        )
+      )
+      .get();
+    // TODO:
     if (!product) {
       await db
-        .insertInto("stripe_product")
+        .insert(stripeProducts)
         .values({
           id: (productPriceFromStripe.product as Stripe.Product).id,
           amount: productPriceFromStripe.unit_amount || 99999,
           currency: productPriceFromStripe.currency,
-          price_id: productPriceFromStripe.id,
+          priceId: productPriceFromStripe.id,
           name: (productPriceFromStripe.product as Stripe.Product).name,
-          metadata: JSON.stringify(
-            (productPriceFromStripe.product as Stripe.Product).metadata
-          ),
+          metadata: {
+            description: (productPriceFromStripe.product as Stripe.Product)
+              .metadata.description,
+          },
         })
-        .execute();
+        .run();
     }
   }
   return await db
-    .selectFrom("stripe_product")
-    .selectAll()
-    .where("recurring", "is", null)
-    .execute();
+    .select()
+    .from(stripeProducts)
+    .where(isNull(stripeProducts.recurring))
+    .all();
 });
 
 export const useSubscriptions = routeLoader$(async () => {
@@ -105,36 +117,43 @@ export const useSubscriptions = routeLoader$(async () => {
   // end TODO:
   for (const subscriptionPriceFromStripe of subscriptionPricesFromStripe) {
     const subscription = await db
-      .selectFrom("stripe_product")
-      .selectAll()
+      .select()
+      .from(stripeProducts)
       .where(
-        "id",
-        "is",
-        (subscriptionPriceFromStripe.product as Stripe.Product).id
+        eq(
+          stripeProducts.id,
+          (subscriptionPriceFromStripe.product as Stripe.Product).id
+        )
       )
-      .executeTakeFirst();
+      .get();
     if (!subscription) {
       await db
-        .insertInto("stripe_product")
+        .insert(stripeProducts)
         .values({
           id: (subscriptionPriceFromStripe.product as Stripe.Product).id,
           amount: subscriptionPriceFromStripe.unit_amount || 99999,
           currency: subscriptionPriceFromStripe.currency,
-          price_id: subscriptionPriceFromStripe.id,
+          priceId: subscriptionPriceFromStripe.id,
           name: (subscriptionPriceFromStripe.product as Stripe.Product).name,
-          metadata: JSON.stringify(
-            (subscriptionPriceFromStripe.product as Stripe.Product).metadata
-          ),
-          recurring: JSON.stringify(subscriptionPriceFromStripe.recurring),
+          metadata: {
+            description: (subscriptionPriceFromStripe.product as Stripe.Product)
+              .metadata.description,
+          },
+          recurring: subscriptionPriceFromStripe.recurring
+            ? {
+                interval: subscriptionPriceFromStripe.recurring.interval,
+              }
+            : undefined,
         })
-        .execute();
+        .run();
     }
   }
+
   return await db
-    .selectFrom("stripe_product")
-    .selectAll()
-    .where("recurring", "is not", null)
-    .execute();
+    .select()
+    .from(stripeProducts)
+    .where(isNotNull(stripeProducts.recurring))
+    .all();
 });
 
 export const useBuyProduct = routeAction$(
@@ -153,17 +172,20 @@ export const useBuyProduct = routeAction$(
     // If it is a subscription, check if user has any other subscription first
     if (price.type === "recurring" && session?.user) {
       const currentSubscription = await db
-        .selectFrom("stripe_event")
-        .selectAll()
-        .where("stripe_event.user_id", "is", session.user.userId)
-        .where("type", "in", [
-          StripeEventType.SubscriptionDeleted,
-          StripeEventType.SubscriptionUpdated,
-        ])
-        .orderBy("stripe_event.created_at", "desc")
-        .executeTakeFirst();
+        .select()
+        .from(stripeEvents)
+        .where(eq(stripeEvents.userId, session.user.userId))
+        .where(
+          inArray(stripeEvents.type, [
+            StripeEventType.SubscriptionDeleted,
+            StripeEventType.SubscriptionUpdated,
+          ])
+        )
+        .orderBy(desc(stripeEvents.createdAt))
+        .get();
       if (
         currentSubscription &&
+        currentSubscription.id &&
         currentSubscription.type === StripeEventType.SubscriptionUpdated
       ) {
         withToast(
@@ -221,14 +243,14 @@ export default component$(() => {
             <Price product={e} />
             {e.metadata && (
               <p class="py-4 text-black dark:text-white">
-                {JSON.parse(e.metadata).description}
+                {e.metadata.description}
               </p>
             )}
             <Button
               aria-label="Buy button"
               onClick$={() =>
                 buyProduct
-                  .submit({ priceId: e.price_id })
+                  .submit({ priceId: e.priceId })
                   .then((res) => nav(res.value.url))
                   .catch((err) => {
                     alert(err);
@@ -247,14 +269,14 @@ export default component$(() => {
             <Price product={e} />
             {e.metadata && (
               <p class="py-4 text-black dark:text-white">
-                {JSON.parse(e.metadata).description}
+                {e.metadata.description}
               </p>
             )}
             <Button
               aria-label="Buy button"
               onClick$={() =>
                 buyProduct
-                  .submit({ priceId: e.price_id })
+                  .submit({ priceId: e.priceId })
                   .then((res) => nav(res.value.url))
                   .catch((err) => {
                     alert(err);
@@ -281,8 +303,7 @@ export const Price = component$<PriceProps>((props) => {
       {props.product.name}
       <Gradient class="pl-4 dark:font-light">
         {props.product.amount / 100} {currencySymbol}{" "}
-        {props.product.recurring &&
-          `/ ${JSON.parse(props.product.recurring).interval}`}
+        {props.product.recurring && `/ ${props.product.recurring.interval}`}
       </Gradient>
     </H3>
   );

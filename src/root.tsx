@@ -27,7 +27,7 @@ export default component$(() => {
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <meta
           name="keywords"
-          content="qwikly stack, qwik, qwikly, template, stack, framework, fullstack, kysely, lucia auth, github"
+          content="qwikly stack, qwik, qwikly, template, stack, framework, fullstack, drizzleorm, lucia auth, github"
         />
         <meta name="robots" content="index, follow" />
         <link rel="icon" type="image/svg+xml" href="/favicon.svg" />

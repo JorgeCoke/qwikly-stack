@@ -2,11 +2,13 @@ import { component$ } from "@builder.io/qwik";
 import { routeLoader$, z } from "@builder.io/qwik-city";
 import type { InitialValues } from "@modular-forms/qwik";
 import { FormError, formAction$, useForm, zodForm$ } from "@modular-forms/qwik";
+import { eq } from "drizzle-orm";
 import { Button } from "~/components/ui/buttons";
 import { Input } from "~/components/ui/form";
 import { H1 } from "~/components/ui/typography";
 import { verifyJwt } from "~/lib/crypto";
-import { db } from "~/lib/db/kysely";
+import { db } from "~/lib/db/drizzle";
+import { users } from "~/lib/db/schema";
 import { CREDENTIALS_PROVIDER_ID, auth } from "~/lib/lucia-auth";
 import { ToastType, withToast } from "~/lib/toast";
 
@@ -46,11 +48,12 @@ export const useSetPassword_FormAction = formAction$<SetPassword_Type>(
       });
     }
     const user = await db
-      .selectFrom("user")
-      .selectAll()
-      .where("email", "is", input.email)
-      .executeTakeFirst();
-    if (!user) {
+      .select()
+      .from(users)
+      .where(eq(users.email, input.email))
+      .get();
+    // TODO:
+    if (!user.id) {
       throw new FormError<SetPassword_Type>({
         email: "This email is not found in our database",
       });

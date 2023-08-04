@@ -68,13 +68,13 @@ export default component$(() => {
           </a>
           . Typesafe database querying using{" "}
           <a
-            aria-label="Kysely homepage"
-            href="https://kysely.dev/"
+            aria-label="DrizzleORM homepage"
+            href="https://orm.drizzle.team/"
             target="_blank"
             rel="noreferrer"
             class="font-medium underline underline-offset-4"
           >
-            <Gradient>Kysely</Gradient>
+            <Gradient>DrizzleORM</Gradient>
           </a>
         </>
       ),

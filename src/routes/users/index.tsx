@@ -11,13 +11,14 @@ import LucideTrash from "~/components/icons/lucide-trash";
 import { AnchorButton, Button } from "~/components/ui/buttons";
 import { Table, TableCell, TableHead, TableRow } from "~/components/ui/table";
 import { H1, H5 } from "~/components/ui/typography";
-import { db } from "~/lib/db/kysely";
+import { db } from "~/lib/db/drizzle";
+import { users } from "~/lib/db/schema";
 import { auth } from "~/lib/lucia-auth";
 import { ToastType, withToast } from "~/lib/toast";
 import { useSession } from "../layout";
 
 export const useUsers = routeLoader$(async () => {
-  return await db.selectFrom("user").selectAll().execute();
+  return await db.select().from(users).all();
 });
 
 export const useDeleteUser = routeAction$(

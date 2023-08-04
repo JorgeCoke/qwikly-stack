@@ -1,10 +1,11 @@
 import { component$ } from "@builder.io/qwik";
 import { routeAction$, routeLoader$ } from "@builder.io/qwik-city";
+import { desc, eq, inArray } from "drizzle-orm";
 import { AnchorButton, Button } from "~/components/ui/buttons";
 import { Table, TableCell, TableHead, TableRow } from "~/components/ui/table";
 import { Gradient, H1, H2, H5 } from "~/components/ui/typography";
-import { db } from "~/lib/db/kysely";
-import { StripeEventType } from "~/lib/db/schema";
+import { db } from "~/lib/db/drizzle";
+import { StripeEventType, stripeEvents, stripeProducts } from "~/lib/db/schema";
 import { auth } from "~/lib/lucia-auth";
 import { stripe } from "~/lib/stripe";
 import { ToastType, withToast } from "~/lib/toast";
@@ -31,6 +32,7 @@ export const useCancelSubscription = routeAction$(async (input, event) => {
       await stripe.subscriptions.cancel(subscription.id);
     }
   }
+  await new Promise((resolve) => setTimeout(resolve, 2000)); // NOTE: Wait two seconds to receive Stripe Event in time
   withToast(event, ToastType.success, "Subscription cancelled succesfully!");
 });
 
@@ -42,23 +44,15 @@ export const useStripeEventsFromSession = routeLoader$(async (event) => {
   }
 
   return await db
-    .selectFrom("stripe_event")
+    .select()
+    .from(stripeEvents)
+    .where(eq(stripeEvents.userId, session.user.userId))
+    .orderBy(desc(stripeEvents.createdAt))
     .innerJoin(
-      "stripe_product",
-      "stripe_product.id",
-      "stripe_event.stripe_product_id"
+      stripeProducts,
+      eq(stripeEvents.stripeProductId, stripeProducts.id)
     )
-    .select([
-      "stripe_event.id",
-      "stripe_event.type",
-      "stripe_event.created_at",
-      "stripe_product.name",
-      "stripe_product.amount",
-      "stripe_product.currency",
-    ])
-    .where("stripe_event.user_id", "is", session.user.userId)
-    .orderBy("created_at", "desc")
-    .execute();
+    .all();
 });
 
 export const useCurrentSubscription = routeLoader$(async (event) => {
@@ -68,20 +62,21 @@ export const useCurrentSubscription = routeLoader$(async (event) => {
     throw event.redirect(302, "/");
   }
   return await db
-    .selectFrom("stripe_event")
-    .innerJoin(
-      "stripe_product",
-      "stripe_product.id",
-      "stripe_event.stripe_product_id"
+    .select()
+    .from(stripeEvents)
+    .where(eq(stripeEvents.userId, session.user.userId))
+    .where(
+      inArray(stripeEvents.type, [
+        StripeEventType.SubscriptionDeleted,
+        StripeEventType.SubscriptionUpdated,
+      ])
     )
-    .select(["type", "name"])
-    .where("stripe_event.user_id", "is", session.user.userId)
-    .where("type", "in", [
-      StripeEventType.SubscriptionDeleted,
-      StripeEventType.SubscriptionUpdated,
-    ])
-    .orderBy("created_at", "desc")
-    .executeTakeFirst();
+    .orderBy(desc(stripeEvents.createdAt))
+    .innerJoin(
+      stripeProducts,
+      eq(stripeEvents.stripeProductId, stripeProducts.id)
+    )
+    .get();
 });
 
 export default component$(() => {
@@ -99,13 +94,14 @@ export default component$(() => {
       <BillingTable />
       <p class="flex items-center gap-4 text-black dark:text-white">
         Current Subscription:{" "}
-        {currentSubscription.value?.type === StripeEventType.SubscriptionUpdated
-          ? currentSubscription.value.name
+        {currentSubscription.value?.stripe_event.type ===
+        StripeEventType.SubscriptionUpdated
+          ? currentSubscription.value?.stripe_product.name
           : "none"}
         <Button
           aria-label="Cancel subscription button"
           disabled={
-            currentSubscription.value?.type !==
+            currentSubscription.value?.stripe_event.type !==
             StripeEventType.SubscriptionUpdated
           }
           variant="outline"
@@ -147,18 +143,22 @@ const BillingTable = component$(() => {
       </thead>
       <tbody>
         {stripeEventsFromSession.value.map((e) => (
-          <TableRow key={e.id}>
-            <TableCell>{e.type}</TableCell>
-            <TableCell>{e.name}</TableCell>
+          <TableRow key={e.stripe_event.id}>
+            <TableCell>{e.stripe_event.type}</TableCell>
+            <TableCell>{e.stripe_product.name}</TableCell>
             <TableCell>
               {[
                 StripeEventType.CheckoutProduct,
                 StripeEventType.CheckoutSubscription,
-              ].includes(e.type)
-                ? `${e.amount / 100} ${e.currency}`
+              ].includes(e.stripe_event.type)
+                ? `${e.stripe_product.amount / 100} ${
+                    e.stripe_product.currency
+                  }`
                 : null}
             </TableCell>
-            <TableCell>{e.created_at.toLocaleString()}</TableCell>
+            <TableCell>
+              {new Date(e.stripe_event.createdAt!).toLocaleString()}
+            </TableCell>
           </TableRow>
         ))}
         {stripeEventsFromSession.value.length === 0 && (

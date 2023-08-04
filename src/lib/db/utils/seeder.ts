@@ -1,16 +1,16 @@
 import 'dotenv/config';
+import { eq } from 'drizzle-orm';
 import { CREDENTIALS_PROVIDER_ID, auth } from '../../lucia-auth';
-import { db } from "../kysely";
-import { UserRole } from '../schema';
+import { db } from "../drizzle";
+import { UserRole, users } from '../schema';
 
-// NOTE: You can ignore the output error about "import.meta.env"
 async function seed() {
   if (!process.env.ADMIN_USER || !process.env.ADMIN_PWD) {
     throw new Error(`process.env.ADMIN_USER or process.env.ADMIN_PWD is not defined!`)
   }
   const admin = {email: process.env.ADMIN_USER, password: process.env.ADMIN_PWD};
 
-  const currentAdmin = await db.selectFrom('user').where('email', '=', admin.email).selectAll().executeTakeFirst()
+  const currentAdmin = await db.select().from(users).where(eq(users.email, admin.email)).get();
   if (currentAdmin) {
     console.log(`${admin.email} user already exists!`)
   } else {
@@ -29,7 +29,6 @@ async function seed() {
     })
     console.log(`${admin.email} user created!`)
   }
-  await db.destroy();
 }
 
 seed();

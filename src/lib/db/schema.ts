@@ -1,70 +1,45 @@
-import { ColumnType, Insertable, Selectable, Updateable } from "kysely";
+// See: https://github.com/drizzle-team/drizzle-orm/blob/main/drizzle-orm/src/sqlite-core/README.md
 
-// Global Database schema
-export interface Database {
-    user: UserTable
-    user_key: UserKeyTable
-    user_session: UserSessionTable
-    stripe_product: StripeProductTable
-    stripe_event: StripeEventTable
-}
+import { InferModel, sql } from 'drizzle-orm';
+import { blob, integer, sqliteTable, text } from 'drizzle-orm/sqlite-core';
 
 // Authentication
-// NOTE: Do not forget to update userAttibutes for Lucia in "app.d.ts" and "lucia-auth.ts"
-export interface UserTable {
-    id: string;
-    email: string;
-    name: string | null
-    role: UserRole;
-}
-export type User = Selectable<UserTable>
-export type InsertUser = Insertable<UserTable>
-export type UpdateUser = Updateable<UserTable>
-
 export enum UserRole {
     User = 'User',
     Admin = 'Admin'
 }
+// NOTE: Do not forget to update userAttibutes for Lucia in "app.d.ts" and "lucia-auth.ts"
+export const users = sqliteTable('user', {
+    id: text('id').notNull().primaryKey(),
+    email: text('email').notNull().unique(),
+    name: text('name'),
+    role: text('role', {enum: [UserRole.User, UserRole.Admin]}).notNull().default(UserRole.User)
+});
 
-export interface UserKeyTable {
-    id: string;
-    user_id: string;
-    hashed_password: string | null;
-}
+export const userKeys = sqliteTable('user_key', {
+    id: text('id').notNull().primaryKey(),
+    userId: text('user_id').notNull().references(() => users.id),
+    hashedPassword: text('hashed_password').unique()
+});
 
-export interface UserSessionTable {
-    id: string;
-    user_id: string;
-    active_expires: number;
-    idle_expires: number;
-}
+export const userSessions = sqliteTable('user_session', {
+    id: text('id').notNull().primaryKey(),
+    userId: text('user_id').notNull().references(() => users.id),
+    activeExpires: integer('active_expires').notNull(),
+    idleExpires: integer('idle_expires').notNull(),
+});
 
-// Stripe Payments
-export interface StripeProductTable {
-    id: string;     // Stripe id coming from Stripe
-    name: string;
-    metadata?: string;  // JSON
-    amount: number;
-    currency: string;
-    recurring?: string; // JSON // TODO: // NOTE: only required for Subscriptions
-    price_id: string;
-}
-export type StripeProduct = Selectable<StripeProductTable>
-export type InsertStripeProduct = Insertable<StripeProductTable>
-export type UpdateStripeProduct = Updateable<StripeProductTable>
-
-export interface StripeEventTable {
-    id: string;     // StripeCheckoutSessionId coming from Stripe 
-    type: StripeEventType;
-    stripe_product_id: string;
-    user_id: string;
-    // You can specify a different type for each operation (select, insert and update) using the `ColumnType<SelectType, InsertType, UpdateType>` wrapper. Here we define a column `created_at` that is selected as a `Date`, can optionally be provided as a `string` in inserts and can never be updated:
-    created_at: ColumnType<Date, string | undefined, never>
-}
-export type StripeEvent = Selectable<StripeEventTable>
-export type InsertStripeEvent = Insertable<StripeEventTable>
-export type UpdateStripeEvent = Updateable<StripeEventTable>
-
+// Stripe
+export const stripeProducts = sqliteTable('stripe_product', {
+    id: text('id').notNull().primaryKey(),
+    name: text('name').notNull(),
+    metadata: blob('metadata', { mode: 'json' }).$type<{ description: string }>(),
+    amount: integer('amount').notNull(),
+    currency: text('currency').notNull(),
+    recurring: blob('recurring', { mode: 'json' }).$type<{ interval: string }>(), // NOTE: only required for Subscriptions
+    priceId: text('price_id').notNull()
+});
+export type StripeProduct = InferModel<typeof stripeProducts>;
 
 export enum StripeEventType {
     CheckoutProduct = 'CheckoutProduct',
@@ -72,3 +47,10 @@ export enum StripeEventType {
     SubscriptionUpdated = 'SubscriptionUpdated',
     SubscriptionDeleted = 'SubscriptionDeleted'
 }
+export const stripeEvents = sqliteTable('stripe_event', {
+    id: text('id').notNull().primaryKey(),     // StripeCheckoutSessionId coming from Stripe 
+    type: text('type', {enum: [StripeEventType.CheckoutProduct,StripeEventType.CheckoutSubscription,StripeEventType.SubscriptionUpdated,StripeEventType.SubscriptionDeleted]}).notNull(),
+    stripeProductId: text('stripe_product_id').notNull().references(() => stripeProducts.id),
+    userId: text('user_id').notNull().references(() => users.id),
+    createdAt: text("timestamp").default(sql`CURRENT_TIMESTAMP`)
+});

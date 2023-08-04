@@ -13,7 +13,7 @@ The `qwikest` delightful, overpowered, beautifully handcrafted full-stack web fr
 - [Tailwind](https://tailwindcss.com/) of course
 - Including [Lucide](https://lucide.dev/) icons
 - Authentication with [Lucia Auth v2](https://lucia-auth.com/)
-- [Kysely](https://kysely.dev/) SQL builder + SQLite
+- [DrizzleORM](https://orm.drizzle.team/) SQL builder + SQLite + Migrations
 - Full typesafe development using [zod](https://zod.dev/)
 - Automagically [MDX](https://mdxjs.com/) support including plugins
 - [Stripe](https://stripe.com/) Payments and Subscriptions
@@ -39,16 +39,17 @@ The `qwikest` delightful, overpowered, beautifully handcrafted full-stack web fr
 npm ci                        // Install dependencies
 npm run husky:install         // Install Husky hooks
 cp .env.example .env          // And fill .env with DEV environment variables if needed
-npm db:reset                  // Creates a SQLite db file if not exists, and executes the migrations required to make your database reflect the state of your schemas, and it will seed your database with an admin user (You can ignore the output message about "import.meta.env")
+npm run db:reset                  // Creates a SQLite db file if not exists, and executes the migrations required to make your database reflect the state of your schemas, and it will seed your database with an admin user
 npm run dev                   // Launch project locally
 npm run dev:stripe            // (Optional) Enables Stripe local webhooks
 ```
 
-### How to run migrations
+### Database cheatsheet
 
 ```
 npm run db:reset    // DANGER! Removes all data from database, executes migrator and seeder too!
-npm run db:migrate  // Runs migrations
+npm run db:generate // Generate migrations
+npm run db:migrate  // Run migrations
 npm run db:seed     // Seed database
 ```
 
