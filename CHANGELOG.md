@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.0.7](https://github.com/JorgeCoke/super-qwik-template/compare/v0.0.6...v0.0.7) (2023-08-04)
+
+
+### Bug Fixes
+
+* **db:** fix interface table names + refactor innerjoin ([ee985eb](https://github.com/JorgeCoke/super-qwik-template/commit/ee985ebc48ebc8d4e0b569287dafc281f867750e))
+* **ui:** toast timeout + mdx styles + theme switcher ([3f7b9ab](https://github.com/JorgeCoke/super-qwik-template/commit/3f7b9ab82243a710ce836342b673430ce367e172))
+
 ### [0.0.6](https://github.com/JorgeCoke/super-qwik-template/compare/v0.0.5...v0.0.6) (2023-08-03)
 
 
