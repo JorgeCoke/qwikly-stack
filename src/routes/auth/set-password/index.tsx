@@ -52,8 +52,7 @@ export const useSetPassword_FormAction = formAction$<SetPassword_Type>(
       .from(users)
       .where(eq(users.email, input.email))
       .get();
-    // TODO:
-    if (!user.id) {
+    if (!user) {
       throw new FormError<SetPassword_Type>({
         email: "This email is not found in our database",
       });

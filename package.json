@@ -1,6 +1,6 @@
 {
   "name": "qwikly-stack",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "description": "The qwikest delightful, overpowered, beautifully handcrafted full-stack web framework template, built on top of Qwik, seasoned with modern tools",
   "engines": {
     "node": ">=20.0.0",
@@ -47,7 +47,6 @@
     "better-npm-audit": "^3.7.3",
     "commitizen": "^4.3.0",
     "cz-conventional-changelog": "^3.3.0",
-    "drizzle-kit": "^0.19.12",
     "eslint": "8.44.0",
     "eslint-plugin-qwik": "1.2.5",
     "husky": "^8.0.3",
@@ -71,6 +70,7 @@
     "@types/three": "^0.155.0",
     "better-sqlite3": "^8.5.0",
     "dotenv": "^16.3.1",
+    "drizzle-kit": "^0.19.12",
     "drizzle-orm": "^0.27.2",
     "fastify": "^4.17.0",
     "fastify-plugin": "^4.5.0",

@@ -156,9 +156,7 @@ const BillingTable = component$(() => {
                   }`
                 : null}
             </TableCell>
-            <TableCell>
-              {new Date(e.stripe_event.createdAt!).toLocaleString()}
-            </TableCell>
+            <TableCell>{e.stripe_event.createdAt.toLocaleString()}</TableCell>
           </TableRow>
         ))}
         {stripeEventsFromSession.value.length === 0 && (
