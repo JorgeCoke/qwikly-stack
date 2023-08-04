@@ -48,8 +48,10 @@ export const useStripeEventsFromSession = routeLoader$(async (event) => {
       "stripe_product.id",
       "stripe_event.stripe_product_id"
     )
-    .selectAll("stripe_event")
     .select([
+      "stripe_event.id",
+      "stripe_event.type",
+      "stripe_event.created_at",
       "stripe_product.name",
       "stripe_product.amount",
       "stripe_product.currency",
@@ -72,7 +74,7 @@ export const useCurrentSubscription = routeLoader$(async (event) => {
       "stripe_product.id",
       "stripe_event.stripe_product_id"
     )
-    .selectAll()
+    .select(["type", "name"])
     .where("stripe_event.user_id", "is", session.user.userId)
     .where("type", "in", [
       StripeEventType.SubscriptionDeleted,

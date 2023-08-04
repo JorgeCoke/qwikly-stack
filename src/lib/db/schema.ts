@@ -5,8 +5,8 @@ export interface Database {
     user: UserTable
     user_key: UserKeyTable
     user_session: UserSessionTable
-    stripe_product: StripeProduct
-    stripe_event: StripeEvent
+    stripe_product: StripeProductTable
+    stripe_event: StripeEventTable
 }
 
 // Authentication
@@ -40,7 +40,7 @@ export interface UserSessionTable {
 }
 
 // Stripe Payments
-export interface StripeProduct {
+export interface StripeProductTable {
     id: string;     // Stripe id coming from Stripe
     name: string;
     metadata?: string;  // JSON
@@ -49,8 +49,11 @@ export interface StripeProduct {
     recurring?: string; // JSON // TODO: // NOTE: only required for Subscriptions
     price_id: string;
 }
+export type StripeProduct = Selectable<StripeProductTable>
+export type InsertStripeProduct = Insertable<StripeProductTable>
+export type UpdateStripeProduct = Updateable<StripeProductTable>
 
-export interface StripeEvent {
+export interface StripeEventTable {
     id: string;     // StripeCheckoutSessionId coming from Stripe 
     type: StripeEventType;
     stripe_product_id: string;
@@ -58,6 +61,10 @@ export interface StripeEvent {
     // You can specify a different type for each operation (select, insert and update) using the `ColumnType<SelectType, InsertType, UpdateType>` wrapper. Here we define a column `created_at` that is selected as a `Date`, can optionally be provided as a `string` in inserts and can never be updated:
     created_at: ColumnType<Date, string | undefined, never>
 }
+export type StripeEvent = Selectable<StripeEventTable>
+export type InsertStripeEvent = Insertable<StripeEventTable>
+export type UpdateStripeEvent = Updateable<StripeEventTable>
+
 
 export enum StripeEventType {
     CheckoutProduct = 'CheckoutProduct',
