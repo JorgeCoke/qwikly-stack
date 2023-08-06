@@ -1,7 +1,7 @@
 import { Slot, component$ } from "@builder.io/qwik";
 import { twMerge } from "tailwind-merge";
 
-type TypographyProps = {
+export type TypographyProps = {
   class?: string;
 };
 

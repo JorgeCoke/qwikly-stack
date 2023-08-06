@@ -12,12 +12,8 @@ import { Button } from "~/components/ui/buttons";
 import { Card } from "~/components/ui/card";
 import { Gradient, H0, H1, H2, H3 } from "~/components/ui/typography";
 import { db } from "~/lib/db/drizzle";
-import {
-  StripeEventType,
-  StripeProduct,
-  stripeEvents,
-  stripeProducts,
-} from "~/lib/db/schema";
+import type { StripeProduct } from "~/lib/db/schema";
+import { StripeEventType, stripeEvents, stripeProducts } from "~/lib/db/schema";
 import { auth } from "~/lib/lucia-auth";
 import { stripe } from "~/lib/stripe";
 import { ToastType, withToast } from "~/lib/toast";
