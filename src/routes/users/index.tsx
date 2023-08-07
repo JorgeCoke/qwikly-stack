@@ -6,19 +6,39 @@ import {
   z,
   zod$,
 } from "@builder.io/qwik-city";
-import LucidePlus from "~/components/icons/lucide-plus";
+import { sql } from "drizzle-orm";
 import LucideTrash from "~/components/icons/lucide-trash";
-import { AnchorButton, Button } from "~/components/ui/buttons";
-import { Table, TableCell, TableHead, TableRow } from "~/components/ui/table";
-import { H1, H5 } from "~/components/ui/typography";
+import { Button } from "~/components/ui/buttons";
+import type { CrudCookies } from "~/components/ui/crud";
+import { Crud } from "~/components/ui/crud";
+import { TableCell, TableRow } from "~/components/ui/table";
 import { db } from "~/lib/db/drizzle";
 import { users } from "~/lib/db/schema";
 import { auth } from "~/lib/lucia-auth";
 import { ToastType, withToast } from "~/lib/toast";
 import { useSession } from "../layout";
 
-export const useUsers = routeLoader$(async () => {
-  return await db.select().from(users).all();
+export const useUsersCrudCookies = routeLoader$(async (event) => {
+  const crudCookies: CrudCookies = event.cookie.get("/users")?.json() || {
+    limit: 5,
+    offset: 0,
+  };
+  return crudCookies;
+});
+
+export const useUsers = routeLoader$(async (event) => {
+  const crudCookies = await event.resolveValue(useUsersCrudCookies);
+  const items = await db
+    .select()
+    .from(users)
+    .limit(crudCookies.limit)
+    .offset(crudCookies.offset)
+    .all();
+  const { count } = await db
+    .select({ count: sql<number>`count(id)`.mapWith(Number) })
+    .from(users)
+    .get();
+  return { items, count };
 });
 
 export const useDeleteUser = routeAction$(
@@ -36,76 +56,53 @@ export const useDeleteUser = routeAction$(
   })
 );
 
-// TODO: Add filtering, sorting and pagination
+// TODO: Add filtering and sorting
 export default component$(() => {
   const users = useUsers();
+  const crudCookies = useUsersCrudCookies();
   const deleteUser = useDeleteUser();
   const session = useSession();
   const nav = useNavigate();
 
   return (
     <section class="container">
-      <H1 class="flex justify-between pt-4">
-        <span>Users</span>
-        <AnchorButton
-          href="/users/create"
-          class="flex items-center gap-2"
-          aria-label="Create user button"
-        >
-          <LucidePlus class="h-4 w-4" /> Create user
-        </AnchorButton>
-      </H1>
-      <Table>
-        <thead>
-          <tr>
-            <TableHead>ID #</TableHead>
-            <TableHead>Email</TableHead>
-            <TableHead>Name</TableHead>
-            <TableHead>Role</TableHead>
-            <TableHead></TableHead>
-          </tr>
-        </thead>
-        <tbody>
-          {users.value.map((e) => (
-            <TableRow
-              key={e.id}
-              onClick$={async () => {
-                await nav(`/users/${e.id}`);
-              }}
-            >
-              <TableCell>{e.id}</TableCell>
-              <TableCell>{e.email}</TableCell>
-              <TableCell>{e.name}</TableCell>
-              <TableCell>{e.role}</TableCell>
-              <TableCell>
-                {session.value?.user.userId !== e.id && (
-                  <Button
-                    aria-label="Delete user button"
-                    color="danger"
-                    onClick$={(event: any) => {
-                      event.stopPropagation();
-                      deleteUser.submit({ id: e.id! });
-                    }}
-                  >
-                    <LucideTrash class="h-3 w-3" />
-                  </Button>
-                )}
-              </TableCell>
-            </TableRow>
-          ))}
-          {users.value.length === 0 && (
-            <TableRow>
-              <TableCell>
-                <H5>No users found</H5>
-              </TableCell>
-              <TableCell></TableCell>
-              <TableCell></TableCell>
-              <TableCell></TableCell>
-              <TableCell></TableCell>
-            </TableRow>
-          )}
-        </tbody>
-      </Table>
+      <Crud
+        title="Users"
+        url="/users"
+        headers={["ID #", "Email", "Name", "Role", ""]}
+        items={users.value.items}
+        count={users.value.count}
+        createButton="Create User"
+        crudCookies={crudCookies.value}
+      >
+        {users.value.items.map((e) => (
+          <TableRow
+            key={e.id}
+            onClick$={async () => {
+              await nav(`/users/${e.id}`);
+            }}
+          >
+            <TableCell>{e.id}</TableCell>
+            <TableCell>{e.email}</TableCell>
+            <TableCell>{e.name}</TableCell>
+            <TableCell>{e.role}</TableCell>
+            <TableCell>
+              {session.value?.user.userId !== e.id && (
+                <Button
+                  aria-label="Delete user button"
+                  color="danger"
+                  onClick$={(event: any) => {
+                    event.stopPropagation();
+                    deleteUser.submit({ id: e.id! });
+                  }}
+                >
+                  <LucideTrash class="h-3 w-3" />
+                </Button>
+              )}
+            </TableCell>
+          </TableRow>
+        ))}
+      </Crud>
     </section>
   );
 });

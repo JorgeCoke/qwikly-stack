@@ -10,7 +10,7 @@ The `qwikest` delightful, overpowered, beautifully handcrafted full-stack web fr
 
 - Awesome [Qwik City](https://qwik.builder.io/) framework
 - [Modular Forms](https://qwik.builder.io/docs/integrations/modular-forms/) typesafe integration
-- [Tailwind](https://tailwindcss.com/) of course
+- [Tailwind](https://tailwindcss.com/) of course with Light/Dark mode
 - Including [Lucide](https://lucide.dev/) icons
 - Authentication with [Lucia Auth v2](https://lucia-auth.com/)
 - [DrizzleORM](https://orm.drizzle.team/) SQL builder + SQLite + Migrations

@@ -4,6 +4,7 @@ import { Footer } from "~/components/layout/footer";
 import { NavBar } from "~/components/layout/nav-bar";
 import { TailwindIndicator } from "~/components/layout/tailwind-indicator";
 import { Toaster } from "~/components/layout/toaster";
+import type { CrudCookies } from "~/components/ui/crud";
 import { signJwt } from "~/lib/crypto";
 import { auth } from "~/lib/lucia-auth";
 import { sendSetPasswordEmail } from "~/lib/mail/mailer";
@@ -35,6 +36,26 @@ export const useThemeSwich = globalAction$(async (input, event) => {
     secure: true,
   });
 });
+
+// NOTE: We could use queryParams instead
+export const useSetCrudCookies = globalAction$(async (input, event) => {
+  const crudCookies: CrudCookies | undefined = event.cookie
+    .get(input.cookieKey)
+    ?.json();
+  if (crudCookies) {
+    crudCookies.limit = input.limit;
+    crudCookies.offset = input.offset;
+    event.cookie.set(input.cookieKey, crudCookies, {
+      path: "/",
+      sameSite: "strict",
+      maxAge: 1 * 60 * 60,
+      secure: true,
+    });
+  }
+}, zod$({ cookieKey: z.string(), limit: z.number(), offset: z.number() }));
+export const useResetCrudCookies = globalAction$(async (input, event) => {
+  event.cookie.delete(input.cookieKey);
+}, zod$({ cookieKey: z.string() }));
 
 // Global Loaders here. See: https://qwik.builder.io/docs/route-loader/#access-the-routeloader-data-within-another-routeloader
 export const useSession = routeLoader$(async (event) => {

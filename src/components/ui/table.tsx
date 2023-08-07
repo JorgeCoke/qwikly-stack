@@ -18,7 +18,7 @@ export const TableHead = component$<TableHeadProps>((props) => {
     <th
       scope="col"
       class={twMerge(
-        "px-6 py-3 text-left text-xs font-bold uppercase text-slate-800 dark:text-slate-400",
+        "px-3 py-3 text-left text-xs font-bold uppercase text-slate-800 dark:text-slate-400",
         props.class
       )}
     >
@@ -54,7 +54,7 @@ export const TableCell = component$<TableCellProps>((props) => {
     <td
       scope="col"
       class={twMerge(
-        "whitespace-nowrap px-4 py-3 text-sm text-slate-900 dark:text-slate-200 ",
+        "whitespace-nowrap px-3 py-3 text-sm text-slate-900 dark:text-slate-200 ",
         props.class
       )}
     >
