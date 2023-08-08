@@ -244,6 +244,7 @@ export default component$(() => {
             )}
             <Button
               aria-label="Buy button"
+              disabled={buyProduct.isRunning}
               onClick$={() =>
                 buyProduct
                   .submit({ priceId: e.priceId })
@@ -270,6 +271,7 @@ export default component$(() => {
             )}
             <Button
               aria-label="Buy button"
+              disabled={buyProduct.isRunning}
               onClick$={() =>
                 buyProduct
                   .submit({ priceId: e.priceId })

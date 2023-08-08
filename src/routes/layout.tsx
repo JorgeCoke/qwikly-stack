@@ -39,12 +39,11 @@ export const useThemeSwich = globalAction$(async (input, event) => {
 
 // NOTE: We could use queryParams instead
 export const useSetCrudCookies = globalAction$(async (input, event) => {
-  const crudCookies: CrudCookies | undefined = event.cookie
+  let crudCookies: CrudCookies | undefined = event.cookie
     .get(input.cookieKey)
     ?.json();
   if (crudCookies) {
-    crudCookies.limit = input.limit;
-    crudCookies.offset = input.offset;
+    crudCookies = { ...crudCookies, ...input };
     event.cookie.set(input.cookieKey, crudCookies, {
       path: "/",
       sameSite: "strict",
@@ -52,7 +51,7 @@ export const useSetCrudCookies = globalAction$(async (input, event) => {
       secure: true,
     });
   }
-}, zod$({ cookieKey: z.string(), limit: z.number(), offset: z.number() }));
+}, zod$({ cookieKey: z.string(), limit: z.number().optional(), offset: z.number().optional() }));
 export const useResetCrudCookies = globalAction$(async (input, event) => {
   event.cookie.delete(input.cookieKey);
 }, zod$({ cookieKey: z.string() }));

@@ -12,6 +12,7 @@ export const Table = component$(() => {
 
 export type TableHeadProps = {
   class?: string;
+  onClick$?: PropFunction<() => void>;
 };
 export const TableHead = component$<TableHeadProps>((props) => {
   return (
@@ -21,6 +22,7 @@ export const TableHead = component$<TableHeadProps>((props) => {
         "px-3 py-3 text-left text-xs font-bold uppercase text-slate-800 dark:text-slate-400",
         props.class
       )}
+      onClick$={props.onClick$}
     >
       <Slot />
     </th>

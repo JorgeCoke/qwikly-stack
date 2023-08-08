@@ -29,7 +29,7 @@ const mergeButtonStyles = (props: any): string => {
     "inline-block rounded-md px-3 py-2 text-sm font-semibold transition-all",
   ];
   if (props.disabled) {
-    classes.push("opacity-50");
+    classes.push("opacity-50 pointer-events-none");
   }
 
   return twMerge(

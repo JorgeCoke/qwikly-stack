@@ -28,6 +28,7 @@ export const Crud = component$<CrudProps>((props) => {
         <div class="flex items-center justify-between pb-3">
           <div class="flex items-center gap-3">
             <Button
+              disabled={resetCrudCookies.isRunning}
               onClick$={() => resetCrudCookies.submit({ cookieKey: props.url })}
             >
               <LucideRefreshCcw class="h-4 w-4" />

@@ -102,7 +102,8 @@ export default component$(() => {
           aria-label="Cancel subscription button"
           disabled={
             currentSubscription.value?.stripe_event.type !==
-            StripeEventType.SubscriptionUpdated
+              StripeEventType.SubscriptionUpdated ||
+            cancelSubscription.isRunning
           }
           variant="outline"
           onClick$={() => cancelSubscription.submit()}
@@ -113,6 +114,7 @@ export default component$(() => {
       <div class="flex gap-4 pt-6">
         <Button
           aria-label="Reset password button"
+          disabled={sendSetPasswordEmail.isRunning}
           onClick$={() => sendSetPasswordEmail.submit({ email: null })}
         >
           Reset Password

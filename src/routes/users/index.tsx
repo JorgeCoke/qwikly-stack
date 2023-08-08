@@ -19,11 +19,25 @@ import { ToastType, withToast } from "~/lib/toast";
 import { useSession } from "../layout";
 
 export const useUsersCrudCookies = routeLoader$(async (event) => {
-  const crudCookies: CrudCookies = event.cookie.get("/users")?.json() || {
-    limit: 5,
-    offset: 0,
-  };
-  return crudCookies;
+  const crudCookies = event.cookie.get("/users")?.json();
+  if (!crudCookies) {
+    event.cookie.set(
+      "/users",
+      {
+        limit: 5,
+        offset: 0,
+      },
+      {
+        path: "/",
+        sameSite: "strict",
+        maxAge: 30 * 24 * 60 * 60,
+        secure: true,
+      }
+    );
+  }
+  // eslint-disable-next-line @typescript-eslint/no-non-null-asserted-optional-chain
+  const response: CrudCookies = event.cookie.get("/users")?.json()!;
+  return response;
 });
 
 export const useUsers = routeLoader$(async (event) => {
@@ -91,6 +105,7 @@ export default component$(() => {
                 <Button
                   aria-label="Delete user button"
                   color="danger"
+                  disabled={deleteUser.isRunning}
                   onClick$={(event: any) => {
                     event.stopPropagation();
                     deleteUser.submit({ id: e.id! });

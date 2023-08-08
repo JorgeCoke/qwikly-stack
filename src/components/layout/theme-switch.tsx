@@ -8,6 +8,7 @@ export const ThemeSwitch = component$(() => {
 
   return (
     <Button
+      disabled={themeSwich.isRunning}
       onClick$={() => themeSwich.submit()}
       variant="ghost"
       aria-label="Theme switcher"

@@ -47,7 +47,12 @@ export default component$(() => {
             />
           )}
         </Field>
-        <Button class="mt-2" type="submit" aria-label="Reset password button">
+        <Button
+          class="mt-2"
+          type="submit"
+          aria-label="Reset password button"
+          disabled={sendSetPasswordEmail.isRunning}
+        >
           Reset password
         </Button>
       </Form>

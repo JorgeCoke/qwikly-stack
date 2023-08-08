@@ -160,6 +160,7 @@ export default component$(() => {
             type="button"
             aria-label="Delete user button"
             color="danger"
+            disabled={deleteUser.isRunning}
             onClick$={() =>
               deleteUser.submit({
                 // eslint-disable-next-line @typescript-eslint/no-non-null-asserted-optional-chain
