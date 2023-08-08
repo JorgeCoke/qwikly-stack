@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.0.10](https://github.com/JorgeCoke/super-qwik-template/compare/v0.0.9...v0.0.10) (2023-08-08)
+
+
+### Features
+
+* **ui:** add crud orderBy feature ([7f07034](https://github.com/JorgeCoke/super-qwik-template/commit/7f07034afbb6e9e888e35f63b10efa11f88b1d86))
+* **ui:** add loading/disabled state to submit routeActions ([1e96e52](https://github.com/JorgeCoke/super-qwik-template/commit/1e96e52d1d2ca872338ec0a84c6d85c66008394d))
+
 ### [0.0.9](https://github.com/JorgeCoke/super-qwik-template/compare/v0.0.8...v0.0.9) (2023-08-07)
 
 
