@@ -40,7 +40,7 @@ export const Crud = component$<CrudProps>((props) => {
           </div>
           {props.createButton && (
             <AnchorButton
-              href={`${props.url}/create`}
+              href={`${props.url}/new`}
               class="flex items-center gap-2"
               aria-label="Create user button"
             >
