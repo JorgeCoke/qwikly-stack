@@ -4,7 +4,7 @@ import { twMerge } from "tailwind-merge";
 
 export const Table = component$(() => {
   return (
-    <table class="my-4 min-w-full divide-y divide-slate-300 rounded-md bg-slate-200 shadow dark:divide-slate-700 dark:bg-slate-950">
+    <table class="my-4 min-w-full table-fixed divide-y divide-slate-300 rounded-md bg-slate-200 shadow dark:divide-slate-700 dark:bg-slate-950">
       <Slot />
     </table>
   );
@@ -20,6 +20,7 @@ export const TableHead = component$<TableHeadProps>((props) => {
       scope="col"
       class={twMerge(
         "px-3 py-3 text-left text-xs font-bold uppercase text-slate-800 dark:text-slate-400",
+        props.onClick$ ? "cursor-pointer" : "",
         props.class
       )}
       onClick$={props.onClick$}
@@ -56,7 +57,7 @@ export const TableCell = component$<TableCellProps>((props) => {
     <td
       scope="col"
       class={twMerge(
-        "whitespace-nowrap px-3 py-3 text-sm text-slate-900 dark:text-slate-200 ",
+        "whitespace-nowrap px-3 py-3 text-sm text-slate-900 dark:text-slate-200",
         props.class
       )}
     >

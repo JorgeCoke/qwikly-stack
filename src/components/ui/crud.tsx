@@ -1,5 +1,11 @@
 import { Slot, component$ } from "@builder.io/qwik";
-import { useResetCrudCookies, useSetCrudCookies } from "~/routes/layout";
+import {
+  useResetCrudCookies,
+  useSetCrudCookies,
+  useSetCrudOrderBy,
+} from "~/routes/layout";
+import LucideArrowDownNarrowWide from "../icons/lucide-arrow-down-narrow-wide";
+import LucideArrowUpNarrowWide from "../icons/lucide-arrow-up-narrow-wide";
 import LucidePlus from "../icons/lucide-plus";
 import LucideRefreshCcw from "../icons/lucide-refresh-ccw";
 import { AnchorButton, Button } from "./buttons";
@@ -8,12 +14,13 @@ import { Table, TableHead } from "./table";
 export type CrudCookies = {
   limit: number;
   offset: number;
+  orderBy?: string;
 };
 
 type CrudProps = {
   title?: string;
   url: string; // Used as cookieKey
-  headers: string[];
+  headers: { label?: string; columnName?: string }[];
   createButton?: string;
   items: { id: string }[];
   count: number;
@@ -21,7 +28,7 @@ type CrudProps = {
 };
 export const Crud = component$<CrudProps>((props) => {
   const resetCrudCookies = useResetCrudCookies();
-
+  const setCrudOrderBy = useSetCrudOrderBy();
   return (
     <Table>
       <caption>
@@ -53,7 +60,35 @@ export const Crud = component$<CrudProps>((props) => {
       <thead>
         <tr>
           {props.headers.map((e) => (
-            <TableHead key={e}>{e}</TableHead>
+            <TableHead
+              key={e.label}
+              onClick$={() => {
+                if (e.columnName && e.label) {
+                  const columnName = props.crudCookies.orderBy?.split(",")[0];
+                  const sort = props.crudCookies.orderBy?.split(",")[1];
+                  setCrudOrderBy.submit({
+                    cookieKey: props.url,
+                    columnName: e.columnName,
+                    sort:
+                      !columnName || columnName !== e.columnName
+                        ? "asc"
+                        : sort === "asc"
+                        ? "desc"
+                        : null,
+                  });
+                }
+              }}
+            >
+              <p class="flex items-center gap-2">
+                {e.label}
+                {props.crudCookies.orderBy === `${e.columnName},asc` && (
+                  <LucideArrowDownNarrowWide class="h-4 w-4" />
+                )}
+                {props.crudCookies.orderBy === `${e.columnName},desc` && (
+                  <LucideArrowUpNarrowWide class="h-4 w-4" />
+                )}
+              </p>
+            </TableHead>
           ))}
         </tr>
       </thead>

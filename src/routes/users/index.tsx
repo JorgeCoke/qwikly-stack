@@ -6,7 +6,7 @@ import {
   z,
   zod$,
 } from "@builder.io/qwik-city";
-import { sql } from "drizzle-orm";
+import { asc, desc, getTableColumns, sql } from "drizzle-orm";
 import LucideTrash from "~/components/icons/lucide-trash";
 import { Button } from "~/components/ui/buttons";
 import type { CrudCookies } from "~/components/ui/crud";
@@ -16,43 +16,50 @@ import { db } from "~/lib/db/drizzle";
 import { users } from "~/lib/db/schema";
 import { auth } from "~/lib/lucia-auth";
 import { ToastType, withToast } from "~/lib/toast";
+import { CrudCookiesOptions } from "~/lib/utils";
 import { useSession } from "../layout";
 
 export const useUsersCrudCookies = routeLoader$(async (event) => {
   const crudCookies = event.cookie.get("/users")?.json();
   if (!crudCookies) {
-    event.cookie.set(
-      "/users",
-      {
-        limit: 5,
-        offset: 0,
-      },
-      {
-        path: "/",
-        sameSite: "strict",
-        maxAge: 30 * 24 * 60 * 60,
-        secure: true,
-      }
-    );
+    const defaultCrudCookies: CrudCookies = {
+      limit: 5,
+      offset: 0,
+      orderBy: "id,asc",
+    };
+    event.cookie.set("/users", defaultCrudCookies, CrudCookiesOptions);
   }
-  // eslint-disable-next-line @typescript-eslint/no-non-null-asserted-optional-chain
-  const response: CrudCookies = event.cookie.get("/users")?.json()!;
+  const response = event.cookie.get("/users")?.json() as CrudCookies;
   return response;
 });
 
-export const useUsers = routeLoader$(async (event) => {
+export const useCrudUsers = routeLoader$(async (event) => {
   const crudCookies = await event.resolveValue(useUsersCrudCookies);
-  const items = await db
+  let itemsQuery = await db
     .select()
     .from(users)
     .limit(crudCookies.limit)
-    .offset(crudCookies.offset)
-    .all();
-  const { count } = await db
+    .offset(crudCookies.offset);
+  if (crudCookies.orderBy) {
+    const columns = getTableColumns(users);
+    const columnName = crudCookies.orderBy.split(
+      ","
+    )[0] as keyof typeof columns;
+    const sort = crudCookies.orderBy.split(",")[1] as "asc" | "desc";
+    itemsQuery = itemsQuery.orderBy(
+      sort === "asc" ? asc(columns[columnName]) : desc(columns[columnName])
+    );
+  }
+
+  const countQuery = await db
     .select({ count: sql<number>`count(id)`.mapWith(Number) })
-    .from(users)
-    .get();
-  return { items, count };
+    .from(users);
+
+  return {
+    items: await itemsQuery.all(),
+    count: await countQuery.get().count,
+    crudCookies,
+  };
 });
 
 export const useDeleteUser = routeAction$(
@@ -70,10 +77,10 @@ export const useDeleteUser = routeAction$(
   })
 );
 
-// TODO: Add filtering and sorting
+// TODO: Add filtering
+// TODO: Add types to columnName with const columns = getTableColumns(users);
 export default component$(() => {
-  const users = useUsers();
-  const crudCookies = useUsersCrudCookies();
+  const crudUsers = useCrudUsers();
   const deleteUser = useDeleteUser();
   const session = useSession();
   const nav = useNavigate();
@@ -83,13 +90,19 @@ export default component$(() => {
       <Crud
         title="Users"
         url="/users"
-        headers={["ID #", "Email", "Name", "Role", ""]}
-        items={users.value.items}
-        count={users.value.count}
+        headers={[
+          { label: "ID #", columnName: "id" },
+          { label: "Email", columnName: "email" },
+          { label: "Name", columnName: "name" },
+          { label: "Role", columnName: "role" },
+          {},
+        ]}
+        items={crudUsers.value.items}
+        count={crudUsers.value.count}
         createButton="Create User"
-        crudCookies={crudCookies.value}
+        crudCookies={crudUsers.value.crudCookies}
       >
-        {users.value.items.map((e) => (
+        {crudUsers.value.items.map((e) => (
           <TableRow
             key={e.id}
             onClick$={async () => {

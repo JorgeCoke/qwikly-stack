@@ -9,6 +9,7 @@ import { signJwt } from "~/lib/crypto";
 import { auth } from "~/lib/lucia-auth";
 import { sendSetPasswordEmail } from "~/lib/mail/mailer";
 import { ToastType, withToast } from "~/lib/toast";
+import { CrudCookiesOptions } from "~/lib/utils";
 
 // Global Actions here. See: https://qwik.builder.io/docs/action/#globalaction
 export const useSendSetPasswordEmail = globalAction$(async (input, event) => {
@@ -44,17 +45,25 @@ export const useSetCrudCookies = globalAction$(async (input, event) => {
     ?.json();
   if (crudCookies) {
     crudCookies = { ...crudCookies, ...input };
-    event.cookie.set(input.cookieKey, crudCookies, {
-      path: "/",
-      sameSite: "strict",
-      maxAge: 1 * 60 * 60,
-      secure: true,
-    });
+    event.cookie.set(input.cookieKey, crudCookies, CrudCookiesOptions);
   }
 }, zod$({ cookieKey: z.string(), limit: z.number().optional(), offset: z.number().optional() }));
+
 export const useResetCrudCookies = globalAction$(async (input, event) => {
   event.cookie.delete(input.cookieKey);
 }, zod$({ cookieKey: z.string() }));
+
+export const useSetCrudOrderBy = globalAction$(async (input, event) => {
+  const crudCookies: CrudCookies | undefined = event.cookie
+    .get(input.cookieKey)
+    ?.json();
+  if (crudCookies) {
+    crudCookies.orderBy = input.sort
+      ? `${input.columnName},${input.sort}`
+      : undefined;
+    event.cookie.set(input.cookieKey, crudCookies, CrudCookiesOptions);
+  }
+}, zod$({ cookieKey: z.string(), columnName: z.string(), sort: z.string().nullable() }));
 
 // Global Loaders here. See: https://qwik.builder.io/docs/route-loader/#access-the-routeloader-data-within-another-routeloader
 export const useSession = routeLoader$(async (event) => {
