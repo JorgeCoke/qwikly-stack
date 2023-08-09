@@ -158,10 +158,11 @@ export default component$(() => {
           )}
         </Field>
         <div class="mt-2 flex gap-4">
-          <Button type="submit" aria-label="Update user button">
+          <Button type="submit" size="wide" aria-label="Update user button">
             Update user
           </Button>
           <Button
+            size="wide"
             type="button"
             aria-label="Delete user button"
             color="danger"

@@ -48,6 +48,7 @@ export default component$(() => {
           )}
         </Field>
         <Button
+          size="wide"
           class="mt-2"
           type="submit"
           aria-label="Reset password button"

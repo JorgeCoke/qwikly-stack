@@ -115,6 +115,7 @@ export default component$(() => {
       <div class="flex gap-4 pt-6">
         <Button
           aria-label="Reset password button"
+          size="wide"
           disabled={sendSetPasswordEmail.isRunning}
           onClick$={() => sendSetPasswordEmail.submit({ email: null })}
         >
@@ -122,6 +123,7 @@ export default component$(() => {
         </Button>
         <AnchorButton
           href={Router.auth.logOut}
+          size="wide"
           color="danger"
           aria-label="Logout button"
         >

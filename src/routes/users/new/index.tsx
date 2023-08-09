@@ -134,7 +134,12 @@ export default component$(() => {
             />
           )}
         </Field>
-        <Button class="mt-2" type="submit" aria-label="Create user button">
+        <Button
+          class="mt-2"
+          size="wide"
+          type="submit"
+          aria-label="Create user button"
+        >
           Create user
         </Button>
       </Form>

@@ -135,6 +135,7 @@ export default component$(() => {
           <p class="text-red-500">{SetPassword_Form.response.message}</p>
         )}
         <Button
+          size="wide"
           class="mt-2"
           type="submit"
           aria-label="Set Up new password button"

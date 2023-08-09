@@ -32,6 +32,10 @@ const mergeButtonStyles = (props: any): string => {
     classes.push("opacity-50 pointer-events-none");
   }
 
+  if (props.size === "wide") {
+    classes.push("px-6 py-2");
+  }
+
   return twMerge(
     ...classes,
     variants[props.variant || "default"],

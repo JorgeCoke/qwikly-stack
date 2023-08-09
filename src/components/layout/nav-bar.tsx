@@ -55,6 +55,7 @@ export const NavBar = component$(() => {
               {!session.value && (
                 <>
                   <AnchorButton
+                    size="wide"
                     variant="outline"
                     href={Router.auth.logIn}
                     aria-label="LogIn button"
@@ -62,6 +63,7 @@ export const NavBar = component$(() => {
                     Log In
                   </AnchorButton>
                   <AnchorButton
+                    size="wide"
                     href={Router.auth.signUp}
                     aria-label="SignUp button"
                   >
@@ -71,6 +73,7 @@ export const NavBar = component$(() => {
               )}
               {session.value && (
                 <AnchorButton
+                  size="wide"
                   href={Router.auth.profile}
                   class="flex items-center gap-2"
                   aria-label="Profile button"
