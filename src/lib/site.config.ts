@@ -1,3 +1,5 @@
+import { Router } from "./router";
+
 export type SiteConfig = typeof siteConfig;
 
 export const siteConfig = {
@@ -6,16 +8,15 @@ export const siteConfig = {
   navBar: [
     {
       title: "Home",
-      href: "/",
+      href: Router.index
     },
     {
       title: "Payments",
-      href: "/payments",
+      href: Router.payments.index
     },
     {
       title: "C.R.U.D.",
-      href: "/users",
+      href: Router.users.index
     },
   ],
-
-};
+} as const;

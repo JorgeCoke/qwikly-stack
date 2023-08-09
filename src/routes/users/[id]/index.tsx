@@ -10,6 +10,7 @@ import { H1 } from "~/components/ui/typography";
 import { db } from "~/lib/db/drizzle";
 import { UserRole, users } from "~/lib/db/schema";
 import { CREDENTIALS_PROVIDER_ID, auth } from "~/lib/lucia-auth";
+import { Router } from "~/lib/router";
 import { ToastType, withToast } from "~/lib/toast";
 
 export const UpdateUser_Schema = z.object({
@@ -49,7 +50,7 @@ export const useDeleteUser = routeAction$(
     }
     await auth.deleteUser(input.id);
     withToast(event, ToastType.success, "User deleted!");
-    throw event.redirect(302, "/users");
+    throw event.redirect(302, Router.users.index);
   },
   zod$({
     id: z.string(),
@@ -61,7 +62,7 @@ export const useUpdateUser_FormAction = formAction$<UpdateUser_Type>(
     const authRequest = auth.handleRequest(event);
     const session = await authRequest.validate();
     if (!session) {
-      throw event.redirect(302, "/401");
+      throw event.redirect(302, Router[401]);
     }
     await db.update(users).set({ name: input.name, role: input.role }).run();
     const userEmail = await db
@@ -77,7 +78,7 @@ export const useUpdateUser_FormAction = formAction$<UpdateUser_Type>(
       );
     }
     withToast(event, ToastType.success, "User updated!");
-    throw event.redirect(302, "/users");
+    throw event.redirect(302, Router.users.index);
   },
   zodForm$(UpdateUser_Schema)
 );
@@ -93,7 +94,7 @@ export default component$(() => {
   return (
     <section class="container flex w-96 flex-col items-center py-4">
       <H1 class="flex w-full grow items-center gap-4">
-        <AnchorButton href="/users" aria-label="Go back button">
+        <AnchorButton href={Router.users.index} aria-label="Go back button">
           <LucideChevronsLeft class="h-4 w-4" />
         </AnchorButton>
         Update user:

@@ -7,6 +7,7 @@ import { Gradient, H1, H2, H5 } from "~/components/ui/typography";
 import { db } from "~/lib/db/drizzle";
 import { StripeEventType, stripeEvents, stripeProducts } from "~/lib/db/schema";
 import { auth } from "~/lib/lucia-auth";
+import { Router } from "~/lib/router";
 import { stripe } from "~/lib/stripe";
 import { ToastType, withToast } from "~/lib/toast";
 import { useSendSetPasswordEmail, useSession } from "~/routes/layout";
@@ -15,7 +16,7 @@ export const useCancelSubscription = routeAction$(async (input, event) => {
   const authRequest = auth.handleRequest(event);
   const session = await authRequest.validate();
   if (!session?.user.userId) {
-    throw event.redirect(302, "/");
+    throw event.redirect(302, Router.index);
   }
 
   const customers = await stripe.customers.list({
@@ -40,7 +41,7 @@ export const useStripeEventsFromSession = routeLoader$(async (event) => {
   const authRequest = auth.handleRequest(event);
   const session = await authRequest.validate();
   if (!session?.user.userId) {
-    throw event.redirect(302, "/");
+    throw event.redirect(302, Router.index);
   }
 
   return await db
@@ -59,7 +60,7 @@ export const useCurrentSubscription = routeLoader$(async (event) => {
   const authRequest = auth.handleRequest(event);
   const session = await authRequest.validate();
   if (!session?.user.userId) {
-    throw event.redirect(302, "/");
+    throw event.redirect(302, Router.index);
   }
   return await db
     .select()
@@ -120,7 +121,7 @@ export default component$(() => {
           Reset Password
         </Button>
         <AnchorButton
-          href="/auth/log-out"
+          href={Router.auth.logOut}
           color="danger"
           aria-label="Logout button"
         >

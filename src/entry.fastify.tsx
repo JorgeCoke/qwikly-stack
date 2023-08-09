@@ -11,6 +11,7 @@ import { type PlatformNode } from "@builder.io/qwik-city/middleware/node";
 import Fastify from "fastify";
 import { join } from "node:path";
 import { fileURLToPath } from "node:url";
+import { Router } from "./lib/router";
 import { stripe } from "./lib/stripe";
 import FastifyQwik from "./plugins/fastify-qwik";
 import { webhookHandler } from "./routes/payments/webhooks/handler";
@@ -49,7 +50,7 @@ const start = async () => {
   });
 
   fastify.post(
-    "/payments/webhooks",
+    Router.payments.webhooks,
     { config: { rawBody: true } },
     async function (request, reply) {
       const stripeEvent = stripe.webhooks.constructEvent(

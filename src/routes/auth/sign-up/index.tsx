@@ -9,6 +9,7 @@ import { Input } from "~/components/ui/form";
 import { H1 } from "~/components/ui/typography";
 import { UserRole } from "~/lib/db/schema";
 import { CREDENTIALS_PROVIDER_ID, auth } from "~/lib/lucia-auth";
+import { Router } from "~/lib/router";
 import { ToastType, withToast } from "~/lib/toast";
 
 export const SignUp_Schema = z.object({
@@ -64,7 +65,7 @@ export const useSignUp_FormAction = formAction$<SignUp_Type>(
       ToastType.success,
       "You can now Log In into your account!"
     );
-    throw event.redirect(302, "/auth/log-in");
+    throw event.redirect(302, Router.auth.logIn);
   },
   zodForm$(SignUp_Schema)
 );

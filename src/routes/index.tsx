@@ -11,6 +11,7 @@ import { ThreeJsScene } from "~/components/layout/threejs-scene";
 import { AnchorButton } from "~/components/ui/buttons";
 import { Card } from "~/components/ui/card";
 import { Gradient, H0, H1, H2, H3, H5 } from "~/components/ui/typography";
+import { Router } from "~/lib/router";
 
 export default component$(() => {
   const showThreeJsScene = useSignal<boolean>(false);
@@ -280,7 +281,7 @@ export default component$(() => {
           <AnchorButton
             aria-label="GetStarted button"
             class=" rounded-full bg-gradient-to-tl from-blue-600 to-violet-600 px-6 py-3  font-bold  text-white shadow-lg hover:shadow-blue-700/50  dark:text-white "
-            href="/auth/log-in"
+            href={Router.auth.logIn}
           >
             GET STARTED
           </AnchorButton>

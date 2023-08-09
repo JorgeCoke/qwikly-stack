@@ -1,4 +1,5 @@
 import { component$ } from "@builder.io/qwik";
+import { Router } from "~/lib/router";
 import { siteConfig } from "~/lib/site.config";
 import GithubIcon from "../icons/github-icon";
 import { ThemeSwitch } from "./theme-switch";
@@ -16,7 +17,7 @@ export const Footer = component$(() => {
       <div class="container space-y-3 text-center">
         <a
           class="text-xl font-semibold text-black dark:text-white"
-          href="/"
+          href={Router.index}
           aria-label={siteConfig.title}
         >
           {siteConfig.title}
@@ -27,7 +28,7 @@ export const Footer = component$(() => {
           <a
             aria-label="Terms and conditions"
             class="underline underline-offset-4 hover:text-black dark:hover:text-white"
-            href="/terms-and-conditions"
+            href={Router.termsAndConditions}
           >
             Terms of Service
           </a>

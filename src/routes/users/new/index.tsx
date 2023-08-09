@@ -9,6 +9,7 @@ import { Input, Select } from "~/components/ui/form";
 import { H1 } from "~/components/ui/typography";
 import { UserRole } from "~/lib/db/schema";
 import { CREDENTIALS_PROVIDER_ID, auth } from "~/lib/lucia-auth";
+import { Router } from "~/lib/router";
 import { ToastType, withToast } from "~/lib/toast";
 
 export const CreateUser_Schema = z.object({
@@ -35,7 +36,7 @@ export const useCreateUser_FormAction = formAction$<CreateUser_Type>(
     const authRequest = auth.handleRequest(event);
     const session = await authRequest.validate();
     if (!session) {
-      throw event.redirect(302, "/401");
+      throw event.redirect(302, Router[401]);
     }
 
     await auth
@@ -63,7 +64,7 @@ export const useCreateUser_FormAction = formAction$<CreateUser_Type>(
         throw err;
       });
     withToast(event, ToastType.success, "User created!");
-    throw event.redirect(302, "/users");
+    throw event.redirect(302, Router.users.index);
   },
   zodForm$(CreateUser_Schema)
 );
@@ -78,7 +79,7 @@ export default component$(() => {
   return (
     <section class="container flex w-96 flex-col items-center py-4">
       <H1 class="flex w-full grow items-center gap-4">
-        <AnchorButton href="/users" aria-label="Go back button">
+        <AnchorButton href={Router.users.index} aria-label="Go back button">
           <LucideChevronsLeft class="h-4 w-4" />
         </AnchorButton>
         Create user:

@@ -8,6 +8,7 @@ import { Button } from "~/components/ui/buttons";
 import { Input } from "~/components/ui/form";
 import { H1 } from "~/components/ui/typography";
 import { CREDENTIALS_PROVIDER_ID, auth } from "~/lib/lucia-auth";
+import { Router } from "~/lib/router";
 import { ToastType, withToast } from "~/lib/toast";
 
 export const LogIn_Schema = z.object({
@@ -38,7 +39,7 @@ export const useLogIn_FormAction = formAction$<LogIn_Type>(
       }); // NOTE: Add session attributes if needed
       authRequest.setSession(session);
       withToast(event, ToastType.success, "Log In Success!");
-      throw event.redirect(302, "/");
+      throw event.redirect(302, Router.index);
     } catch (err) {
       if (
         (err as LuciaError).message === "AUTH_INVALID_PASSWORD" ||

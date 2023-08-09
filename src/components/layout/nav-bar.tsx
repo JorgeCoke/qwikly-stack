@@ -1,5 +1,6 @@
 import { component$, useSignal } from "@builder.io/qwik";
 import { twMerge } from "tailwind-merge";
+import { Router } from "~/lib/router";
 import { siteConfig } from "~/lib/site.config";
 import { useSession } from "~/routes/layout";
 import LucideMenu from "../icons/lucide-menu";
@@ -18,7 +19,7 @@ export const NavBar = component$(() => {
         <div class="flex items-center justify-between">
           <a
             class="flex w-max items-center gap-2 text-xl font-semibold text-black dark:text-white"
-            href="/"
+            href={Router.index}
             aria-label={siteConfig.title}
           >
             <LucideZap />
@@ -55,19 +56,22 @@ export const NavBar = component$(() => {
                 <>
                   <AnchorButton
                     variant="outline"
-                    href="/auth/log-in"
+                    href={Router.auth.logIn}
                     aria-label="LogIn button"
                   >
                     Log In
                   </AnchorButton>
-                  <AnchorButton href="/auth/sign-up" aria-label="SignUp button">
+                  <AnchorButton
+                    href={Router.auth.signUp}
+                    aria-label="SignUp button"
+                  >
                     Sign Up
                   </AnchorButton>
                 </>
               )}
               {session.value && (
                 <AnchorButton
-                  href="/auth/profile"
+                  href={Router.auth.profile}
                   class="flex items-center gap-2"
                   aria-label="Profile button"
                 >
@@ -99,19 +103,19 @@ export const NavBar = component$(() => {
           <>
             <AnchorButton
               variant="outline"
-              href="/auth/log-in"
+              href={Router.auth.logIn}
               aria-label="LogIn button"
             >
               Log In
             </AnchorButton>
-            <AnchorButton href="/auth/sign-up" aria-label="SignUp button">
+            <AnchorButton href={Router.auth.signUp} aria-label="SignUp button">
               Sign Up
             </AnchorButton>
           </>
         )}
         {session.value && (
           <AnchorButton
-            href="/auth/profile"
+            href={Router.auth.profile}
             class="flex items-center gap-2"
             aria-label="Profile button"
           >

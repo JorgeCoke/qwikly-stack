@@ -10,6 +10,7 @@ import { verifyJwt } from "~/lib/crypto";
 import { db } from "~/lib/db/drizzle";
 import { users } from "~/lib/db/schema";
 import { CREDENTIALS_PROVIDER_ID, auth } from "~/lib/lucia-auth";
+import { Router } from "~/lib/router";
 import { ToastType, withToast } from "~/lib/toast";
 
 export const SetPassword_Schema = z.object({
@@ -67,7 +68,7 @@ export const useSetPassword_FormAction = formAction$<SetPassword_Type>(
       ToastType.success,
       "You can now Log In into your account with your new password"
     );
-    throw event.redirect(302, "/auth/log-in");
+    throw event.redirect(302, Router.auth.logIn);
   },
   zodForm$(SetPassword_Schema)
 );

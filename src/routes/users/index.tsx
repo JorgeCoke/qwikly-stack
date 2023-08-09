@@ -15,21 +15,26 @@ import { TableCell, TableRow } from "~/components/ui/table";
 import { db } from "~/lib/db/drizzle";
 import { users } from "~/lib/db/schema";
 import { auth } from "~/lib/lucia-auth";
+import { Router } from "~/lib/router";
 import { ToastType, withToast } from "~/lib/toast";
 import { CrudCookiesOptions } from "~/lib/utils";
 import { useSession } from "../layout";
 
 export const useUsersCrudCookies = routeLoader$(async (event) => {
-  const crudCookies = event.cookie.get("/users")?.json();
+  const crudCookies = event.cookie.get(Router.users.index)?.json();
   if (!crudCookies) {
     const defaultCrudCookies: CrudCookies = {
       limit: 5,
       offset: 0,
       orderBy: "id,asc",
     };
-    event.cookie.set("/users", defaultCrudCookies, CrudCookiesOptions);
+    event.cookie.set(
+      Router.users.index,
+      defaultCrudCookies,
+      CrudCookiesOptions
+    );
   }
-  const response = event.cookie.get("/users")?.json() as CrudCookies;
+  const response = event.cookie.get(Router.users.index)?.json() as CrudCookies;
   return response;
 });
 
@@ -89,7 +94,7 @@ export default component$(() => {
     <section class="container">
       <Crud
         title="Users"
-        url="/users"
+        url={Router.users.index}
         headers={[
           { label: "ID #", columnName: "id" },
           { label: "Email", columnName: "email" },
