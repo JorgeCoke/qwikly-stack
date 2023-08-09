@@ -20,7 +20,8 @@ export const Router = {
         index: "/users",
         new: "/users/new",
         id: "/users"
-    } 
+    },
+    health: "/health"
 } as const;
 
 export type Route = (typeof Router)[keyof typeof Router];
