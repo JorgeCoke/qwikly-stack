@@ -1,4 +1,7 @@
-import { Slot, component$ } from "@builder.io/qwik";
+import { Slot, component$, useSignal } from "@builder.io/qwik";
+import { z } from "@builder.io/qwik-city";
+import { formAction$, useForm, zodForm$ } from "@modular-forms/qwik";
+import { CrudCookiesOptions } from "~/lib/utils";
 import {
   useResetCrudCookies,
   useSetCrudCookies,
@@ -9,12 +12,14 @@ import LucideArrowUpNarrowWide from "../icons/lucide-arrow-up-narrow-wide";
 import LucidePlus from "../icons/lucide-plus";
 import LucideRefreshCcw from "../icons/lucide-refresh-ccw";
 import { AnchorButton, Button } from "./buttons";
+import { Input, SearchInput } from "./form";
 import { Table, TableHead } from "./table";
 
 export type CrudCookies = {
   limit: number;
   offset: number;
-  orderBy?: string;
+  orderBy: string;
+  search: string;
 };
 
 type CrudProps = {
@@ -25,36 +30,96 @@ type CrudProps = {
   items: { id: string }[];
   count: number;
   crudCookies: CrudCookies;
+  searchInput?: boolean;
 };
+
+export const Search_Schema = z.object({
+  cookieKey: z.string(),
+  search: z.string().nullable(),
+});
+export type Search_Type = z.infer<typeof Search_Schema>;
+
+export const useSearch_FormAction = formAction$<Search_Type>(
+  async (input, event) => {
+    const crudCookies: CrudCookies | undefined = event.cookie
+      .get(input.cookieKey)
+      ?.json();
+    if (crudCookies) {
+      crudCookies.search = input.search || "";
+      crudCookies.offset = 0;
+      event.cookie.set(input.cookieKey, crudCookies, CrudCookiesOptions);
+    }
+  },
+  zodForm$(Search_Schema)
+);
+
 export const Crud = component$<CrudProps>((props) => {
   const resetCrudCookies = useResetCrudCookies();
   const setCrudOrderBy = useSetCrudOrderBy();
+
+  const [Search_Form, { Form, Field }] = useForm<Search_Type>({
+    loader: useSignal({ cookieKey: props.url, search: "" }),
+    action: useSearch_FormAction(),
+    validate: zodForm$(Search_Schema),
+  });
+
   return (
     <Table>
       <caption>
-        <div class="flex items-center justify-between pb-3">
+        <div class="flex items-center gap-4 pb-3">
           <div class="flex items-center gap-3">
-            <Button
-              disabled={resetCrudCookies.isRunning}
-              onClick$={() => resetCrudCookies.submit({ cookieKey: props.url })}
-            >
-              <LucideRefreshCcw class="h-4 w-4" />
-            </Button>
             {props.title && (
               <span class=" text-3xl font-bold dark:text-white">
                 {props.title}
               </span>
             )}
-          </div>
-          {props.createButton && (
-            <AnchorButton
-              href={`${props.url}/new`}
-              class="flex items-center gap-2"
-              aria-label="Create user button"
+            {props.searchInput && (
+              <Form>
+                <Field name="cookieKey">
+                  {(field, _props) => (
+                    <Input
+                      {..._props}
+                      type="hidden"
+                      value={props.url}
+                      error={field.error}
+                    />
+                  )}
+                </Field>
+                <Field name="search">
+                  {(field, props) => (
+                    <SearchInput
+                      {...props}
+                      placeholder="Search..."
+                      type="text"
+                      value={field.value}
+                      error={field.error}
+                    />
+                  )}
+                </Field>
+              </Form>
+            )}
+            <Button
+              disabled={resetCrudCookies.isRunning}
+              onClick$={() => {
+                if (Search_Form.internal.fields.search) {
+                  Search_Form.internal.fields.search.value = "";
+                }
+                resetCrudCookies.submit({ cookieKey: props.url });
+              }}
             >
-              <LucidePlus class="h-4 w-4" /> {props.createButton}
-            </AnchorButton>
-          )}
+              <LucideRefreshCcw class="h-4 w-4" />
+            </Button>
+            {props.createButton && (
+              <AnchorButton
+                href={`${props.url}/new`}
+                class="flex items-center gap-2 leading-4"
+                aria-label="Create user button"
+              >
+                <LucidePlus class="h-4 w-4" />
+                {props.createButton}
+              </AnchorButton>
+            )}
+          </div>
         </div>
       </caption>
       <thead>
@@ -64,8 +129,8 @@ export const Crud = component$<CrudProps>((props) => {
               key={e.label}
               onClick$={() => {
                 if (e.columnName && e.label) {
-                  const columnName = props.crudCookies.orderBy?.split(",")[0];
-                  const sort = props.crudCookies.orderBy?.split(",")[1];
+                  const columnName = props.crudCookies.orderBy.split(",")[0];
+                  const sort = props.crudCookies.orderBy.split(",")[1];
                   setCrudOrderBy.submit({
                     cookieKey: props.url,
                     columnName: e.columnName,
@@ -142,6 +207,7 @@ const Pagination = component$<PaginationProps>((props) => {
     <div class="flex items-center justify-center space-x-2">
       {pages.map((page) => (
         <Button
+          type="button"
           variant="ghost"
           onClick$={() =>
             setCrudCookies.submit({
@@ -151,7 +217,9 @@ const Pagination = component$<PaginationProps>((props) => {
             })
           }
           key={page}
-          class={currentPage === page ? "bg-white dark:bg-slate-800" : ""}
+          class={
+            currentPage === page ? "h-10 w-10 bg-white dark:bg-slate-800" : ""
+          }
         >
           {page}
         </Button>

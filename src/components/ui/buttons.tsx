@@ -26,7 +26,7 @@ const mergeButtonStyles = (props: any): string => {
   };
 
   const classes = [
-    "inline-block rounded-md px-3 py-2 text-sm font-semibold transition-all",
+    "inline-block rounded-md p-2 text-sm font-semibold transition-all leading-4 whitespace-nowrap",
   ];
   if (props.disabled) {
     classes.push("opacity-50 pointer-events-none");

@@ -58,9 +58,7 @@ export const useSetCrudOrderBy = globalAction$(async (input, event) => {
     .get(input.cookieKey)
     ?.json();
   if (crudCookies) {
-    crudCookies.orderBy = input.sort
-      ? `${input.columnName},${input.sort}`
-      : undefined;
+    crudCookies.orderBy = input.sort ? `${input.columnName},${input.sort}` : "";
     event.cookie.set(input.cookieKey, crudCookies, CrudCookiesOptions);
   }
 }, zod$({ cookieKey: z.string(), columnName: z.string(), sort: z.string().nullable() }));
@@ -99,7 +97,7 @@ export default component$(() => {
     <div class={theme.value}>
       <div class="flex min-h-screen flex-col overflow-x-hidden bg-slate-100 dark:bg-slate-900">
         <NavBar />
-        <main class="flex-1 bg-gradient-to-b from-slate-50 via-transparent dark:from-violet-600/[.15] dark:via-transparent">
+        <main class="flex-1 overflow-x-auto bg-gradient-to-b from-slate-50 via-transparent dark:from-violet-600/[.15] dark:via-transparent">
           <Slot />
         </main>
         <Footer />

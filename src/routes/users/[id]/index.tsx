@@ -64,7 +64,11 @@ export const useUpdateUser_FormAction = formAction$<UpdateUser_Type>(
     if (!session) {
       throw event.redirect(302, Router[401]);
     }
-    await db.update(users).set({ name: input.name, role: input.role }).run();
+    await db
+      .update(users)
+      .set({ name: input.name, role: input.role })
+      .where(eq(users.id, input.id))
+      .run();
     const userEmail = await db
       .select()
       .from(users)

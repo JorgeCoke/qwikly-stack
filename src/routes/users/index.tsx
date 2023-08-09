@@ -6,7 +6,7 @@ import {
   z,
   zod$,
 } from "@builder.io/qwik-city";
-import { asc, desc, getTableColumns, sql } from "drizzle-orm";
+import { asc, desc, getTableColumns, like, or, sql } from "drizzle-orm";
 import LucideTrash from "~/components/icons/lucide-trash";
 import { Button } from "~/components/ui/buttons";
 import type { CrudCookies } from "~/components/ui/crud";
@@ -27,6 +27,7 @@ export const useUsersCrudCookies = routeLoader$(async (event) => {
       limit: 5,
       offset: 0,
       orderBy: "id,asc",
+      search: "",
     };
     event.cookie.set(
       Router.users.index,
@@ -45,6 +46,10 @@ export const useCrudUsers = routeLoader$(async (event) => {
     .from(users)
     .limit(crudCookies.limit)
     .offset(crudCookies.offset);
+  let countQuery = await db
+    .select({ count: sql<number>`count(id)`.mapWith(Number) })
+    .from(users);
+
   if (crudCookies.orderBy) {
     const columns = getTableColumns(users);
     const columnName = crudCookies.orderBy.split(
@@ -56,9 +61,15 @@ export const useCrudUsers = routeLoader$(async (event) => {
     );
   }
 
-  const countQuery = await db
-    .select({ count: sql<number>`count(id)`.mapWith(Number) })
-    .from(users);
+  if (crudCookies.search) {
+    const query = or(
+      like(users.id, `%${crudCookies.search}%`),
+      like(users.email, `%${crudCookies.search}%`),
+      like(users.name, `%${crudCookies.search}%`)
+    );
+    itemsQuery = itemsQuery.where(query);
+    countQuery = countQuery.where(query);
+  }
 
   return {
     items: await itemsQuery.all(),
@@ -106,6 +117,7 @@ export default component$(() => {
         count={crudUsers.value.count}
         createButton="Create User"
         crudCookies={crudUsers.value.crudCookies}
+        searchInput={true}
       >
         {crudUsers.value.items.map((e) => (
           <TableRow
