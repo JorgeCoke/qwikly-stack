@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.1.0](https://github.com/JorgeCoke/super-qwik-template/compare/v1.0.0...v1.1.0) (2023-08-10)
+
+
+### Features
+
+* **admin:** add admin dashboard ([be93f81](https://github.com/JorgeCoke/super-qwik-template/commit/be93f816103b9bbf181042a2679d41821f09db3d))
+* **chore:** add health endpoint ([7fa2425](https://github.com/JorgeCoke/super-qwik-template/commit/7fa2425f0c9b643bc39bfaa150b99c19dd89dd55))
+* **ui:** improve button styles ([5818509](https://github.com/JorgeCoke/super-qwik-template/commit/5818509eeb28c6897e0f0d09579535274cb2ce1f))
+
 ## [1.0.0](https://github.com/JorgeCoke/super-qwik-template/compare/v0.0.10...v1.0.0) (2023-08-09)
 
 ### Features
