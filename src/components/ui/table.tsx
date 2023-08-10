@@ -4,7 +4,7 @@ import { twMerge } from "tailwind-merge";
 
 export const Table = component$(() => {
   return (
-    <table class="my-4 min-w-full table-fixed divide-y divide-slate-300 rounded-md bg-slate-200 shadow dark:divide-slate-700 dark:bg-slate-950">
+    <table class="my-4 min-w-full table-auto rounded-md bg-slate-200 shadow dark:bg-slate-950">
       <Slot />
     </table>
   );

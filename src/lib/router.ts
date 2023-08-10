@@ -16,10 +16,12 @@ export const Router = {
         webhooks: "/payments/webhooks",
     },
     termsAndConditions: "/terms-and-conditions",
-    users: {
-        index: "/users",
-        new: "/users/new",
-        id: "/users"
+    admin: {
+        users: {
+            index: "/admin/users",
+            new: "/admin/users/new",
+            id: "/admin/users"
+        },
     },
     health: "/health"
 } as const;

@@ -16,7 +16,7 @@ export const siteConfig = {
     },
     {
       title: "C.R.U.D.",
-      href: Router.users.index
+      href: Router.admin.users.index
     },
   ],
 } as const;

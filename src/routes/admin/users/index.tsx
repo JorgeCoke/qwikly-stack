@@ -18,24 +18,26 @@ import { auth } from "~/lib/lucia-auth";
 import { Router } from "~/lib/router";
 import { ToastType, withToast } from "~/lib/toast";
 import { CrudCookiesOptions } from "~/lib/utils";
-import { useSession } from "../layout";
+import { useSession } from "../../layout";
 
 export const useUsersCrudCookies = routeLoader$(async (event) => {
-  const crudCookies = event.cookie.get(Router.users.index)?.json();
+  const crudCookies = event.cookie.get(Router.admin.users.index)?.json();
   if (!crudCookies) {
     const defaultCrudCookies: CrudCookies = {
-      limit: 5,
+      limit: 10,
       offset: 0,
       orderBy: "id,asc",
       search: "",
     };
     event.cookie.set(
-      Router.users.index,
+      Router.admin.users.index,
       defaultCrudCookies,
       CrudCookiesOptions
     );
   }
-  const response = event.cookie.get(Router.users.index)?.json() as CrudCookies;
+  const response = event.cookie
+    .get(Router.admin.users.index)
+    ?.json() as CrudCookies;
   return response;
 });
 
@@ -105,7 +107,7 @@ export default component$(() => {
     <section class="container">
       <Crud
         title="Users"
-        url={Router.users.index}
+        url={Router.admin.users.index}
         headers={[
           { label: "ID #", columnName: "id" },
           { label: "Email", columnName: "email" },
@@ -123,7 +125,7 @@ export default component$(() => {
           <TableRow
             key={e.id}
             onClick$={async () => {
-              await nav(`/users/${e.id}`);
+              await nav(`${Router.admin.users.id}/${e.id}`);
             }}
           >
             <TableCell>{e.id}</TableCell>
@@ -131,19 +133,19 @@ export default component$(() => {
             <TableCell>{e.name}</TableCell>
             <TableCell>{e.role}</TableCell>
             <TableCell>
-              {session.value?.user.userId !== e.id && (
-                <Button
-                  aria-label="Delete user button"
-                  color="danger"
-                  disabled={deleteUser.isRunning}
-                  onClick$={(event: any) => {
-                    event.stopPropagation();
-                    deleteUser.submit({ id: e.id! });
-                  }}
-                >
-                  <LucideTrash class="h-3 w-3" />
-                </Button>
-              )}
+              <Button
+                aria-label="Delete user button"
+                color="danger"
+                disabled={
+                  deleteUser.isRunning || session.value?.user.userId === e.id
+                }
+                onClick$={(event: any) => {
+                  event.stopPropagation();
+                  deleteUser.submit({ id: e.id! });
+                }}
+              >
+                <LucideTrash class="h-3 w-3" />
+              </Button>
             </TableCell>
           </TableRow>
         ))}

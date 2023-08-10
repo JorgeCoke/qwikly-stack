@@ -64,7 +64,7 @@ export const useCreateUser_FormAction = formAction$<CreateUser_Type>(
         throw err;
       });
     withToast(event, ToastType.success, "User created!");
-    throw event.redirect(302, Router.users.index);
+    throw event.redirect(302, Router.admin.users.index);
   },
   zodForm$(CreateUser_Schema)
 );
@@ -79,7 +79,10 @@ export default component$(() => {
   return (
     <section class="container flex w-96 flex-col items-center py-4">
       <H1 class="flex w-full grow items-center gap-4">
-        <AnchorButton href={Router.users.index} aria-label="Go back button">
+        <AnchorButton
+          href={Router.admin.users.index}
+          aria-label="Go back button"
+        >
           <LucideChevronsLeft class="h-4 w-4" />
         </AnchorButton>
         Create user:
