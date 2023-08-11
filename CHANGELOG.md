@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.2.0](https://github.com/JorgeCoke/super-qwik-template/compare/v1.1.0...v1.2.0) (2023-08-11)
+
+
+### Features
+
+* **ui:** add cal font ([4d7c5f1](https://github.com/JorgeCoke/super-qwik-template/commit/4d7c5f1675950c22a69720454837bb5b9178e6b2))
+
 ## [1.1.0](https://github.com/JorgeCoke/super-qwik-template/compare/v1.0.0...v1.1.0) (2023-08-10)
 
 
