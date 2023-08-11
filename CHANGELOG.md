@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.2.1](https://github.com/JorgeCoke/super-qwik-template/compare/v1.2.0...v1.2.1) (2023-08-11)
+
+
+### Bug Fixes
+
+* **toast:** fix toast messages ([9f74fc4](https://github.com/JorgeCoke/super-qwik-template/commit/9f74fc43c0d8ce6ebd6fdf27bc2e80b1e529f2f0))
+
 ## [1.2.0](https://github.com/JorgeCoke/super-qwik-template/compare/v1.1.0...v1.2.0) (2023-08-11)
 
 
