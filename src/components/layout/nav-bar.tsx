@@ -18,7 +18,7 @@ export const NavBar = component$(() => {
       <nav class="container relative mx-auto  w-full px-4 sm:flex sm:items-center sm:justify-between">
         <div class="flex items-center justify-between">
           <a
-            class="flex w-max items-center gap-2 text-xl font-semibold text-black dark:text-white"
+            class="cal flex w-max items-center gap-2 text-xl text-black dark:text-white"
             href={Router.index}
             aria-label={siteConfig.title}
           >

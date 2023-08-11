@@ -9,7 +9,7 @@ export const H0 = component$<TypographyProps>((props: any) => {
   return (
     <h1
       class={twMerge(
-        "pb-2 text-4xl font-bold text-slate-900 dark:text-slate-100 sm:text-5xl md:text-6xl lg:text-7xl",
+        "pb-2 text-5xl font-semibold text-slate-900 dark:text-slate-100 md:text-6xl lg:text-7xl",
         props.class
       )}
     >
@@ -22,7 +22,7 @@ export const H1 = component$<TypographyProps>((props: any) => {
   return (
     <h1
       class={twMerge(
-        "pb-2 text-3xl font-bold text-slate-900 dark:text-slate-100 sm:text-4xl",
+        "pb-2 text-3xl font-semibold text-slate-900 dark:text-slate-100 md:text-5xl",
         props.class
       )}
     >
@@ -33,37 +33,37 @@ export const H1 = component$<TypographyProps>((props: any) => {
 
 export const H2 = component$<TypographyProps>((props: any) => {
   return (
-    <h1
+    <h2
       class={twMerge(
         "pb-2 text-2xl font-bold text-slate-900 dark:text-slate-100 sm:text-3xl",
         props.class
       )}
     >
       <Slot />
-    </h1>
+    </h2>
   );
 });
 
 export const H3 = component$<TypographyProps>((props: any) => {
   return (
-    <h1
+    <h3
       class={twMerge(
         "pb-1 text-xl font-medium text-slate-900 dark:text-slate-100 sm:text-2xl",
         props.class
       )}
     >
       <Slot />
-    </h1>
+    </h3>
   );
 });
 
 export const H5 = component$<TypographyProps>((props: any) => {
   return (
-    <h1
+    <h5
       class={twMerge("text-lg text-slate-500 dark:text-slate-400", props.class)}
     >
       <Slot />
-    </h1>
+    </h5>
   );
 });
 

@@ -228,9 +228,9 @@ export default component$(() => {
 
   return (
     <section class="container flex flex-col gap-6 py-6">
-      <H0 class="text-center">Pricing</H0>
-      <H1 class="text-center">
-        Simple pricing. <Gradient>No hidden fees</Gradient>, no surprises
+      <H0 class="mx-auto max-w-3xl text-center">Simple pricing</H0>
+      <H1 class="mx-auto max-w-3xl text-center">
+        <Gradient>No hidden fees</Gradient>, no surprises
       </H1>
       <H2>One time payments</H2>
       <div class="grid grid-cols-1 gap-8 md:grid-cols-2">

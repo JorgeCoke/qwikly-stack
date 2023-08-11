@@ -1,5 +1,6 @@
 import { component$, Slot } from "@builder.io/qwik";
 import { globalAction$, routeLoader$, z, zod$ } from "@builder.io/qwik-city";
+import "cal-sans";
 import { Footer } from "~/components/layout/footer";
 import { NavBar } from "~/components/layout/nav-bar";
 import { TailwindIndicator } from "~/components/layout/tailwind-indicator";

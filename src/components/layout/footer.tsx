@@ -16,7 +16,7 @@ export const Footer = component$(() => {
     <footer class="w-full border-t border-white/[.1] bg-white py-8 dark:bg-slate-950">
       <div class="container space-y-3 text-center">
         <a
-          class="text-xl font-semibold text-black dark:text-white"
+          class="cal text-xl font-semibold text-black dark:text-white"
           href={Router.index}
           aria-label={siteConfig.title}
         >
