@@ -89,6 +89,8 @@ git push --follow-tags origin main  // Push the new version tag and trigger Gith
 
 ```
 npm run audit       // Run better-npm-audit
+npm outdated        // See outdated dependencies
+npm update --save   // Update outdated dependencies
 ```
 
 ---

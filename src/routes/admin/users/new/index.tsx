@@ -6,7 +6,6 @@ import type { LuciaError } from "lucia";
 import LucideChevronsLeft from "~/components/icons/lucide-chevrons-left";
 import { AnchorButton, Button } from "~/components/ui/buttons";
 import { Input, Select } from "~/components/ui/form";
-import { H1 } from "~/components/ui/typography";
 import { UserRole } from "~/lib/db/schema";
 import { CREDENTIALS_PROVIDER_ID, auth } from "~/lib/lucia-auth";
 import { Router } from "~/lib/router";
@@ -77,8 +76,8 @@ export default component$(() => {
   });
 
   return (
-    <section class="container flex w-96 flex-col items-center py-4">
-      <H1 class="flex w-full grow items-center gap-4">
+    <section class="container flex w-96 flex-col py-5">
+      <span class="flex w-full grow items-center gap-4 text-3xl font-bold dark:text-white">
         <AnchorButton
           href={Router.admin.users.index}
           aria-label="Go back button"
@@ -86,7 +85,7 @@ export default component$(() => {
           <LucideChevronsLeft class="h-4 w-4" />
         </AnchorButton>
         Create user:
-      </H1>
+      </span>
       <Form>
         <Field name="email">
           {(field, props) => (

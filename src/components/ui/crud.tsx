@@ -69,7 +69,7 @@ export const Crud = component$<CrudProps>((props) => {
         <div class="flex items-center gap-4 pb-4">
           <div class="flex items-center gap-4">
             {props.title && (
-              <span class=" text-3xl font-bold dark:text-white">
+              <span class="text-3xl font-bold dark:text-white">
                 {props.title}
               </span>
             )}
