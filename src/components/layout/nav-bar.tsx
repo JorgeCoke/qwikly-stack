@@ -1,17 +1,21 @@
 import { component$, useSignal } from "@builder.io/qwik";
+import { useLocation } from "@builder.io/qwik-city";
 import { twMerge } from "tailwind-merge";
+import { UserRole } from "~/lib/db/schema";
 import { Router } from "~/lib/router";
 import { siteConfig } from "~/lib/site.config";
 import { useSession } from "~/routes/layout";
+import LucideCog from "../icons/lucide-cog";
 import LucideMenu from "../icons/lucide-menu";
 import LucideUser from "../icons/lucide-user";
 import LucideZap from "../icons/lucide-zap";
 import { AnchorButton, Button } from "../ui/buttons";
+import { Gradient } from "../ui/typography";
 import { ThemeSwitch } from "./theme-switch";
 
 export const NavBar = component$(() => {
-  const session = useSession();
   const showMobileNavBar = useSignal(false);
+  const loc = useLocation();
 
   return (
     <header class="z-10 flex w-full flex-col border-b border-black/[.1] bg-white dark:border-white/[.1] dark:bg-slate-950 sm:justify-start md:flex-row">
@@ -24,6 +28,9 @@ export const NavBar = component$(() => {
           >
             <LucideZap />
             {siteConfig.title}
+            {loc.url.pathname.includes(Router.admin.index) && (
+              <Gradient>ADMIN</Gradient>
+            )}
           </a>
           <div class="py-4 sm:hidden">
             <Button
@@ -52,35 +59,7 @@ export const NavBar = component$(() => {
               </a>
             ))}
             <div class="flex gap-3">
-              {!session.value && (
-                <>
-                  <AnchorButton
-                    size="wide"
-                    variant="outline"
-                    href={Router.auth.logIn}
-                    aria-label="LogIn button"
-                  >
-                    Log In
-                  </AnchorButton>
-                  <AnchorButton
-                    size="wide"
-                    href={Router.auth.signUp}
-                    aria-label="SignUp button"
-                  >
-                    Sign Up
-                  </AnchorButton>
-                </>
-              )}
-              {session.value && (
-                <AnchorButton
-                  size="wide"
-                  href={Router.auth.profile}
-                  class="flex items-center gap-2"
-                  aria-label="Profile button"
-                >
-                  <LucideUser class="h-4 w-4" /> Profile
-                </AnchorButton>
-              )}
+              <AuthButtons />
               <ThemeSwitch />
             </div>
           </div>
@@ -102,31 +81,80 @@ export const NavBar = component$(() => {
             {e.title}
           </a>
         ))}
-        {!session.value && (
-          <>
-            <AnchorButton
-              variant="outline"
-              href={Router.auth.logIn}
-              aria-label="LogIn button"
-            >
-              Log In
-            </AnchorButton>
-            <AnchorButton href={Router.auth.signUp} aria-label="SignUp button">
-              Sign Up
-            </AnchorButton>
-          </>
-        )}
-        {session.value && (
-          <AnchorButton
-            href={Router.auth.profile}
-            class="flex items-center gap-2"
-            aria-label="Profile button"
-          >
-            <LucideUser class="h-4 w-4" /> Profile
-          </AnchorButton>
-        )}
+        <AuthButtons />
         <ThemeSwitch />
       </div>
     </header>
+  );
+});
+
+const AuthButtons = component$(() => {
+  const loc = useLocation();
+  const session = useSession();
+
+  return (
+    <>
+      {!session.value && !loc.url.pathname.includes(Router.admin.index) && (
+        <>
+          <AnchorButton
+            size="wide"
+            variant="outline"
+            href={Router.auth.logIn}
+            aria-label="LogIn button"
+          >
+            Log In
+          </AnchorButton>
+          <AnchorButton
+            size="wide"
+            href={Router.auth.signUp}
+            aria-label="SignUp button"
+          >
+            Sign Up
+          </AnchorButton>
+        </>
+      )}
+      {!session.value && loc.url.pathname.includes(Router.admin.index) && (
+        <>
+          <AnchorButton
+            size="wide"
+            href={Router.admin.landing.access}
+            aria-label="Access button"
+            class="bg-gradient-to-tl from-blue-600 to-violet-600"
+          >
+            Access Admin Panel
+          </AnchorButton>
+        </>
+      )}
+      {session.value && (
+        <AnchorButton
+          size="wide"
+          href={Router.auth.profile}
+          class="flex items-center gap-2"
+          aria-label="Profile button"
+        >
+          <LucideUser class="h-4 w-4" /> Profile
+        </AnchorButton>
+      )}
+      {session.value && session.value.user.role === UserRole.Admin && (
+        <>
+          <AnchorButton
+            size="wide"
+            href={Router.admin.dashboard.index}
+            aria-label="Admin button"
+            class="flex items-center gap-2 bg-gradient-to-tl from-blue-600 to-violet-600 dark:text-white"
+          >
+            <LucideCog class="h-4 w-4" /> Admin Panel
+          </AnchorButton>
+          <AnchorButton
+            size="wide"
+            href={Router.auth.logOut}
+            aria-label="Log out button"
+            color="danger"
+          >
+            Log Out
+          </AnchorButton>
+        </>
+      )}
+    </>
   );
 });

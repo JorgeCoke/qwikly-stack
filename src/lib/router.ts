@@ -17,13 +17,21 @@ export const Router = {
     },
     termsAndConditions: "/terms-and-conditions",
     admin: {
-        users: {
-            index: "/admin/users",
-            new: "/admin/users/new",
-            id: "/admin/users"
+        index: "/admin",
+        dashboard: {
+            index: "/admin/dashboard",
+            users: {
+                index: "/admin/dashboard/users",
+                new: "/admin/dashboard/users/new",
+                id: "/admin/dashboard/users"
+            },
         },
+        landing: {
+            index: "/admin/landing",
+            access: "/admin/landing/access"
+        }
     },
-    health: "/health"
+    health: "/health",
 } as const;
 
 export type Route = (typeof Router)[keyof typeof Router];

@@ -49,7 +49,7 @@ export const useDeleteUser = routeAction$(
     }
     await auth.deleteUser(input.id);
     withToast(event, ToastType.success, "User deleted!");
-    throw event.redirect(302, Router.admin.users.index);
+    throw event.redirect(302, Router.admin.dashboard.users.index);
   },
   zod$({
     id: z.string(),
@@ -81,7 +81,7 @@ export const useUpdateUser_FormAction = formAction$<UpdateUser_Type>(
       );
     }
     withToast(event, ToastType.success, "User updated!");
-    throw event.redirect(302, Router.admin.users.index);
+    throw event.redirect(302, Router.admin.dashboard.users.index);
   },
   zodForm$(UpdateUser_Schema)
 );
@@ -98,7 +98,7 @@ export default component$(() => {
     <section class="container flex w-96 flex-col py-4">
       <span class="flex w-full grow items-center gap-4 text-3xl font-bold dark:text-white">
         <AnchorButton
-          href={Router.admin.users.index}
+          href={Router.admin.dashboard.users.index}
           aria-label="Go back button"
         >
           <LucideChevronsLeft class="h-4 w-4" />

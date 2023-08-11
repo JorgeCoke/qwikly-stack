@@ -18,10 +18,12 @@ import { auth } from "~/lib/lucia-auth";
 import { Router } from "~/lib/router";
 import { ToastType, withToast } from "~/lib/toast";
 import { CrudCookiesOptions } from "~/lib/utils";
-import { useSession } from "../../layout";
+import { useSession } from "../../../layout";
 
 export const useUsersCrudCookies = routeLoader$(async (event) => {
-  const crudCookies = event.cookie.get(Router.admin.users.index)?.json();
+  const crudCookies = event.cookie
+    .get(Router.admin.dashboard.users.index)
+    ?.json();
   if (!crudCookies) {
     const defaultCrudCookies: CrudCookies = {
       limit: 10,
@@ -30,13 +32,13 @@ export const useUsersCrudCookies = routeLoader$(async (event) => {
       search: "",
     };
     event.cookie.set(
-      Router.admin.users.index,
+      Router.admin.dashboard.users.index,
       defaultCrudCookies,
       CrudCookiesOptions
     );
   }
   const response = event.cookie
-    .get(Router.admin.users.index)
+    .get(Router.admin.dashboard.users.index)
     ?.json() as CrudCookies;
   return response;
 });
@@ -107,7 +109,7 @@ export default component$(() => {
     <section class="container">
       <Crud
         title="Users"
-        url={Router.admin.users.index}
+        url={Router.admin.dashboard.users.index}
         headers={[
           { label: "ID #", columnName: "id" },
           { label: "Email", columnName: "email" },
@@ -125,7 +127,7 @@ export default component$(() => {
           <TableRow
             key={e.id}
             onClick$={async () => {
-              await nav(`${Router.admin.users.id}/${e.id}`);
+              await nav(`${Router.admin.dashboard.users.id}/${e.id}`);
             }}
           >
             <TableCell>{e.id}</TableCell>

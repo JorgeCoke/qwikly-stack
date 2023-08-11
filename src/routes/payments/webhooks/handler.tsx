@@ -71,7 +71,7 @@ export const webhookHandler = async (stripeEvent: Stripe.Event) => {
             attributes: {
               email: customerEmail,
               name: null,
-              role: UserRole.Admin,
+              role: UserRole.User,
             },
           });
           user = await db
