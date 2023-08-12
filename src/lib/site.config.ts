@@ -17,7 +17,7 @@ export const siteConfig = {
     },
     {
       title: "Admin Dashboard",
-      href: Router.admin.landing.index
+      href: Router.admin.landing
     },
   ],
 } as const;

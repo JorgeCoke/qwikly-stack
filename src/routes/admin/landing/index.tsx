@@ -25,7 +25,7 @@ export default component$(() => {
           <AnchorButton
             aria-label="GetStarted button"
             class=" rounded-full bg-gradient-to-tl from-blue-600 to-violet-600 px-6 py-3  font-bold  text-white shadow-lg hover:shadow-blue-700/50  dark:text-white "
-            href={Router.admin.landing.access}
+            href={Router.admin.access}
           >
             ACCESS ADMIN PANEL
           </AnchorButton>

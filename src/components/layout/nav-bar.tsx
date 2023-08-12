@@ -117,9 +117,9 @@ const AuthButtons = component$(() => {
         <>
           <AnchorButton
             size="wide"
-            href={Router.admin.landing.access}
+            href={Router.admin.access}
             aria-label="Access button"
-            class="bg-gradient-to-tl from-blue-600 to-violet-600"
+            class="bg-gradient-to-tl from-blue-600 to-violet-600 dark:text-white"
           >
             Access Admin Panel
           </AnchorButton>
