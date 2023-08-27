@@ -363,7 +363,7 @@ export default component$(() => {
               <div class="mb-2 flex items-center justify-between text-black dark:text-white">
                 <p class="text-lg font-bold leading-5">{step.title}</p>
                 <p class="text-deep-slate-accent-400 flex h-6 w-6 items-center justify-center rounded bg-gradient-to-tl from-blue-600 to-violet-600 font-bold text-white">
-                  {index}
+                  {index + 1}
                 </p>
               </div>
               <H5 class="text-sm">{step.description}</H5>

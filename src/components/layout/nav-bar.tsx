@@ -3,7 +3,7 @@ import { useLocation } from "@builder.io/qwik-city";
 import { twMerge } from "tailwind-merge";
 import { UserRole } from "~/lib/db/schema";
 import { Router } from "~/lib/router";
-import { siteConfig } from "~/lib/site.config";
+import { SiteConfig } from "~/lib/site-config";
 import { useSession } from "~/routes/layout";
 import LucideCog from "../icons/lucide-cog";
 import LucideMenu from "../icons/lucide-menu";
@@ -24,10 +24,10 @@ export const NavBar = component$(() => {
           <a
             class="cal flex w-max items-center gap-2 text-xl text-black dark:text-white"
             href={Router.index}
-            aria-label={siteConfig.title}
+            aria-label={SiteConfig.title}
           >
             <LucideZap />
-            {siteConfig.title}
+            {SiteConfig.title}
             {loc.url.pathname.includes(Router.admin.index) && (
               <Gradient>ADMIN</Gradient>
             )}
@@ -48,7 +48,7 @@ export const NavBar = component$(() => {
         </div>
         <div class="hs-collapse hidden grow basis-full overflow-hidden py-3 transition-all duration-300 sm:block">
           <div class="mt-5 flex flex-col gap-x-0 gap-y-4 sm:mt-0 sm:flex-row sm:items-center sm:justify-end sm:gap-x-7 sm:gap-y-0 sm:pl-7">
-            {siteConfig.navBar.map((e) => (
+            {SiteConfig.navBar.map((e) => (
               <a
                 aria-label={e.title}
                 key={e.href}
@@ -71,7 +71,7 @@ export const NavBar = component$(() => {
           showMobileNavBar.value ? "" : "hidden"
         )}
       >
-        {siteConfig.navBar.map((e) => (
+        {SiteConfig.navBar.map((e) => (
           <a
             aria-label={e.title}
             key={e.href}
@@ -143,7 +143,7 @@ const AuthButtons = component$(() => {
             aria-label="Admin button"
             class="flex items-center gap-2 bg-gradient-to-tl from-blue-600 to-violet-600 dark:text-white"
           >
-            <LucideCog class="h-4 w-4" /> Admin Panel
+            <LucideCog class="h-4 w-4" /> Admin
           </AnchorButton>
           <AnchorButton
             size="wide"

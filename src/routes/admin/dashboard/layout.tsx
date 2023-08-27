@@ -3,6 +3,7 @@ import { useLocation } from "@builder.io/qwik-city";
 import LucideMenu from "~/components/icons/lucide-menu";
 import LucideUser from "~/components/icons/lucide-user";
 import { AnchorButton } from "~/components/ui/buttons";
+import { Card } from "~/components/ui/card";
 import { Router } from "~/lib/router";
 
 export default component$(() => {
@@ -43,7 +44,11 @@ export default component$(() => {
           </AnchorButton>
         ))}
       </nav>
-      <Slot />
+      <section class="container pt-4">
+        <Card class="p-4">
+          <Slot />
+        </Card>
+      </section>
     </div>
   );
 });

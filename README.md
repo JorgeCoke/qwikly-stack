@@ -85,7 +85,7 @@ npm run release                     // Create a new bump version
 git push --follow-tags origin main  // Push the new version tag and trigger Github deployment action
 ```
 
-### Check vulnerabilities
+### Vulnerabilities and dependencies cheatsheet
 
 ```
 npm run audit       // Run better-npm-audit

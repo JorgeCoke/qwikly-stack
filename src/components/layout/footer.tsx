@@ -1,6 +1,6 @@
 import { component$ } from "@builder.io/qwik";
 import { Router } from "~/lib/router";
-import { siteConfig } from "~/lib/site.config";
+import { SiteConfig } from "~/lib/site-config";
 import GithubIcon from "../icons/github-icon";
 import { ThemeSwitch } from "./theme-switch";
 
@@ -18,9 +18,9 @@ export const Footer = component$(() => {
         <a
           class="cal text-xl font-semibold text-black dark:text-white"
           href={Router.index}
-          aria-label={siteConfig.title}
+          aria-label={SiteConfig.title}
         >
-          {siteConfig.title}
+          {SiteConfig.title}
         </a>
 
         <p class="text-sm text-slate-700 dark:text-slate-400">

@@ -7,7 +7,6 @@ export default component$(() => {
   return (
     <section class="container  py-12">
       <div class="relative z-10 mx-auto max-w-[85rem] space-y-10 py-12">
-        {/* <QwikLogo class="mx-auto h-24" /> */}
         <div class="mx-auto max-w-3xl pt-12 text-center">
           <H0>
             This is your <Gradient>ADMIN</Gradient> landing page

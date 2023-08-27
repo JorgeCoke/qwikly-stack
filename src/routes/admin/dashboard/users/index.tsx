@@ -106,52 +106,50 @@ export default component$(() => {
   const nav = useNavigate();
 
   return (
-    <section class="container">
-      <Crud
-        title="Users"
-        url={Router.admin.dashboard.users.index}
-        headers={[
-          { label: "ID #", columnName: "id" },
-          { label: "Email", columnName: "email" },
-          { label: "Name", columnName: "name" },
-          { label: "Role", columnName: "role" },
-          {},
-        ]}
-        items={crudUsers.value.items}
-        count={crudUsers.value.count}
-        createButton="Create User"
-        crudCookies={crudUsers.value.crudCookies}
-        searchInput={true}
-      >
-        {crudUsers.value.items.map((e) => (
-          <TableRow
-            key={e.id}
-            onClick$={async () => {
-              await nav(`${Router.admin.dashboard.users.id}/${e.id}`);
-            }}
-          >
-            <TableCell>{e.id}</TableCell>
-            <TableCell>{e.email}</TableCell>
-            <TableCell>{e.name}</TableCell>
-            <TableCell>{e.role}</TableCell>
-            <TableCell>
-              <Button
-                aria-label="Delete user button"
-                color="danger"
-                disabled={
-                  deleteUser.isRunning || session.value?.user.userId === e.id
-                }
-                onClick$={(event: any) => {
-                  event.stopPropagation();
-                  deleteUser.submit({ id: e.id! });
-                }}
-              >
-                <LucideTrash class="h-3 w-3" />
-              </Button>
-            </TableCell>
-          </TableRow>
-        ))}
-      </Crud>
-    </section>
+    <Crud
+      title="Users"
+      url={Router.admin.dashboard.users.index}
+      headers={[
+        { label: "ID #", columnName: "id" },
+        { label: "Email", columnName: "email" },
+        { label: "Name", columnName: "name" },
+        { label: "Role", columnName: "role" },
+        {},
+      ]}
+      items={crudUsers.value.items}
+      count={crudUsers.value.count}
+      createButton="Create User"
+      crudCookies={crudUsers.value.crudCookies}
+      searchInput={true}
+    >
+      {crudUsers.value.items.map((e) => (
+        <TableRow
+          key={e.id}
+          onClick$={async () => {
+            await nav(`${Router.admin.dashboard.users.id}/${e.id}`);
+          }}
+        >
+          <TableCell>{e.id}</TableCell>
+          <TableCell>{e.email}</TableCell>
+          <TableCell>{e.name}</TableCell>
+          <TableCell>{e.role}</TableCell>
+          <TableCell>
+            <Button
+              aria-label="Delete user button"
+              color="danger"
+              disabled={
+                deleteUser.isRunning || session.value?.user.userId === e.id
+              }
+              onClick$={(event: any) => {
+                event.stopPropagation();
+                deleteUser.submit({ id: e.id! });
+              }}
+            >
+              <LucideTrash class="h-3 w-3" />
+            </Button>
+          </TableCell>
+        </TableRow>
+      ))}
+    </Crud>
   );
 });

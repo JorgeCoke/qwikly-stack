@@ -26,7 +26,6 @@ export const Router = {
                 id: "/admin/dashboard/users"
             },
         },
-        landing: "/admin/landing",
         access: "/admin/access"
     },
     health: "/health",

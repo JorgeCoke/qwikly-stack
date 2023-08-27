@@ -1,4 +1,4 @@
-import { siteConfig } from "~/lib/site.config";
+import { SiteConfig } from "~/lib/site-config";
 
 export const setPasswordTemplate = (title: string, url: string) => `
 <!doctype html>
@@ -86,7 +86,7 @@ export const setPasswordTemplate = (title: string, url: string) => `
         <tbody>
           <tr class="prose prose-neutral" style="color: #4a5568; max-width: 600px; font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; font-size: 16px; line-height: 1.75;">
                     <td style="margin-top: 0; margin-bottom: 0; padding: 10px 25px; word-break: break-word;" ">
-                         <h1 style="color: #1a202c; font-weight: 800; font-size: 36px; margin-top: 0px; margin-bottom: 14px; line-height: 40px; text-align: center;"><span style="color: #000000">Join us on</span> <strong style="color: #1a202c; font-weight: 600;">${siteConfig.title}</strong></h1><p style="margin-top: 20px; margin-bottom: 20px;">Hello, someone recently requested a new password for your account. If this was you, you can set a new password here:</p><p style="margin-top: 20px; margin-bottom: 20px;">${url}</p><p style="margin-top: 20px; margin-bottom: 20px;">If you don’t want to set up your password or you didn’t request this, just ignore and delete this message.</p>
+                         <h1 style="color: #1a202c; font-weight: 800; font-size: 36px; margin-top: 0px; margin-bottom: 14px; line-height: 40px; text-align: center;"><span style="color: #000000">Join us on</span> <strong style="color: #1a202c; font-weight: 600;">${SiteConfig.title}</strong></h1><p style="margin-top: 20px; margin-bottom: 20px;">Hello, someone recently requested a new password for your account. If this was you, you can set a new password here:</p><p style="margin-top: 20px; margin-bottom: 20px;">${url}</p><p style="margin-top: 20px; margin-bottom: 20px;">If you don’t want to set up your password or you didn’t request this, just ignore and delete this message.</p>
                     </td>    
                 </tr>
         </tbody>
