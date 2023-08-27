@@ -87,31 +87,36 @@ export default component$(() => {
   const sendSetPasswordEmail = useSendSetPasswordEmail();
 
   return (
-    <section class="container mx-auto flex max-w-4xl flex-col py-6">
-      <H1>My profile</H1>
-      <H2>
-        <Gradient class="font-light">{session.value?.user.email}</Gradient>
-      </H2>
+    <section class="container mx-auto flex max-w-4xl flex-col">
+      <div class="py-6">
+        <H1>My profile</H1>
+        <H2>
+          <Gradient class="font-light">{session.value?.user.email}</Gradient>
+        </H2>
+        <p class="flex items-center gap-4 text-black dark:text-white">
+          Current Subscription:{" "}
+          <span class=" font-bold">
+            {currentSubscription.value?.stripe_event.type ===
+            StripeEventType.SubscriptionUpdated
+              ? currentSubscription.value?.stripe_product.name
+              : "none"}
+          </span>
+          <Button
+            aria-label="Cancel subscription button"
+            disabled={
+              currentSubscription.value?.stripe_event.type !==
+                StripeEventType.SubscriptionUpdated ||
+              cancelSubscription.isRunning
+            }
+            variant="outline"
+            onClick$={() => cancelSubscription.submit()}
+          >
+            Cancel Subscription
+          </Button>
+        </p>
+      </div>
       <BillingTable />
-      <p class="flex items-center gap-4 text-black dark:text-white">
-        Current Subscription:{" "}
-        {currentSubscription.value?.stripe_event.type ===
-        StripeEventType.SubscriptionUpdated
-          ? currentSubscription.value?.stripe_product.name
-          : "none"}
-        <Button
-          aria-label="Cancel subscription button"
-          disabled={
-            currentSubscription.value?.stripe_event.type !==
-              StripeEventType.SubscriptionUpdated ||
-            cancelSubscription.isRunning
-          }
-          variant="outline"
-          onClick$={() => cancelSubscription.submit()}
-        >
-          Cancel
-        </Button>
-      </p>
+
       <div class="flex gap-4 pt-6">
         <Button
           aria-label="Reset password button"

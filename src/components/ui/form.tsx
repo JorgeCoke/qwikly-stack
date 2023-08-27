@@ -28,7 +28,7 @@ export const Input = component$<FormProps>((props: any) => {
       )}
       <input
         {...props}
-        class="grow rounded-md bg-white p-2 leading-4 text-slate-800 ring-1 ring-inset ring-slate-300 dark:bg-slate-950 dark:text-slate-200 dark:ring-slate-800"
+        class="grow rounded-md bg-slate-50 p-2 leading-4 text-slate-800 ring-1 ring-inset ring-slate-300 dark:bg-slate-900 dark:text-slate-200 dark:ring-slate-800"
       />
       {props.description && (
         <p class=" text-sm text-slate-600 dark:text-slate-400">
@@ -65,7 +65,7 @@ export const Select = component$<SelectProps>((props: any) => {
       )}
       <select
         {...props}
-        class="block w-full rounded-md bg-white p-2 leading-4 text-slate-800 ring-1 ring-inset ring-slate-300 dark:bg-slate-950 dark:text-slate-200 dark:ring-slate-800 "
+        class="block w-full rounded-md bg-slate-50 p-2 leading-4 text-slate-800 ring-1 ring-inset ring-slate-300 dark:bg-slate-900 dark:text-slate-200 dark:ring-slate-800 "
       >
         {props.options.map((e: { label: string; value: string }) => (
           <option
@@ -106,7 +106,7 @@ export const SearchInput = component$<FormProps>((props: any) => {
       <div class="flex">
         <input
           {...props}
-          class="grow rounded-md rounded-r-none bg-white px-2 leading-4 text-slate-800 ring-1 ring-inset ring-slate-300 dark:bg-slate-950 dark:text-slate-200 dark:ring-slate-800"
+          class="grow rounded-md rounded-r-none bg-slate-50 px-2 leading-4 text-slate-800 ring-1 ring-inset ring-slate-300 dark:bg-slate-900 dark:text-slate-200 dark:ring-slate-800"
         />
         <Button class="rounded-l-none">
           <LucideSearch class="h-4 w-4" />

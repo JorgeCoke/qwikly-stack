@@ -23,12 +23,15 @@ type UpdateUser_Type = z.infer<typeof UpdateUser_Schema>;
 
 export const useUpdateUser_FormLoader = routeLoader$<
   InitialValues<UpdateUser_Type>
->(async (req) => {
+>(async (event) => {
   const user = await db
     .select()
     .from(users)
-    .where(eq(users.id, req.params.id))
+    .where(eq(users.id, event.params.id))
     .get();
+  if (!user) {
+    throw event.fail(404, { message: "User not found" });
+  }
 
   return {
     id: user.id,
@@ -53,7 +56,7 @@ export const useDeleteUser = routeAction$(
   },
   zod$({
     id: z.string(),
-  })
+  }),
 );
 
 export const useUpdateUser_FormAction = formAction$<UpdateUser_Type>(
@@ -66,24 +69,26 @@ export const useUpdateUser_FormAction = formAction$<UpdateUser_Type>(
     await db
       .update(users)
       .set({ name: input.name, role: input.role })
-      .where(eq(users.id, input.id))
-      .run();
+      .where(eq(users.id, input.id));
     const userEmail = await db
       .select()
       .from(users)
       .where(eq(users.id, input.id))
       .get();
+    if (!userEmail) {
+      throw event.fail(404, { message: "User not found" });
+    }
     if (input.password) {
       await auth.updateKeyPassword(
         CREDENTIALS_PROVIDER_ID,
         userEmail.email,
-        input.password
+        input.password,
       );
     }
     withToast(event, ToastType.success, "User updated!");
     throw event.redirect(302, Router.admin.dashboard.users.index);
   },
-  zodForm$(UpdateUser_Schema)
+  zodForm$(UpdateUser_Schema),
 );
 
 export default component$(() => {
@@ -95,7 +100,7 @@ export default component$(() => {
   const deleteUser = useDeleteUser();
 
   return (
-    <section class="container flex w-96 flex-col py-4">
+    <div class="max-w-xl">
       <span class="flex w-full grow items-center gap-4 text-3xl font-bold dark:text-white">
         <AnchorButton
           href={Router.admin.dashboard.users.index}
@@ -180,6 +185,6 @@ export default component$(() => {
           </Button>
         </div>
       </Form>
-    </section>
+    </div>
   );
 });

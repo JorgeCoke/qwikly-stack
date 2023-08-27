@@ -5,6 +5,7 @@ import { FormError, formAction$, useForm, zodForm$ } from "@modular-forms/qwik";
 import type { LuciaError } from "lucia";
 import LucideKeySquare from "~/components/icons/lucide-key-square";
 import { Button } from "~/components/ui/buttons";
+import { Card } from "~/components/ui/card";
 import { Input } from "~/components/ui/form";
 import { H1 } from "~/components/ui/typography";
 import { UserRole } from "~/lib/db/schema";
@@ -26,7 +27,7 @@ export const useSignUp_FormLoader = routeLoader$<InitialValues<SignUp_Type>>(
     name: "",
     password: "",
     repeatPassword: "",
-  })
+  }),
 );
 
 export const useSignUp_FormAction = formAction$<SignUp_Type>(
@@ -63,11 +64,11 @@ export const useSignUp_FormAction = formAction$<SignUp_Type>(
     withToast(
       event,
       ToastType.success,
-      "You can now Log In into your account!"
+      "You can now Log In into your account!",
     );
     throw event.redirect(302, Router.auth.logIn);
   },
-  zodForm$(SignUp_Schema)
+  zodForm$(SignUp_Schema),
 );
 
 export default component$(() => {
@@ -78,75 +79,77 @@ export default component$(() => {
   });
 
   return (
-    <section class="container flex w-96 flex-col items-center py-4">
-      <H1>Sign Up</H1>
-      <Form>
-        <Field name="email">
-          {(field, props) => (
-            <Input
-              {...props}
-              label="Your email"
-              type="email"
-              required
-              value={field.value}
-              error={field.error}
-            />
-          )}
-        </Field>
-        <Field name="name">
-          {(field, props) => (
-            <Input
-              {...props}
-              label="Name"
-              type="text"
-              value={field.value}
-              error={field.error}
-            />
-          )}
-        </Field>
-        <Field name="password">
-          {(field, props) => (
-            <Input
-              {...props}
-              label="Password"
-              type="password"
-              required
-              value={field.value}
-              error={field.error}
-            />
-          )}
-        </Field>
-        <Field name="repeatPassword">
-          {(field, props) => (
-            <Input
-              {...props}
-              label="Repeat Password"
-              type="password"
-              required
-              value={field.value}
-              error={field.error}
-            />
-          )}
-        </Field>
-        <Button
-          size="wide"
-          class="mt-2"
-          type="submit"
-          aria-label="SignUp button"
-        >
-          Sign Up
-        </Button>
-      </Form>
-      <p class="mt-8 flex w-full flex-row items-center justify-center border-t border-slate-400 pt-6 text-center text-slate-800 dark:border-slate-700 dark:text-slate-400">
-        Do you have an account?
-        <a
-          class="px-2 font-medium underline underline-offset-4 hover:text-black dark:hover:text-white"
-          href={`/auth/log-in`}
-        >
-          Log In here
-        </a>
-        <LucideKeySquare class="h-4 w-4" />
-      </p>
+    <section class="container py-4">
+      <Card class="mx-auto max-w-xl p-8">
+        <H1>Sign Up</H1>
+        <Form>
+          <Field name="email">
+            {(field, props) => (
+              <Input
+                {...props}
+                label="Your email"
+                type="email"
+                required
+                value={field.value}
+                error={field.error}
+              />
+            )}
+          </Field>
+          <Field name="name">
+            {(field, props) => (
+              <Input
+                {...props}
+                label="Name"
+                type="text"
+                value={field.value}
+                error={field.error}
+              />
+            )}
+          </Field>
+          <Field name="password">
+            {(field, props) => (
+              <Input
+                {...props}
+                label="Password"
+                type="password"
+                required
+                value={field.value}
+                error={field.error}
+              />
+            )}
+          </Field>
+          <Field name="repeatPassword">
+            {(field, props) => (
+              <Input
+                {...props}
+                label="Repeat Password"
+                type="password"
+                required
+                value={field.value}
+                error={field.error}
+              />
+            )}
+          </Field>
+          <Button
+            size="wide"
+            class="mt-2"
+            type="submit"
+            aria-label="SignUp button"
+          >
+            Sign Up
+          </Button>
+        </Form>
+        <p class="mt-8 flex w-full flex-row items-center justify-center border-t border-slate-400 pt-6 text-center text-slate-800 dark:border-slate-700 dark:text-slate-400">
+          Do you have an account?
+          <a
+            class="px-2 font-medium underline underline-offset-4 hover:text-black dark:hover:text-white"
+            href={`/auth/log-in`}
+          >
+            Log In here
+          </a>
+          <LucideKeySquare class="h-4 w-4" />
+        </p>
+      </Card>
     </section>
   );
 });

@@ -28,7 +28,7 @@ export const useProducts = routeLoader$(async () => {
         type: "one_time",
       })
       .then((res) =>
-        res.data.filter((e) => (e.product as Stripe.Product).active)
+        res.data.filter((e) => (e.product as Stripe.Product).active),
       );
 
   let productPricesFromStripe = await getProductPricesFromStripe();
@@ -52,26 +52,23 @@ export const useProducts = routeLoader$(async () => {
       .where(
         eq(
           stripeProducts.id,
-          (productPriceFromStripe.product as Stripe.Product).id
-        )
+          (productPriceFromStripe.product as Stripe.Product).id,
+        ),
       )
       .get();
     // TODO:
     if (!product) {
-      await db
-        .insert(stripeProducts)
-        .values({
-          id: (productPriceFromStripe.product as Stripe.Product).id,
-          amount: productPriceFromStripe.unit_amount || 99999,
-          currency: productPriceFromStripe.currency,
-          priceId: productPriceFromStripe.id,
-          name: (productPriceFromStripe.product as Stripe.Product).name,
-          metadata: {
-            description: (productPriceFromStripe.product as Stripe.Product)
-              .metadata.description,
-          },
-        })
-        .run();
+      await db.insert(stripeProducts).values({
+        id: (productPriceFromStripe.product as Stripe.Product).id,
+        amount: productPriceFromStripe.unit_amount || 99999,
+        currency: productPriceFromStripe.currency,
+        priceId: productPriceFromStripe.id,
+        name: (productPriceFromStripe.product as Stripe.Product).name,
+        metadata: {
+          description: (productPriceFromStripe.product as Stripe.Product)
+            .metadata.description,
+        },
+      });
     }
   }
   return await db
@@ -91,7 +88,7 @@ export const useSubscriptions = routeLoader$(async () => {
         type: "recurring",
       })
       .then((res) =>
-        res.data.filter((e) => (e.product as Stripe.Product).active)
+        res.data.filter((e) => (e.product as Stripe.Product).active),
       );
 
   let subscriptionPricesFromStripe = await getSubscriptionsPricesFromStripe();
@@ -118,30 +115,27 @@ export const useSubscriptions = routeLoader$(async () => {
       .where(
         eq(
           stripeProducts.id,
-          (subscriptionPriceFromStripe.product as Stripe.Product).id
-        )
+          (subscriptionPriceFromStripe.product as Stripe.Product).id,
+        ),
       )
       .get();
     if (!subscription) {
-      await db
-        .insert(stripeProducts)
-        .values({
-          id: (subscriptionPriceFromStripe.product as Stripe.Product).id,
-          amount: subscriptionPriceFromStripe.unit_amount || 99999,
-          currency: subscriptionPriceFromStripe.currency,
-          priceId: subscriptionPriceFromStripe.id,
-          name: (subscriptionPriceFromStripe.product as Stripe.Product).name,
-          metadata: {
-            description: (subscriptionPriceFromStripe.product as Stripe.Product)
-              .metadata.description,
-          },
-          recurring: subscriptionPriceFromStripe.recurring
-            ? {
-                interval: subscriptionPriceFromStripe.recurring.interval,
-              }
-            : undefined,
-        })
-        .run();
+      await db.insert(stripeProducts).values({
+        id: (subscriptionPriceFromStripe.product as Stripe.Product).id,
+        amount: subscriptionPriceFromStripe.unit_amount || 99999,
+        currency: subscriptionPriceFromStripe.currency,
+        priceId: subscriptionPriceFromStripe.id,
+        name: (subscriptionPriceFromStripe.product as Stripe.Product).name,
+        metadata: {
+          description: (subscriptionPriceFromStripe.product as Stripe.Product)
+            .metadata.description,
+        },
+        recurring: subscriptionPriceFromStripe.recurring
+          ? {
+              interval: subscriptionPriceFromStripe.recurring.interval,
+            }
+          : undefined,
+      });
     }
   }
 
@@ -175,7 +169,7 @@ export const useBuyProduct = routeAction$(
           inArray(stripeEvents.type, [
             StripeEventType.SubscriptionDeleted,
             StripeEventType.SubscriptionUpdated,
-          ])
+          ]),
         )
         .orderBy(desc(stripeEvents.createdAt))
         .get();
@@ -187,7 +181,7 @@ export const useBuyProduct = routeAction$(
         withToast(
           event,
           ToastType.error,
-          "You have already a subscription in progress, please, cancel it in your profile page and try again"
+          "You have already a subscription in progress, please, cancel it in your profile page and try again",
         );
         return event.fail(409, {});
       }
@@ -217,7 +211,7 @@ export const useBuyProduct = routeAction$(
   },
   zod$({
     priceId: z.string(),
-  })
+  }),
 );
 
 export default component$(() => {

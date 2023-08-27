@@ -5,6 +5,7 @@ import { formAction$, useForm, zodForm$ } from "@modular-forms/qwik";
 import { eq } from "drizzle-orm";
 import type { LuciaError } from "lucia";
 import { Button } from "~/components/ui/buttons";
+import { Card } from "~/components/ui/card";
 import { Input } from "~/components/ui/form";
 import { H1 } from "~/components/ui/typography";
 import { db } from "~/lib/db/drizzle";
@@ -33,14 +34,14 @@ export const useLogInAdmin_FormAction = formAction$<LogInAdmin_Type>(
       const key = await auth.useKey(
         CREDENTIALS_PROVIDER_ID,
         input.email.toLowerCase().trim(),
-        input.password
+        input.password,
       );
       const user = await db
         .select()
         .from(users)
         .where(eq(users.id, key.userId))
         .get();
-      if (user.role !== UserRole.Admin) {
+      if (!user || user.role !== UserRole.Admin) {
         return event.fail(419, {
           message: "Invalid credentials",
         });
@@ -64,7 +65,7 @@ export const useLogInAdmin_FormAction = formAction$<LogInAdmin_Type>(
       throw err;
     }
   },
-  zodForm$(LogInAdmin_Schema)
+  zodForm$(LogInAdmin_Schema),
 );
 
 export default component$(() => {
@@ -75,47 +76,49 @@ export default component$(() => {
   });
 
   return (
-    <section class="container flex w-96 flex-col items-center py-4">
-      <div>
-        <H1>Access Admin Panel</H1>
-        <Form>
-          <Field name="email">
-            {(field, props) => (
-              <Input
-                {...props}
-                label="Email"
-                type="email"
-                required
-                value={field.value}
-                error={field.error}
-              />
+    <section class="container flex flex-col items-center py-4">
+      <Card class="w-5xl p-8">
+        <div>
+          <H1>Access Admin Panel</H1>
+          <Form>
+            <Field name="email">
+              {(field, props) => (
+                <Input
+                  {...props}
+                  label="Email"
+                  type="email"
+                  required
+                  value={field.value}
+                  error={field.error}
+                />
+              )}
+            </Field>
+            <Field name="password">
+              {(field, props) => (
+                <Input
+                  {...props}
+                  label="Password"
+                  type="password"
+                  required
+                  value={field.value}
+                  error={field.error}
+                />
+              )}
+            </Field>
+            {LogInAdmin_Form.response.message && (
+              <p class="text-red-500">{LogInAdmin_Form.response.message}</p>
             )}
-          </Field>
-          <Field name="password">
-            {(field, props) => (
-              <Input
-                {...props}
-                label="Password"
-                type="password"
-                required
-                value={field.value}
-                error={field.error}
-              />
-            )}
-          </Field>
-          {LogInAdmin_Form.response.message && (
-            <p class="text-red-500">{LogInAdmin_Form.response.message}</p>
-          )}
-          <Button
-            class="mt-2"
-            size="wide"
-            type="submit"
-            aria-label="LogIn button"
-          >
-            Log In
-          </Button>
-        </Form>
-      </div>
+            <Button
+              class="mt-2"
+              size="wide"
+              type="submit"
+              aria-label="LogIn button"
+            >
+              Log In
+            </Button>
+          </Form>
+        </div>
+      </Card>
     </section>
   );
 });

@@ -7,10 +7,10 @@ export const onGet: RequestHandler = async (event) => {
   const dbIsUp = await db
     .select({ count: sql<number>`count(id)`.mapWith(Number) })
     .from(users)
-    .get().count;
+    .get()?.count;
 
   event.json(200, {
     server: "up",
-    database: dbIsUp >= 0 ? "up" : "down",
+    database: dbIsUp && dbIsUp >= 0 ? "up" : "down",
   });
 };

@@ -5,6 +5,7 @@ import { formAction$, useForm, zodForm$ } from "@modular-forms/qwik";
 import type { LuciaError } from "lucia";
 import LucideKeySquare from "~/components/icons/lucide-key-square";
 import { Button } from "~/components/ui/buttons";
+import { Card } from "~/components/ui/card";
 import { Input } from "~/components/ui/form";
 import { H1 } from "~/components/ui/typography";
 import { CREDENTIALS_PROVIDER_ID, auth } from "~/lib/lucia-auth";
@@ -21,7 +22,7 @@ export const useLogIn_FormLoader = routeLoader$<InitialValues<LogIn_Type>>(
   () => ({
     email: "",
     password: "",
-  })
+  }),
 );
 
 export const useLogIn_FormAction = formAction$<LogIn_Type>(
@@ -31,7 +32,7 @@ export const useLogIn_FormAction = formAction$<LogIn_Type>(
       const key = await auth.useKey(
         CREDENTIALS_PROVIDER_ID,
         input.email.toLowerCase().trim(),
-        input.password
+        input.password,
       );
       const session = await auth.createSession({
         userId: key.userId,
@@ -52,7 +53,7 @@ export const useLogIn_FormAction = formAction$<LogIn_Type>(
       throw err;
     }
   },
-  zodForm$(LogIn_Schema)
+  zodForm$(LogIn_Schema),
 );
 
 // TODO: Update qwik version and use onSubmitCompleted$ to reset the form on failures (https://qwik.builder.io/docs/action/#actions-with-event-handlers)
@@ -64,55 +65,57 @@ export default component$(() => {
   });
 
   return (
-    <section class="container flex w-96 flex-col items-center py-4">
-      <H1>Log In</H1>
-      <Form>
-        <Field name="email">
-          {(field, props) => (
-            <Input
-              {...props}
-              label="Your email"
-              type="email"
-              required
-              value={field.value}
-              error={field.error}
-            />
+    <section class="container py-4">
+      <Card class="mx-auto max-w-xl p-8">
+        <H1>Log In</H1>
+        <Form>
+          <Field name="email">
+            {(field, props) => (
+              <Input
+                {...props}
+                label="Your email"
+                type="email"
+                required
+                value={field.value}
+                error={field.error}
+              />
+            )}
+          </Field>
+          <Field name="password">
+            {(field, props) => (
+              <Input
+                {...props}
+                label="Password"
+                type="password"
+                required
+                value={field.value}
+                error={field.error}
+              />
+            )}
+          </Field>
+          {LogIn_Form.response.message && (
+            <p class="text-red-500">{LogIn_Form.response.message}</p>
           )}
-        </Field>
-        <Field name="password">
-          {(field, props) => (
-            <Input
-              {...props}
-              label="Password"
-              type="password"
-              required
-              value={field.value}
-              error={field.error}
-            />
-          )}
-        </Field>
-        {LogIn_Form.response.message && (
-          <p class="text-red-500">{LogIn_Form.response.message}</p>
-        )}
-        <Button
-          class="mt-2"
-          size="wide"
-          type="submit"
-          aria-label="LogIn button"
-        >
-          Log In
-        </Button>
-      </Form>
-      <p class="mt-8 flex w-full flex-row items-center justify-center border-t border-slate-400 pt-6 text-center text-slate-800 dark:border-slate-700 dark:text-slate-400">
-        Forgotten your password?
-        <a
-          class="px-2 font-medium underline underline-offset-4 hover:text-black dark:hover:text-white"
-          href={`/auth/reset-password?email=${LogIn_Form.internal.fields.email?.value}`}
-        >
-          Click here
-        </a>
-        <LucideKeySquare class="h-4 w-4" />
-      </p>
+          <Button
+            class="mt-2"
+            size="wide"
+            type="submit"
+            aria-label="LogIn button"
+          >
+            Log In
+          </Button>
+        </Form>
+        <p class="mt-8 flex w-full flex-row items-center justify-center border-t border-slate-400 pt-6 text-center text-slate-800 dark:border-slate-700 dark:text-slate-400">
+          Forgotten your password?
+          <a
+            class="px-2 font-medium underline underline-offset-4 hover:text-black dark:hover:text-white"
+            href={`/auth/reset-password?email=${LogIn_Form.internal.fields.email?.value}`}
+          >
+            Click here
+          </a>
+          <LucideKeySquare class="h-4 w-4" />
+        </p>
+      </Card>
     </section>
   );
 });

@@ -24,7 +24,7 @@ export default component$(() => {
   const loc = useLocation();
 
   return (
-    <div class="flex flex-col md:flex-row">
+    <div class="flex grow flex-col md:flex-row">
       <nav class="flex flex-row gap-2 border border-slate-200 bg-white p-4 dark:border-slate-800 dark:bg-slate-950 md:m-4 md:mr-0 md:flex-col md:rounded-lg">
         {links.map((e) => (
           <AnchorButton

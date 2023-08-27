@@ -98,7 +98,7 @@ export default component$(() => {
     <div class={theme.value}>
       <div class="flex min-h-screen flex-col overflow-x-hidden bg-slate-100 dark:bg-slate-900">
         <NavBar />
-        <main class="flex-1 overflow-x-auto bg-gradient-to-b from-slate-50 via-transparent dark:from-violet-600/[.15] dark:via-transparent">
+        <main class="flex-1 flex items-stretch overflow-x-auto bg-gradient-to-b from-slate-50 via-transparent dark:from-violet-600/[.15] dark:via-transparent">
           <Slot />
         </main>
         <Footer />

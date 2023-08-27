@@ -4,6 +4,7 @@ import type { InitialValues } from "@modular-forms/qwik";
 import { FormError, formAction$, useForm, zodForm$ } from "@modular-forms/qwik";
 import { eq } from "drizzle-orm";
 import { Button } from "~/components/ui/buttons";
+import { Card } from "~/components/ui/card";
 import { Input } from "~/components/ui/form";
 import { H1 } from "~/components/ui/typography";
 import { verifyJwt } from "~/lib/crypto";
@@ -61,16 +62,16 @@ export const useSetPassword_FormAction = formAction$<SetPassword_Type>(
     await auth.updateKeyPassword(
       CREDENTIALS_PROVIDER_ID,
       input.email,
-      input.password
+      input.password,
     );
     withToast(
       event,
       ToastType.success,
-      "You can now Log In into your account with your new password"
+      "You can now Log In into your account with your new password",
     );
     throw event.redirect(302, Router.auth.logIn);
   },
-  zodForm$(SetPassword_Schema)
+  zodForm$(SetPassword_Schema),
 );
 
 export default component$(() => {
@@ -81,68 +82,70 @@ export default component$(() => {
   });
 
   return (
-    <section class="container flex w-96 flex-col items-center py-4">
-      <H1>New password</H1>
-      <Form>
-        <Field name="token">
-          {(field, props) => (
-            <Input
-              {...props}
-              type="hidden"
-              required
-              value={field.value}
-              error={field.error}
-            />
+    <section class="container py-4">
+      <Card class="mx-auto max-w-xl p-8">
+        <H1>New password</H1>
+        <Form>
+          <Field name="token">
+            {(field, props) => (
+              <Input
+                {...props}
+                type="hidden"
+                required
+                value={field.value}
+                error={field.error}
+              />
+            )}
+          </Field>
+          <Field name="email">
+            {(field, props) => (
+              <Input
+                {...props}
+                label="Your email"
+                type="email"
+                required
+                value={field.value}
+                error={field.error}
+              />
+            )}
+          </Field>
+          <Field name="password">
+            {(field, props) => (
+              <Input
+                {...props}
+                label="Password"
+                type="password"
+                required
+                value={field.value}
+                error={field.error}
+              />
+            )}
+          </Field>
+          <Field name="repeatPassword">
+            {(field, props) => (
+              <Input
+                {...props}
+                label="Repeat Password"
+                type="password"
+                required
+                value={field.value}
+                error={field.error}
+              />
+            )}
+          </Field>
+          {SetPassword_Form.response.message && (
+            <p class="text-red-500">{SetPassword_Form.response.message}</p>
           )}
-        </Field>
-        <Field name="email">
-          {(field, props) => (
-            <Input
-              {...props}
-              label="Your email"
-              type="email"
-              required
-              value={field.value}
-              error={field.error}
-            />
-          )}
-        </Field>
-        <Field name="password">
-          {(field, props) => (
-            <Input
-              {...props}
-              label="Password"
-              type="password"
-              required
-              value={field.value}
-              error={field.error}
-            />
-          )}
-        </Field>
-        <Field name="repeatPassword">
-          {(field, props) => (
-            <Input
-              {...props}
-              label="Repeat Password"
-              type="password"
-              required
-              value={field.value}
-              error={field.error}
-            />
-          )}
-        </Field>
-        {SetPassword_Form.response.message && (
-          <p class="text-red-500">{SetPassword_Form.response.message}</p>
-        )}
-        <Button
-          size="wide"
-          class="mt-2"
-          type="submit"
-          aria-label="Set Up new password button"
-        >
-          Set up password
-        </Button>
-      </Form>
+          <Button
+            size="wide"
+            class="mt-2"
+            type="submit"
+            aria-label="Set Up new password button"
+          >
+            Set up password
+          </Button>
+        </Form>
+      </Card>
     </section>
   );
 });

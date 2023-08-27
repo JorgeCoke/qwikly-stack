@@ -1,8 +1,8 @@
 diff --git a/node_modules/resend/build/src/resend.js b/node_modules/resend/build/src/resend.js
-index c557fc9..80ab16a 100644
+index 17fbd80..feab3ad 100644
 --- a/node_modules/resend/build/src/resend.js
 +++ b/node_modules/resend/build/src/resend.js
-@@ -30,7 +30,8 @@ class Resend {
+@@ -50,7 +50,8 @@ class Resend {
          if (!key) {
              this.key = process.env.RESEND_API_KEY;
              if (!this.key) {
@@ -11,4 +11,4 @@ index c557fc9..80ab16a 100644
 +                // throw new Error('Missing API key. Pass it to the constructor `new Resend("re_123")`');
              }
          }
-         this.headers = {
+         this.headers = new node_fetch_1.Headers({
