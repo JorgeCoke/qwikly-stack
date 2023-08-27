@@ -20,8 +20,8 @@ type LogIn_Type = z.infer<typeof LogIn_Schema>;
 
 export const useLogIn_FormLoader = routeLoader$<InitialValues<LogIn_Type>>(
   () => ({
-    email: "",
-    password: "",
+    email: process.env.ADMIN_USER, // TODO: Remove credentials
+    password: process.env.ADMIN_PWD, // TODO: Remove credentials
   }),
 );
 

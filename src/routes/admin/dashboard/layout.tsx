@@ -44,7 +44,7 @@ export default component$(() => {
           </AnchorButton>
         ))}
       </nav>
-      <section class="container pt-4">
+      <section class="container py-4">
         <Card class="p-4">
           <Slot />
         </Card>
