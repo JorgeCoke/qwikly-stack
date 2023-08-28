@@ -56,7 +56,6 @@ export const useLogIn_FormAction = formAction$<LogIn_Type>(
   zodForm$(LogIn_Schema),
 );
 
-// TODO: Update qwik version and use onSubmitCompleted$ to reset the form on failures (https://qwik.builder.io/docs/action/#actions-with-event-handlers)
 export default component$(() => {
   const [LogIn_Form, { Form, Field }] = useForm<LogIn_Type>({
     loader: useLogIn_FormLoader(),

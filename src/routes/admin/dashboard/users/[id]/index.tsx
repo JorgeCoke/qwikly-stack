@@ -30,7 +30,8 @@ export const useUpdateUser_FormLoader = routeLoader$<
     .where(eq(users.id, event.params.id))
     .get();
   if (!user) {
-    throw event.fail(404, { message: "User not found" });
+    withToast(event, ToastType.error, "User not found");
+    throw event.redirect(302, Router[404]);
   }
 
   return {
@@ -47,8 +48,15 @@ export const useDeleteUser = routeAction$(
     const authRequest = auth.handleRequest(event);
     const session = await authRequest.validate();
     if (session?.user.userId === input.id) {
-      withToast(event, ToastType.error, "You can not delete yourself!");
-      return event.fail(419, {});
+      return event.fail(419, { message: "You can not delete yourself!" });
+    }
+    const admin = await db
+      .select()
+      .from(users)
+      .where(eq(users.email, process.env.ADMIN_USER!))
+      .get();
+    if (admin?.id === input.id) {
+      return event.fail(419, { message: "You can not delete admin user!" });
     }
     await auth.deleteUser(input.id);
     withToast(event, ToastType.success, "User deleted!");
@@ -66,6 +74,14 @@ export const useUpdateUser_FormAction = formAction$<UpdateUser_Type>(
     if (!session) {
       throw event.redirect(302, Router[401]);
     }
+    const admin = await db
+      .select()
+      .from(users)
+      .where(eq(users.email, process.env.ADMIN_USER!))
+      .get();
+    if (admin?.id === input.id && input.password) {
+      return event.fail(419, { message: "You can not update admin password!" });
+    }
     await db
       .update(users)
       .set({ name: input.name, role: input.role })
@@ -76,7 +92,7 @@ export const useUpdateUser_FormAction = formAction$<UpdateUser_Type>(
       .where(eq(users.id, input.id))
       .get();
     if (!userEmail) {
-      throw event.fail(404, { message: "User not found" });
+      return event.fail(404, { message: "User not found" });
     }
     if (input.password) {
       await auth.updateKeyPassword(
@@ -164,8 +180,19 @@ export default component$(() => {
             />
           )}
         </Field>
+        {UpdateUser_Form.response.message && (
+          <p class="text-red-500">{UpdateUser_Form.response.message}</p>
+        )}
+        {deleteUser.value?.message && (
+          <p class="text-red-500">{deleteUser.value.message}</p>
+        )}
         <div class="mt-2 flex gap-4">
-          <Button type="submit" size="wide" aria-label="Update user button">
+          <Button
+            type="submit"
+            size="wide"
+            aria-label="Update user button"
+            disabled={UpdateUser_Form.submitting}
+          >
             Update user
           </Button>
           <Button

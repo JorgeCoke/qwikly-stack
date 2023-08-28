@@ -16,7 +16,6 @@ import { db } from "~/lib/db/drizzle";
 import { users } from "~/lib/db/schema";
 import { auth } from "~/lib/lucia-auth";
 import { Router } from "~/lib/router";
-import { ToastType, withToast } from "~/lib/toast";
 import { CrudCookiesOptions } from "~/lib/utils";
 import { useSession } from "../../../layout";
 
@@ -87,8 +86,7 @@ export const useDeleteUser = routeAction$(
     const authRequest = auth.handleRequest(event);
     const session = await authRequest.validate();
     if (session?.user.userId === input.id) {
-      withToast(event, ToastType.error, "You can not delete yourself!");
-      return event.fail(419, {});
+      return event.fail(419, { message: "You can not delete yourself!" });
     }
     const admin = await db
       .select()
@@ -96,8 +94,7 @@ export const useDeleteUser = routeAction$(
       .where(eq(users.email, process.env.ADMIN_USER!))
       .get();
     if (admin?.id === input.id) {
-      withToast(event, ToastType.error, "You can not delete an admin user!");
-      return event.fail(419, {});
+      return event.fail(419, { message: "You can not delete admin user!" });
     }
     await auth.deleteUser(input.id);
   },
@@ -106,7 +103,6 @@ export const useDeleteUser = routeAction$(
   }),
 );
 
-// TODO: Add filtering
 // TODO: Add types to columnName with const columns = getTableColumns(users);
 export default component$(() => {
   const crudUsers = useCrudUsers();
@@ -115,50 +111,55 @@ export default component$(() => {
   const nav = useNavigate();
 
   return (
-    <Crud
-      title="Users"
-      url={Router.admin.dashboard.users.index}
-      headers={[
-        { label: "ID #", columnName: "id" },
-        { label: "Email", columnName: "email" },
-        { label: "Name", columnName: "name" },
-        { label: "Role", columnName: "role" },
-        {},
-      ]}
-      items={crudUsers.value.items}
-      count={crudUsers.value.count}
-      createButton="Create User"
-      crudCookies={crudUsers.value.crudCookies}
-      searchInput={true}
-    >
-      {crudUsers.value.items.map((e) => (
-        <TableRow
-          key={e.id}
-          onClick$={async () => {
-            await nav(`${Router.admin.dashboard.users.id}/${e.id}`);
-          }}
-        >
-          <TableCell>{e.id}</TableCell>
-          <TableCell>{e.email}</TableCell>
-          <TableCell>{e.name}</TableCell>
-          <TableCell>{e.role}</TableCell>
-          <TableCell>
-            <Button
-              aria-label="Delete user button"
-              color="danger"
-              disabled={
-                deleteUser.isRunning || session.value?.user.userId === e.id
-              }
-              onClick$={(event: any) => {
-                event.stopPropagation();
-                deleteUser.submit({ id: e.id! });
-              }}
-            >
-              <LucideTrash class="h-3 w-3" />
-            </Button>
-          </TableCell>
-        </TableRow>
-      ))}
-    </Crud>
+    <>
+      <Crud
+        title="Users"
+        url={Router.admin.dashboard.users.index}
+        headers={[
+          { label: "ID #", columnName: "id" },
+          { label: "Email", columnName: "email" },
+          { label: "Name", columnName: "name" },
+          { label: "Role", columnName: "role" },
+          {},
+        ]}
+        items={crudUsers.value.items}
+        count={crudUsers.value.count}
+        createButton="Create User"
+        crudCookies={crudUsers.value.crudCookies}
+        searchInput={true}
+      >
+        {crudUsers.value.items.map((e) => (
+          <TableRow
+            key={e.id}
+            onClick$={async () => {
+              await nav(`${Router.admin.dashboard.users.id}/${e.id}`);
+            }}
+          >
+            <TableCell>{e.id}</TableCell>
+            <TableCell>{e.email}</TableCell>
+            <TableCell>{e.name}</TableCell>
+            <TableCell>{e.role}</TableCell>
+            <TableCell>
+              <Button
+                aria-label="Delete user button"
+                color="danger"
+                disabled={
+                  deleteUser.isRunning || session.value?.user.userId === e.id
+                }
+                onClick$={(event: any) => {
+                  event.stopPropagation();
+                  deleteUser.submit({ id: e.id! });
+                }}
+              >
+                <LucideTrash class="h-3 w-3" />
+              </Button>
+            </TableCell>
+          </TableRow>
+        ))}
+      </Crud>
+      {deleteUser.value?.message && (
+        <p class="pt-4 text-red-500">{deleteUser.value.message}</p>
+      )}
+    </>
   );
 });

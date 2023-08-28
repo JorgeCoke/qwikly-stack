@@ -1,6 +1,7 @@
 export const Router = {
     index: "/",
     401: "/401",
+    404: "/404",
     auth: {
         logIn: "/auth/log-in",
         logOut: "/auth/log-out",

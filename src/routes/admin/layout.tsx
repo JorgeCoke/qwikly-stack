@@ -10,13 +10,12 @@ export const onRequest: RequestHandler = async (event) => {
 
   if (
     event.url.pathname.includes(Router.admin.dashboard.index) &&
-    event.url.pathname.split(Router.admin.dashboard.index)[1].length > 1 &&
     (!session || session.user.role !== UserRole.Admin)
   ) {
     withToast(
       event,
       ToastType.error,
-      "You are not authorized to access this page"
+      "You are not authorized to access this page",
     );
     throw event.redirect(302, Router.admin.index);
   }

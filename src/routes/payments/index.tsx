@@ -16,7 +16,6 @@ import type { StripeProduct } from "~/lib/db/schema";
 import { StripeEventType, stripeEvents, stripeProducts } from "~/lib/db/schema";
 import { auth } from "~/lib/lucia-auth";
 import { stripe } from "~/lib/stripe";
-import { ToastType, withToast } from "~/lib/toast";
 
 export const useProducts = routeLoader$(async () => {
   const getProductPricesFromStripe = async () =>
@@ -155,8 +154,7 @@ export const useBuyProduct = routeAction$(
     const prices = await stripe.prices.list();
     const price = prices.data.find((e) => e.id === input.priceId);
     if (!price) {
-      withToast(event, ToastType.error, "Can not load price from Stripe");
-      return event.fail(400, {});
+      return event.fail(400, { message: "Can not load price from Stripe" });
     }
 
     // If it is a subscription, check if user has any other subscription first
@@ -178,12 +176,10 @@ export const useBuyProduct = routeAction$(
         currentSubscription.id &&
         currentSubscription.type === StripeEventType.SubscriptionUpdated
       ) {
-        withToast(
-          event,
-          ToastType.error,
-          "You have already a subscription in progress, please, cancel it in your profile page and try again",
-        );
-        return event.fail(409, {});
+        return event.fail(409, {
+          message:
+            "You have already a subscription in progress, please, cancel it in your profile page and try again",
+        });
       }
     }
     // Create Stripe checkout session
@@ -204,8 +200,7 @@ export const useBuyProduct = routeAction$(
       ],
     });
     if (!stripeSession.url) {
-      withToast(event, ToastType.error, "User has not email linked");
-      return event.fail(400, {});
+      return event.fail(400, { message: "User has not email linked" });
     }
     return { url: stripeSession.url };
   },
@@ -251,6 +246,9 @@ export default component$(() => {
             >
               Buy
             </Button>
+            {buyProduct.value?.message && (
+              <p class="text-red-500">{buyProduct.value.message}</p>
+            )}
           </Card>
         ))}
       </div>
@@ -279,6 +277,9 @@ export default component$(() => {
             >
               Buy
             </Button>
+            {buyProduct.value?.message && (
+              <p class="text-red-500">{buyProduct.value.message}</p>
+            )}
           </Card>
         ))}
       </div>
