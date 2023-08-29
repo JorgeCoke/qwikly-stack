@@ -17,5 +17,9 @@ export const SiteConfig = {
       title: "Admin",
       href: Router.admin.index
     },
+    {
+      title: "UI",
+      href: Router.playground
+    },
   ],
 } as const;

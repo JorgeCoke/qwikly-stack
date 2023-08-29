@@ -8,6 +8,7 @@ export const ThemeSwitch = component$(() => {
 
   return (
     <Button
+      class="justify-start"
       disabled={themeSwich.isRunning}
       onClick$={() => themeSwich.submit()}
       variant="ghost"

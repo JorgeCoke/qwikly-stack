@@ -31,6 +31,7 @@ type CrudProps = {
   count: number;
   crudCookies: CrudCookies;
   searchInput?: boolean;
+  class?: string;
 };
 
 export const Search_Schema = z.object({
@@ -50,7 +51,7 @@ export const useSearch_FormAction = formAction$<Search_Type>(
       event.cookie.set(input.cookieKey, crudCookies, CrudCookiesOptions);
     }
   },
-  zodForm$(Search_Schema)
+  zodForm$(Search_Schema),
 );
 
 export const Crud = component$<CrudProps>((props) => {
@@ -64,7 +65,7 @@ export const Crud = component$<CrudProps>((props) => {
   });
 
   return (
-    <Table>
+    <Table class={props.class}>
       <caption>
         <div class="flex items-center gap-4 pb-3 pl-2">
           <div class="flex items-center gap-4">
@@ -90,7 +91,6 @@ export const Crud = component$<CrudProps>((props) => {
                     <SearchInput
                       {...props}
                       placeholder="Search..."
-                      type="text"
                       value={field.value}
                       error={field.error}
                     />
@@ -112,7 +112,6 @@ export const Crud = component$<CrudProps>((props) => {
             {props.createButton && (
               <AnchorButton
                 href={`${props.url}/new`}
-                class="flex items-center gap-2 leading-4"
                 aria-label="Create user button"
               >
                 <LucidePlus class="h-4 w-4" />
@@ -199,7 +198,7 @@ const Pagination = component$<PaginationProps>((props) => {
 
   const pages = Array.from(
     { length: Math.ceil(props.count / props.limit) },
-    (_, i) => i + 1
+    (_, i) => i + 1,
   );
   const currentPage = Math.round(props.offset / props.limit) + 1;
 
@@ -218,7 +217,9 @@ const Pagination = component$<PaginationProps>((props) => {
           }
           key={page}
           class={
-            currentPage === page ? "h-10 w-10 bg-white dark:bg-slate-800" : ""
+            currentPage === page
+              ? "h-10 w-10 bg-white dark:bg-slate-800"
+              : "h-10"
           }
         >
           {page}

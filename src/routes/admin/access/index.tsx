@@ -85,11 +85,10 @@ export default component$(() => {
               {(field, props) => (
                 <Input
                   {...props}
+                  {...field}
                   label="Email"
                   type="email"
                   required
-                  value={field.value}
-                  error={field.error}
                 />
               )}
             </Field>
@@ -97,11 +96,10 @@ export default component$(() => {
               {(field, props) => (
                 <Input
                   {...props}
+                  {...field}
                   label="Password"
                   type="password"
                   required
-                  value={field.value}
-                  error={field.error}
                 />
               )}
             </Field>

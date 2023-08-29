@@ -17,3 +17,14 @@ h2 {
 .cal {
   font-family: "Cal Sans";
 }
+
+@layer base {
+  :root {
+  }
+
+  .dark {
+    ::-webkit-calendar-picker-indicator {
+      filter: invert(1) !important;
+    }
+  }
+}

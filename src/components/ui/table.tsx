@@ -1,10 +1,18 @@
 import type { PropFunction } from "@builder.io/qwik";
 import { Slot, component$ } from "@builder.io/qwik";
-import { twMerge } from "tailwind-merge";
+import { cn } from "~/lib/utils";
 
-export const Table = component$(() => {
+export type TableProps = {
+  class?: string;
+};
+export const Table = component$<TableProps>((props) => {
   return (
-    <table class="min-w-full table-auto rounded-md bg-slate-200 shadow dark:bg-slate-950">
+    <table
+      class={cn(
+        "min-w-full table-auto rounded-md bg-slate-200 shadow dark:bg-slate-900",
+        props.class,
+      )}
+    >
       <Slot />
     </table>
   );
@@ -18,10 +26,10 @@ export const TableHead = component$<TableHeadProps>((props) => {
   return (
     <th
       scope="col"
-      class={twMerge(
+      class={cn(
         "px-3 py-3 text-left text-xs font-bold uppercase text-slate-800 dark:text-slate-400",
-        props.onClick$ ? "cursor-pointer" : "",
-        props.class
+        props.onClick$ && "cursor-pointer",
+        props.class,
       )}
       onClick$={props.onClick$}
     >
@@ -37,10 +45,10 @@ export type TableRowProps = {
 export const TableRow = component$<TableRowProps>((props) => {
   return (
     <tr
-      class={twMerge(
+      class={cn(
         " odd:bg-slate-50 even:bg-slate-100 hover:bg-white dark:odd:bg-slate-800 dark:even:bg-slate-700 dark:hover:bg-slate-600",
-        props.onClick$ ? "cursor-pointer" : "",
-        props.class
+        props.onClick$ && "cursor-pointer",
+        props.class,
       )}
       onClick$={props.onClick$}
     >
@@ -56,9 +64,9 @@ export const TableCell = component$<TableCellProps>((props) => {
   return (
     <td
       scope="col"
-      class={twMerge(
+      class={cn(
         "whitespace-nowrap px-3 py-3 text-sm text-slate-900 dark:text-slate-200",
-        props.class
+        props.class,
       )}
     >
       <Slot />

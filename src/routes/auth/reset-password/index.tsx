@@ -41,11 +41,10 @@ export default component$(() => {
             {(field, props) => (
               <Input
                 {...props}
+                {...field}
                 label="Your email"
                 type="email"
                 required
-                value={field.value}
-                error={field.error}
               />
             )}
           </Field>

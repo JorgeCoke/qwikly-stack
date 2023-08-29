@@ -30,6 +30,7 @@ export const Router = {
         access: "/admin/access"
     },
     health: "/health",
+    playground: "/playground",
 } as const;
 
 export type Route = (typeof Router)[keyof typeof Router];

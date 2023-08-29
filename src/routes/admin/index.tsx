@@ -2,8 +2,11 @@ import { component$ } from "@builder.io/qwik";
 import { AnchorButton } from "~/components/ui/buttons";
 import { Gradient, H0, H5 } from "~/components/ui/typography";
 import { Router } from "~/lib/router";
+import { useSession } from "../layout";
 
 export default component$(() => {
+  const session = useSession();
+
   return (
     <section class="container  py-12">
       <div class="relative z-10 mx-auto max-w-[85rem] space-y-10 py-12">
@@ -23,8 +26,10 @@ export default component$(() => {
         <div class="text-center">
           <AnchorButton
             aria-label="GetStarted button"
-            class=" rounded-full bg-gradient-to-tl from-blue-600 to-violet-600 px-6 py-3  font-bold  text-white shadow-lg hover:shadow-blue-700/50  dark:text-white "
-            href={Router.admin.access}
+            class="mx-auto max-w-xs rounded-full bg-gradient-to-tl from-blue-600 to-violet-600 px-6 py-3  font-bold  text-white shadow-lg hover:shadow-blue-700/50  dark:text-white "
+            href={
+              session.value ? Router.admin.dashboard.index : Router.admin.access
+            }
           >
             ACCESS ADMIN PANEL
           </AnchorButton>

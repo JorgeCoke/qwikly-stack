@@ -87,34 +87,26 @@ export default component$(() => {
             {(field, props) => (
               <Input
                 {...props}
+                {...field}
                 label="Your email"
                 type="email"
                 required
-                value={field.value}
-                error={field.error}
               />
             )}
           </Field>
           <Field name="name">
             {(field, props) => (
-              <Input
-                {...props}
-                label="Name"
-                type="text"
-                value={field.value}
-                error={field.error}
-              />
+              <Input {...props} {...field} label="Name" type="text" />
             )}
           </Field>
           <Field name="password">
             {(field, props) => (
               <Input
                 {...props}
+                {...field}
                 label="Password"
                 type="password"
                 required
-                value={field.value}
-                error={field.error}
               />
             )}
           </Field>
@@ -122,11 +114,10 @@ export default component$(() => {
             {(field, props) => (
               <Input
                 {...props}
+                {...field}
                 label="Repeat Password"
                 type="password"
                 required
-                value={field.value}
-                error={field.error}
               />
             )}
           </Field>

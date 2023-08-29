@@ -89,34 +89,20 @@ export default component$(() => {
       <Form>
         <Field name="email">
           {(field, props) => (
-            <Input
-              {...props}
-              label="Email"
-              type="email"
-              required
-              value={field.value}
-              error={field.error}
-            />
+            <Input {...props} {...field} label="Email" type="email" required />
           )}
         </Field>
         <Field name="name">
           {(field, props) => (
-            <Input
-              {...props}
-              label="Name"
-              type="text"
-              value={field.value}
-              error={field.error}
-            />
+            <Input {...props} {...field} label="Name" type="text" />
           )}
         </Field>
         <Field name="role">
           {(field, props) => (
             <Select
               {...props}
+              {...field}
               label="Role"
-              value={field.value}
-              error={field.error}
               options={[
                 { label: "Admin", value: UserRole.Admin },
                 { label: "User", value: UserRole.User },
@@ -128,11 +114,10 @@ export default component$(() => {
           {(field, props) => (
             <Input
               {...props}
+              {...field}
               label="Password"
               type="password"
               required
-              value={field.value}
-              error={field.error}
             />
           )}
         </Field>

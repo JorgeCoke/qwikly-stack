@@ -30,7 +30,7 @@ export default component$(() => {
           <AnchorButton
             key={e.href}
             class={[
-              "flex gap-2 p-3 hover:bg-slate-200 dark:hover:bg-slate-800 md:w-48",
+              "justify-start p-4 hover:bg-slate-200 dark:hover:bg-slate-800 md:w-48",
               loc.url.pathname.includes(e.href)
                 ? "bg-slate-100 dark:bg-slate-900"
                 : "",

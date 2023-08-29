@@ -280,14 +280,14 @@ export default component$(() => {
         <div class="text-center">
           <AnchorButton
             aria-label="GetStarted button"
-            class=" rounded-full bg-gradient-to-tl from-blue-600 to-violet-600 px-6 py-3  font-bold  text-white shadow-lg hover:shadow-blue-700/50  dark:text-white "
+            class="mx-auto max-w-xs rounded-full bg-gradient-to-tl from-blue-600 to-violet-600 px-6  py-3  font-bold text-white shadow-lg  hover:shadow-blue-700/50 dark:text-white"
             href={Router.auth.logIn}
           >
             GET STARTED
           </AnchorButton>
         </div>
         <div class="flex justify-center">
-          <div class="group flex cursor-pointer items-center justify-between gap-4 rounded-full border border-white/[.7] bg-white p-1 px-4 pl-4 text-sm text-slate-700 shadow-md hover:bg-white/[.4] dark:border-white/[.05] dark:bg-white/[.05] dark:text-slate-300 dark:hover:bg-white/[.1]">
+          <div class="group flex cursor-pointer items-center justify-between gap-2 rounded-full border border-white/[.7] bg-white p-1 px-16 text-sm text-slate-700 shadow-md hover:bg-white/[.4] dark:border-white/[.05] dark:bg-white/[.05] dark:text-slate-300 dark:hover:bg-white/[.1]">
             <span>Open Source, and Edge Runtime ready!</span>
             <LucideChevronsRight />
           </div>

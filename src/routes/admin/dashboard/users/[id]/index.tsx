@@ -128,39 +128,22 @@ export default component$(() => {
       </span>
       <Form>
         <Field name="id">
-          {(field, props) => (
-            <Input {...props} type="hidden" value={field.value} />
-          )}
+          {(field, props) => <Input {...props} {...field} type="hidden" />}
         </Field>
         <Field name="email">
           {(field, props) => (
-            <Input
-              {...props}
-              label="Email"
-              required
-              disabled
-              value={field.value}
-              error={field.error}
-            />
+            <Input {...props} {...field} label="Email" required disabled />
           )}
         </Field>
         <Field name="name">
-          {(field, props) => (
-            <Input
-              {...props}
-              label="Name"
-              value={field.value}
-              error={field.error}
-            />
-          )}
+          {(field, props) => <Input {...props} {...field} label="Name" />}
         </Field>
         <Field name="role">
           {(field, props) => (
             <Select
               {...props}
+              {...field}
               label="Role"
-              value={field.value}
-              error={field.error}
               options={[
                 { label: "Admin", value: UserRole.Admin },
                 { label: "User", value: UserRole.User },
@@ -172,11 +155,10 @@ export default component$(() => {
           {(field, props) => (
             <Input
               {...props}
+              {...field}
               label="Password"
               type="password"
               description="You can set up a new password here"
-              value={field.value}
-              error={field.error}
             />
           )}
         </Field>

@@ -88,24 +88,17 @@ export default component$(() => {
         <Form>
           <Field name="token">
             {(field, props) => (
-              <Input
-                {...props}
-                type="hidden"
-                required
-                value={field.value}
-                error={field.error}
-              />
+              <Input {...props} {...field} type="hidden" required />
             )}
           </Field>
           <Field name="email">
             {(field, props) => (
               <Input
                 {...props}
+                {...field}
                 label="Your email"
                 type="email"
                 required
-                value={field.value}
-                error={field.error}
               />
             )}
           </Field>
@@ -113,11 +106,10 @@ export default component$(() => {
             {(field, props) => (
               <Input
                 {...props}
+                {...field}
                 label="Password"
                 type="password"
                 required
-                value={field.value}
-                error={field.error}
               />
             )}
           </Field>
@@ -125,11 +117,10 @@ export default component$(() => {
             {(field, props) => (
               <Input
                 {...props}
+                {...field}
                 label="Repeat Password"
                 type="password"
                 required
-                value={field.value}
-                error={field.error}
               />
             )}
           </Field>

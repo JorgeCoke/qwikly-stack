@@ -51,7 +51,7 @@ export const useStripeEventsFromSession = routeLoader$(async (event) => {
     .orderBy(desc(stripeEvents.createdAt))
     .innerJoin(
       stripeProducts,
-      eq(stripeEvents.stripeProductId, stripeProducts.id)
+      eq(stripeEvents.stripeProductId, stripeProducts.id),
     )
     .all();
 });
@@ -70,12 +70,12 @@ export const useCurrentSubscription = routeLoader$(async (event) => {
       inArray(stripeEvents.type, [
         StripeEventType.SubscriptionDeleted,
         StripeEventType.SubscriptionUpdated,
-      ])
+      ]),
     )
     .orderBy(desc(stripeEvents.createdAt))
     .innerJoin(
       stripeProducts,
-      eq(stripeEvents.stripeProductId, stripeProducts.id)
+      eq(stripeEvents.stripeProductId, stripeProducts.id),
     )
     .get();
 });
@@ -98,7 +98,7 @@ export default component$(() => {
           <span class=" font-bold">
             {currentSubscription.value?.stripe_event.type ===
             StripeEventType.SubscriptionUpdated
-              ? currentSubscription.value?.stripe_product.name
+              ? currentSubscription.value.stripe_product.name
               : "none"}
           </span>
           <Button

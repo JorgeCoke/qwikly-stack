@@ -1,9 +1,9 @@
 import { component$, useSignal } from "@builder.io/qwik";
 import { useLocation } from "@builder.io/qwik-city";
-import { twMerge } from "tailwind-merge";
 import { UserRole } from "~/lib/db/schema";
 import { Router } from "~/lib/router";
 import { SiteConfig } from "~/lib/site-config";
+import { cn } from "~/lib/utils";
 import { useSession } from "~/routes/layout";
 import LucideCog from "../icons/lucide-cog";
 import LucideMenu from "../icons/lucide-menu";
@@ -18,8 +18,8 @@ export const NavBar = component$(() => {
   const loc = useLocation();
 
   return (
-    <header class="z-10 flex w-full flex-col border-b border-black/[.1] bg-white dark:border-white/[.1] dark:bg-slate-950 sm:justify-start md:flex-row">
-      <nav class="container relative mx-auto  w-full px-4 sm:flex sm:items-center sm:justify-between">
+    <header class="z-10 flex w-full flex-col border-b border-black/[.1] bg-white dark:border-white/[.1] dark:bg-slate-950 lg:flex-row lg:justify-start">
+      <nav class="container relative mx-auto  w-full px-4 lg:flex lg:items-center lg:justify-between">
         <div class="flex items-center justify-between">
           <a
             class="cal flex w-max items-center gap-2 text-xl text-black dark:text-white"
@@ -32,7 +32,7 @@ export const NavBar = component$(() => {
               <Gradient>ADMIN</Gradient>
             )}
           </a>
-          <div class="py-4 sm:hidden">
+          <div class="py-3 lg:hidden">
             <Button
               aria-label="Navbar menu"
               type="button"
@@ -42,12 +42,12 @@ export const NavBar = component$(() => {
                 (showMobileNavBar.value = !showMobileNavBar.value)
               }
             >
-              <LucideMenu />
+              <LucideMenu class="h-4 w-4" />
             </Button>
           </div>
         </div>
-        <div class="hs-collapse hidden grow basis-full overflow-hidden py-3 transition-all duration-300 sm:block">
-          <div class="mt-5 flex flex-col gap-x-0 gap-y-4 sm:mt-0 sm:flex-row sm:items-center sm:justify-end sm:gap-x-7 sm:gap-y-0 sm:pl-7">
+        <div class="hs-collapse hidden grow basis-full overflow-hidden py-3 transition-all duration-300 lg:block">
+          <div class="mt-5 flex flex-col gap-x-0 gap-y-4 lg:mt-0 lg:flex-row lg:items-center lg:justify-end lg:gap-x-7 lg:gap-y-0 lg:pl-7">
             {SiteConfig.navBar.map((e) => (
               <a
                 aria-label={e.title}
@@ -66,9 +66,9 @@ export const NavBar = component$(() => {
         </div>
       </nav>
       <div
-        class={twMerge(
+        class={cn(
           "flex flex-col gap-6 p-6",
-          showMobileNavBar.value ? "" : "hidden"
+          showMobileNavBar.value ? "" : "hidden",
         )}
       >
         {SiteConfig.navBar.map((e) => (
@@ -97,6 +97,7 @@ const AuthButtons = component$(() => {
       {!session.value && !loc.url.pathname.includes(Router.admin.index) && (
         <>
           <AnchorButton
+            class="justify-start"
             size="wide"
             variant="outline"
             href={Router.auth.logIn}
@@ -105,6 +106,7 @@ const AuthButtons = component$(() => {
             Log In
           </AnchorButton>
           <AnchorButton
+            class="justify-start"
             size="wide"
             href={Router.auth.signUp}
             aria-label="SignUp button"
@@ -119,7 +121,7 @@ const AuthButtons = component$(() => {
             size="wide"
             href={Router.admin.access}
             aria-label="Access button"
-            class="bg-gradient-to-tl from-blue-600 to-violet-600 dark:text-white"
+            class=" justify-start bg-gradient-to-tl from-blue-600 to-violet-600 dark:text-white"
           >
             Access Admin Panel
           </AnchorButton>
@@ -127,9 +129,9 @@ const AuthButtons = component$(() => {
       )}
       {session.value && (
         <AnchorButton
+          class="justify-start"
           size="wide"
           href={Router.auth.profile}
-          class="flex items-center gap-2"
           aria-label="Profile button"
         >
           <LucideUser class="h-4 w-4" /> Profile
@@ -141,11 +143,12 @@ const AuthButtons = component$(() => {
             size="wide"
             href={Router.admin.dashboard.index}
             aria-label="Admin button"
-            class="flex items-center gap-2 bg-gradient-to-tl from-blue-600 to-violet-600 dark:text-white"
+            class="justify-start bg-gradient-to-tl from-blue-600 to-violet-600 dark:text-white"
           >
             <LucideCog class="h-4 w-4" /> Admin
           </AnchorButton>
           <AnchorButton
+            class="justify-start"
             size="wide"
             href={Router.auth.logOut}
             aria-label="Log out button"
