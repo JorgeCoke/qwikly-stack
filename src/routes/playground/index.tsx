@@ -99,7 +99,7 @@ export default component$(() => {
   };
 
   return (
-    <section class="container py-4">
+    <section class="container space-y-4 py-4">
       <Card class="mx-auto max-w-3xl p-8">
         <H1>Playground form</H1>
         <Form>
@@ -265,14 +265,16 @@ export default component$(() => {
         <Card class="mt-4 dark:text-white">
           {JSON.stringify(getValues(Playground_Form), null, 4)}
         </Card>
-        <H1 class="pt-12">Components</H1>
+      </Card>
+      <Card class="mx-auto max-w-3xl p-6">
+        <H1>Components</H1>
         <SearchInput placeholder="Search input..." />
-        <div class="flex gap-4 pt-6">
+        <div class="flex flex-wrap gap-4 pt-6">
           <Button>Button</Button>
           <Button variant="outline">Button</Button>
           <Button variant="ghost">Button</Button>
         </div>
-        <div class="flex gap-4 pt-4">
+        <div class="flex flex-wrap gap-4 pt-4">
           <Button color="danger">Button</Button>
           <Button color="danger" variant="outline">
             Button
@@ -281,7 +283,7 @@ export default component$(() => {
             Button
           </Button>
         </div>
-        <div class="flex gap-4 pt-6">
+        <div class="flex flex-wrap gap-4 pt-6">
           <Button size="wide">Button</Button>
           <Button variant="outline" size="wide">
             Button
@@ -290,7 +292,7 @@ export default component$(() => {
             Button
           </Button>
         </div>
-        <div class="flex gap-4 pt-6">
+        <div class="flex flex-wrap gap-4 pt-6">
           <Button color="danger" size="wide">
             Button
           </Button>
@@ -301,7 +303,7 @@ export default component$(() => {
             Button
           </Button>
         </div>
-        <div class="flex gap-4 pt-6">
+        <div class="flex flex-wrap gap-4 pt-6">
           <Button disabled>Disabled</Button>
           <Button>
             <LucideRefreshCcw class="h-4 w-4" />
@@ -315,7 +317,7 @@ export default component$(() => {
             Styled
           </Button>
         </div>
-        <div class="flex flex-col gap-4 pt-6">
+        <div class="flex flex-col flex-wrap gap-4 pt-6">
           <Button class="grow">Grow</Button>
           <Button class="grow">
             {" "}
@@ -330,8 +332,9 @@ export default component$(() => {
           <H5>H5 subtitle</H5>
           <Gradient>Gradient</Gradient>
         </div>
+      </Card>
+      <Card class="mx-auto max-w-3xl overflow-scroll p-6">
         <Crud
-          class="mt-12"
           title="Crud Title"
           url={Router.playground}
           headers={[
