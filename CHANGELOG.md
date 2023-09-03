@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.4.0](https://github.com/JorgeCoke/super-qwik-template/compare/v1.3.0...v1.4.0) (2023-09-03)
+
+
+### Features
+
+* **ui:** add animations and folders ([624a8cb](https://github.com/JorgeCoke/super-qwik-template/commit/624a8cb50b8bfb6b695a591db31a69f8da5bb163))
+
 ## [1.3.0](https://github.com/JorgeCoke/super-qwik-template/compare/v1.2.2...v1.3.0) (2023-08-29)
 
 

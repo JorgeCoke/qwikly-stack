@@ -36,21 +36,21 @@ The `qwikest` delightful, overpowered, beautifully handcrafted full-stack web fr
 ### Set up
 
 ```
-npm ci                        // Install dependencies
-npm run husky:install         // Install Husky hooks
-cp .env.example .env          // And fill .env with DEV environment variables if needed
-npm run db:reset                  // Creates a SQLite db file if not exists, and executes the migrations required to make your database reflect the state of your schemas, and it will seed your database with an admin user
-npm run dev                   // Launch project locally
-npm run dev:stripe            // (Optional) Enables Stripe local webhooks
+npm ci                          # Install dependencies
+npm run husky:install           # Install Husky hooks
+cp .env.example .env            # And fill .env with DEV environment variables if needed
+npm run db:reset                # Creates a SQLite db file if not exists, and executes the migrations required to make your database reflect the state of your schemas, and it will seed your database with an admin user
+npm run dev                     # Launch project locally
+npm run dev:stripe              # (Optional) Enables Stripe local webhooks
 ```
 
 ### Database cheatsheet
 
 ```
-npm run db:reset    // DANGER! Removes all data from database, executes migrator and seeder too!
-npm run db:generate // Generate migrations
-npm run db:migrate  // Run migrations
-npm run db:seed     // Seed database
+npm run db:reset    # DANGER! Removes all data from database, executes migrator and seeder too!
+npm run db:generate # Generate migrations
+npm run db:migrate  # Run migrations
+npm run db:seed     # Seed database
 ```
 
 ### How to deploy to fly.io
@@ -67,31 +67,31 @@ npm run db:seed     // Seed database
 ### Linter & Formatter
 
 ```
-npm run lint      // Run Eslint
-npm run fmt       // Run Prettier
+npm run lint      # Run Eslint
+npm run fmt       # Run Prettier
 ```
 
 ### Git Commit with Commitizen
 
 ```
-git add .          // Add files
-npm run cz         // Commit with commitizen
+git add .          # Add files
+npm run cz         # Commit with commitizen
 ```
 
 ### Release a new version
 
 ```
-npm run release                     // Create a new bump version
-git push --follow-tags origin main  // Push the new version tag and trigger Github deployment action
+npm run release                     # Create a new bump version
+git push --follow-tags origin main  # Push the new version tag and trigger Github deployment action
 ```
 
 ### Vulnerabilities and dependencies cheatsheet
 
 ```
-npm run audit       // Run better-npm-audit
-npm outdated        // See outdated dependencies
-npm update --save   // Update outdated dependencies
-npx npx npm-check-updates -u    // Force update all dependencies to latests versions
+npm run audit                   # Run better-npm-audit
+npm outdated                    # See outdated dependencies
+npm update --save               # Update outdated dependencies
+npx npx npm-check-updates -u    # Force update all dependencies to latests versions
 ```
 
 ---
