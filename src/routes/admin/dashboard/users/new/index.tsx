@@ -35,7 +35,7 @@ export const useCreateUser_FormAction = formAction$<CreateUser_Type>(
     const authRequest = auth.handleRequest(event);
     const session = await authRequest.validate();
     if (!session) {
-      throw event.redirect(302, Router[401]);
+      throw event.redirect(302, Router.common[401]);
     }
 
     await auth

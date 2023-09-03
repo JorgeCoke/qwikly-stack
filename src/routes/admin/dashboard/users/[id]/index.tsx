@@ -31,7 +31,7 @@ export const useUpdateUser_FormLoader = routeLoader$<
     .get();
   if (!user) {
     withToast(event, ToastType.error, "User not found");
-    throw event.redirect(302, Router[404]);
+    throw event.redirect(302, Router.common[404]);
   }
 
   return {
@@ -72,7 +72,7 @@ export const useUpdateUser_FormAction = formAction$<UpdateUser_Type>(
     const authRequest = auth.handleRequest(event);
     const session = await authRequest.validate();
     if (!session) {
-      throw event.redirect(302, Router[401]);
+      throw event.redirect(302, Router.common[401]);
     }
     const admin = await db
       .select()
@@ -80,7 +80,9 @@ export const useUpdateUser_FormAction = formAction$<UpdateUser_Type>(
       .where(eq(users.email, process.env.ADMIN_USER!))
       .get();
     if (admin?.id === input.id && input.password) {
-      return event.fail(419, { message: "You can not update admin password!" });
+      return event.fail(419, {
+        message: "You can not update an admin password!",
+      });
     }
     await db
       .update(users)

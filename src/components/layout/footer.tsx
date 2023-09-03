@@ -26,11 +26,19 @@ export const Footer = component$(() => {
         <p class="text-sm text-slate-700 dark:text-slate-400">
           Copyright © 2023 JorgeCoke - All rights reserved. See our{" "}
           <a
-            aria-label="Terms and conditions"
+            aria-label="Terms and Conditions"
             class="underline underline-offset-4 hover:text-black dark:hover:text-white"
-            href={Router.termsAndConditions}
+            href={Router.common.termsAndConditions}
           >
             Terms of Service
+          </a>{" "}
+          and{" "}
+          <a
+            aria-label="Privacy Policy"
+            class="underline underline-offset-4 hover:text-black dark:hover:text-white"
+            href={Router.common.privacyPolicy}
+          >
+            Privacy Policy
           </a>
         </p>
 

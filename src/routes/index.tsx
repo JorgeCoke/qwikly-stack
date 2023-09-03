@@ -304,7 +304,10 @@ export default component$(() => {
 
         <div class="grid grid-cols-1 gap-5 pt-12 md:grid-cols-3">
           {features.map((feature) => (
-            <Card key={feature.title} class="p-6">
+            <Card
+              key={feature.title}
+              class="p-6 duration-200 hover:scale-105 hover:border-violet-300"
+            >
               <H3 class="font-semibold">{feature.title}</H3>
               <H5 class="text-sm font-light">{feature.body}</H5>
             </Card>

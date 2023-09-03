@@ -17,7 +17,7 @@ import {
   Select,
 } from "~/components/ui/form";
 import { TableCell, TableRow } from "~/components/ui/table";
-import { Gradient, H1, H2, H3, H5 } from "~/components/ui/typography";
+import { Gradient, H0, H1, H2, H3, H5 } from "~/components/ui/typography";
 import { Router } from "~/lib/router";
 
 enum PlaygroundEnum {
@@ -326,6 +326,7 @@ export default component$(() => {
           </Button>
         </div>
         <div class="pt-12">
+          <H0>H0 title</H0>
           <H1>H1 title</H1>
           <H2>H2 title</H2>
           <H3>H3 title</H3>

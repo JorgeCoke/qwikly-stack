@@ -1,7 +1,11 @@
 export const Router = {
     index: "/",
-    401: "/401",
-    404: "/404",
+    common: {
+        401: "/common/401",
+        404: "/common/404",
+        termsAndConditions: "/common/terms-and-conditions",
+        privacyPolicy: "/common/privacy-policy"
+    },
     auth: {
         logIn: "/auth/log-in",
         logOut: "/auth/log-out",
@@ -16,7 +20,6 @@ export const Router = {
         success: "/payments/success",
         webhooks: "/payments/webhooks",
     },
-    termsAndConditions: "/terms-and-conditions",
     admin: {
         index: "/admin",
         dashboard: {
